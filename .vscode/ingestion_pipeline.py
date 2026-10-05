@@ -127,6 +127,7 @@ def split_document_in_two_chunks(document):
         
 
 def create_chunks_of_fixed_size(documents, chunk_size=CHUNK_SIZE, chunk_overlap=0):
+    """Not used : replaced by a fixed split in two chunks"""
     text_splitter = CharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     chunks = text_splitter.split_documents(documents)
     if chunks is None or len(chunks) == 0:
@@ -143,7 +144,7 @@ def create_chunks(documents):
 
 
 def create_embeddings(chunks, model):
-    embeddings = OllamaEmbeddings(model=model)
+    embeddings = OllamaEmbeddings(model=model, base_url="http://localhost:11434")
     vector_store = Chroma.from_documents(chunks, embeddings, persist_directory=PERSIST_DIRECTORY, collection_metadata={"hnsw:space": "cosine"})
     return vector_store
 
