@@ -12,9 +12,9 @@ CHUNK_SECTIONS = {
     "structure": [
         "Structure harmonique",
         "Exemples",
-        "Variantes",
     ],
     "interpretation": [
+        "Variantes",
         "Caractère musical",
         "Utilisation",
     ],
