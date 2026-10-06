@@ -6,10 +6,10 @@ In practice, the audio analysis identifies the played chords, a musical engine s
 
 Problems identified:
 - transforming chords in degrees after the audio analysis (we must know the key, not always possible when only playing chords)
-- how to go from : one recording = one chord to one recording = an improvisation that should be interpreted as a chord progression
+- how to go from "one recording = one chord to one recording" to "an improvisation that should be interpreted as a chord progression"
 
 
-To begin, for the audio analysis : 
+To begin, for the audio analysis (Automatic Music Transcription): 
 test.wav
     │
     ▼
