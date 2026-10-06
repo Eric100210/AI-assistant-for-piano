@@ -29,7 +29,6 @@ RAG_DIRECTORY = "RAG_knowledge"
 CHUNK_SIZE = 1000
 
 
-
 def load_documents_from_directory(directory_path):
     if not os.path.exists(directory_path):
         raise FileNotFoundError(f"The directory '{directory_path}' does not exist.")
@@ -38,7 +37,6 @@ def load_documents_from_directory(directory_path):
     if len(documents) == 0:
         raise ValueError(f"No .md documents found in the directory '{directory_path}'.")
     return documents
-
 
 
 def split_document_in_two_chunks(document):
@@ -50,7 +48,7 @@ def split_document_in_two_chunks(document):
         raise ValueError("Front matter YAML introuvable.")
 
     metadata = yaml.safe_load(match.group(1)) or {}
-    markdown = content[match.end():]
+    markdown = content[match.end() :]
 
     # 2. Get the main title (first line starting with #)
     title_match = re.search(r"^# .+$", markdown, re.MULTILINE)
@@ -80,55 +78,54 @@ def split_document_in_two_chunks(document):
 
     for chunk_type, section_names in CHUNK_SECTIONS.items():
         selected_sections = [
-            sections[name]
-            for name in section_names
-            if name in sections
+            sections[name] for name in section_names if name in sections
         ]
 
         if not selected_sections:
             continue
 
         chunk_id = f"{progression_id}::{chunk_type}"
-        related_type = (
-            "interpretation" if chunk_type == "structure" else "structure"
-        )
+        related_type = "interpretation" if chunk_type == "structure" else "structure"
 
         page_content = (
             f"{title}\n\n"
             f"Progression : {degrees_text}\n"
             f"Identifiant : {progression_id}\n"
-            f"Type de contenu : {chunk_type}\n\n"
-            + "\n\n".join(selected_sections)
+            f"Type de contenu : {chunk_type}\n\n" + "\n\n".join(selected_sections)
         )
 
         chunk_metadata = {}
         for key, value in metadata.items():
             if isinstance(value, (list, dict)):
-                chunk_metadata[key] = json.dumps(
-                    value, ensure_ascii=False
-                )
+                chunk_metadata[key] = json.dumps(value, ensure_ascii=False)
             elif value is not None:
                 chunk_metadata[key] = value
 
-        chunk_metadata.update({
-            "chunk_id": chunk_id,
-            "chunk_type": chunk_type,
-            "related_to": f"{progression_id}::{related_type}",
-        })
+        chunk_metadata.update(
+            {
+                "chunk_id": chunk_id,
+                "chunk_type": chunk_type,
+                "related_to": f"{progression_id}::{related_type}",
+            }
+        )
 
         chunk_metadata.update(document.metadata)
 
-        chunks.append(Document(
-            page_content=page_content,
-            metadata=chunk_metadata,
-        ))
+        chunks.append(
+            Document(
+                page_content=page_content,
+                metadata=chunk_metadata,
+            )
+        )
 
     return chunks
-        
+
 
 def create_chunks_of_fixed_size(documents, chunk_size=CHUNK_SIZE, chunk_overlap=0):
     """Not used : replaced by a fixed split in two chunks"""
-    text_splitter = CharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    text_splitter = CharacterTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
     chunks = text_splitter.split_documents(documents)
     if chunks is None or len(chunks) == 0:
         raise ValueError("No chunks were created from the documents.")
@@ -145,8 +142,14 @@ def create_chunks(documents):
 
 def create_embeddings(chunks, model):
     embeddings = OllamaEmbeddings(model=model, base_url="http://localhost:11434")
-    vector_store = Chroma.from_documents(chunks, embeddings, persist_directory=PERSIST_DIRECTORY, collection_metadata={"hnsw:space": "cosine"})
+    vector_store = Chroma.from_documents(
+        chunks,
+        embeddings,
+        persist_directory=PERSIST_DIRECTORY,
+        collection_metadata={"hnsw:space": "cosine"},
+    )
     return vector_store
+
 
 def main():
     documents = load_documents_from_directory(RAG_DIRECTORY)
@@ -158,7 +161,8 @@ def main():
         print(f"Content:\n{chunk.page_content[:200]}...\n")
         print("-" * 80)
 
-    vector_store = create_embeddings(chunks, model = EMBEDDING_MODEL)
+    vector_store = create_embeddings(chunks, model=EMBEDDING_MODEL)
+
 
 if __name__ == "__main__":
     main()
