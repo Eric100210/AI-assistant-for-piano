@@ -35,7 +35,7 @@ def ask_question(query):
 
 def start_chat():
     print(
-        "Bienvenue dans l'assistant musical ! Posez vos questions sur les progressions musicales que vous jouez."
+        "Bienvenue dans l'assistant musical MusAIc ! Posez vos questions sur les progressions musicales que vous jouez."
     )
     while True:
         user_input = input("Votre question: ")
@@ -43,9 +43,7 @@ def start_chat():
             print("À bientôt !")
             break
 
-        query = ask_question(
-            user_input
-        )  # reformulate the question to be standalone with chat_history
+        query = ask_question(user_input)  # reformulate the question to be standalone
 
         # Generate response using the retrieval pipeline
         documents = retrieve_documents(query)
@@ -55,7 +53,7 @@ def start_chat():
         chat_history.append(HumanMessage(content=user_input))
         chat_history.append(AIMessage(content=response))
 
-        print(f"Assistant: {response}")
+        print(f"MusAIc: {response}")
 
 
 if __name__ == "__main__":
