@@ -88,15 +88,17 @@ if __name__ == "__main__":
 
     print("\nNotes détectées :")
     for note in notes:
-        print(f"Pitch MIDI {note['pitch']} | {note['start']:.2f}s - {note['end']:.2f}s")
+        print(
+            f"Note {SEMIS[note['pitch'] % 12]} {note['pitch']} | {note['start']:.2f}s - {note['end']:.2f}s"
+        )
 
     simultaneous_notes = group_simultaneous_notes(notes)
     print("\nNotes simultanées détectées :")
     for i, group in enumerate(simultaneous_notes):
-        print(f"Groupe {i + 1} :")
+        print(f"Accord {i + 1} :")
         for note in group["notes"]:
             print(
-                f"  - Pitch MIDI {note['pitch']} | {note['start']:.2f}s - {note['end']:.2f}s"
+                f"  - Note {SEMIS[note['pitch'] % 12]} {note['pitch']} | {note['start']:.2f}s - {note['end']:.2f}s"
             )
 
     chords = detect_chords(simultaneous_notes)
