@@ -6,25 +6,19 @@ In practice, the audio analysis identifies the played chords, a musical engine s
 
 Problems identified:
 - transforming chords in degrees after the audio analysis (we must know the key, not always possible when only playing chords)
-- how to go from "one recording = one chord to one recording" to "an improvisation that should be interpreted as a chord progression"
+- how to properly differentiate the chord with the melody, especially when the chord is played at the same time at the first note of the melody ?
 
 
-To begin, for the audio analysis (Automatic Music Transcription): 
-test.wav
-    │
-    ▼
-Basic Pitch model
-    │
-    ▼
-notes MIDI
-    │
-    ▼
-notes simultanées
-    │
-    ▼
-chord detector
-    │
-    ▼
-"C major"
+First version of the RAG : 
+- Ingestion of my personal musical theory courses (embedding, vector database)
+- Conversational RAG with chat history (model OllamaLLM)
 
-Then, with the live audio : detect the temporality in played chords
+First version of audio analysis:
+- Download a .mp3 file
+- Transcribe in MIDI Data thanks to basic pitch model
+- Get the simultaneous notes to identify potential chords
+- Identify the precise chord by comparing to known chords with a score function
+
+
+
+MIDI : Musical Instrument Digital Interface. It is structured data containing the note and with what velocity we played it.
