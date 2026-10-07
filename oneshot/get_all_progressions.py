@@ -8,7 +8,8 @@ import yaml
 SCRIPT_DIRECTORY = Path(__file__).resolve().parent
 PROJECT_DIRECTORY = SCRIPT_DIRECTORY.parent
 PROGRESSIONS_DIRECTORY = PROJECT_DIRECTORY / "RAG_knowledge" / "progressions"
-OUTPUT_FILE = PROJECT_DIRECTORY / "progressions.json"
+MUSICAL_ENGINE = PROJECT_DIRECTORY / "musical_engine"
+OUTPUT_FILE = MUSICAL_ENGINE / "progressions.json"
 
 
 def load_progression(file_path):
@@ -26,7 +27,6 @@ def load_progression(file_path):
     return {
         "filename": file_path.name,
         "metadata": metadata,
-        "content": match.group(2).strip(),
     }
 
 

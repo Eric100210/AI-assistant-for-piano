@@ -1,0 +1,1241 @@
+[
+  {
+    "filename": "prog_001_I_VI_IV_V.md",
+    "metadata": {
+      "id": "prog_maj__001",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "VI",
+        "IV",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "ballade"
+      ],
+      "mood": [
+        "melancolique",
+        "emotionnel"
+      ],
+      "tags": [
+        "progression classique",
+        "harmonie majeure",
+        "tension"
+      ]
+    }
+  },
+  {
+    "filename": "prog_002_I_IV_VIm_V.md",
+    "metadata": {
+      "id": "prog_maj__002",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "IV",
+        "VIm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "rock",
+        "ballade"
+      ],
+      "mood": [
+        "emotionnel",
+        "optimiste",
+        "nostalgique"
+      ],
+      "tags": [
+        "progression classique",
+        "harmonie majeure",
+        "tension",
+        "resolution"
+      ]
+    }
+  },
+  {
+    "filename": "prog_003_I_VIm_IV_V.md",
+    "metadata": {
+      "id": "prog_maj__003",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "VIm",
+        "IV",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "ballade",
+        "soul"
+      ],
+      "mood": [
+        "emotionnel",
+        "nostalgique",
+        "chaleureux"
+      ],
+      "tags": [
+        "progression classique",
+        "relative mineure",
+        "cadence pop",
+        "tension"
+      ]
+    }
+  },
+  {
+    "filename": "prog_004_I_V_IV_V.md",
+    "metadata": {
+      "id": "prog_maj__004",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "V",
+        "IV",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "rock",
+        "folk"
+      ],
+      "mood": [
+        "energique",
+        "direct",
+        "lumineux"
+      ],
+      "tags": [
+        "progression cyclique",
+        "dominante",
+        "rock",
+        "tension"
+      ]
+    }
+  },
+  {
+    "filename": "prog_005_I_V_VIm_V.md",
+    "metadata": {
+      "id": "prog_maj__005",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "V",
+        "VIm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "rock",
+        "chanson"
+      ],
+      "mood": [
+        "nostalgique",
+        "emotionnel",
+        "accessible"
+      ],
+      "tags": [
+        "progression pop",
+        "relative mineure",
+        "dominante",
+        "boucle"
+      ]
+    }
+  },
+  {
+    "filename": "prog_006_I_I_IV_V.md",
+    "metadata": {
+      "id": "prog_maj__006",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "I",
+        "IV",
+        "V"
+      ],
+      "relief": "modere",
+      "styles": [
+        "folk",
+        "country",
+        "pop"
+      ],
+      "mood": [
+        "stable",
+        "lumineux",
+        "attendu"
+      ],
+      "tags": [
+        "tonique repetee",
+        "cadence",
+        "accompagnement",
+        "harmonie majeure"
+      ]
+    }
+  },
+  {
+    "filename": "prog_007_I_IV_IIm_V.md",
+    "metadata": {
+      "id": "prog_maj__007",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "IV",
+        "IIm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "jazz",
+        "pop",
+        "soul"
+      ],
+      "mood": [
+        "elegant",
+        "chaleureux",
+        "optimiste"
+      ],
+      "tags": [
+        "cycle des quintes",
+        "deuxieme cinquieme",
+        "cadence",
+        "jazz"
+      ]
+    }
+  },
+  {
+    "filename": "prog_008_I_IV_I_V.md",
+    "metadata": {
+      "id": "prog_maj__008",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "IV",
+        "I",
+        "V"
+      ],
+      "relief": "modere",
+      "styles": [
+        "pop",
+        "folk",
+        "gospel"
+      ],
+      "mood": [
+        "lumineux",
+        "stable",
+        "optimiste"
+      ],
+      "tags": [
+        "retour a la tonique",
+        "cadence",
+        "harmonie majeure",
+        "accompagnement"
+      ]
+    }
+  },
+  {
+    "filename": "prog_009_I_IIIm_IV_V.md",
+    "metadata": {
+      "id": "prog_maj__009",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "IIIm",
+        "IV",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "ballade",
+        "rock"
+      ],
+      "mood": [
+        "emotionnel",
+        "progressif",
+        "optimiste"
+      ],
+      "tags": [
+        "accord mineur",
+        "montée harmonique",
+        "cadence",
+        "harmonie majeure"
+      ]
+    }
+  },
+  {
+    "filename": "prog_010_I_IIm_IIIm_V.md",
+    "metadata": {
+      "id": "prog_maj__010",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "IIm",
+        "IIIm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "jazz",
+        "pop",
+        "soul"
+      ],
+      "mood": [
+        "élégant",
+        "en mouvement",
+        "chaleureux"
+      ],
+      "tags": [
+        "montée diatonique",
+        "deuxieme degre",
+        "cadence",
+        "harmonie majeure"
+      ]
+    }
+  },
+  {
+    "filename": "prog_011_I_VIm_IIm_V.md",
+    "metadata": {
+      "id": "prog_maj__011",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "VIm",
+        "IIm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "jazz",
+        "pop",
+        "soul"
+      ],
+      "mood": [
+        "chaleureux",
+        "nostalgique",
+        "résolu"
+      ],
+      "tags": [
+        "cycle des quintes",
+        "deux-cinq",
+        "cadence",
+        "accords mineurs"
+      ]
+    }
+  },
+  {
+    "filename": "prog_012_I_V_VIm_IV.md",
+    "metadata": {
+      "id": "prog_maj__012",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "V",
+        "VIm",
+        "IV"
+      ],
+      "relief": "modere",
+      "styles": [
+        "pop",
+        "rock",
+        "chanson"
+      ],
+      "mood": [
+        "optimiste",
+        "nostalgique",
+        "accessible"
+      ],
+      "tags": [
+        "progression pop",
+        "quatre accords",
+        "relative mineure",
+        "boucle"
+      ]
+    }
+  },
+  {
+    "filename": "prog_013_I_IIIm_VIm_IV.md",
+    "metadata": {
+      "id": "prog_maj__013",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "IIIm",
+        "VIm",
+        "IV"
+      ],
+      "relief": "modere",
+      "styles": [
+        "pop",
+        "ballade",
+        "folk"
+      ],
+      "mood": [
+        "doux",
+        "nostalgique",
+        "intime"
+      ],
+      "tags": [
+        "accords mineurs",
+        "relative mineure",
+        "boucle pop",
+        "harmonie majeure"
+      ]
+    }
+  },
+  {
+    "filename": "prog_014_I_I_V_IV.md",
+    "metadata": {
+      "id": "prog_maj__014",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "I",
+        "V",
+        "IV"
+      ],
+      "relief": "modere",
+      "styles": [
+        "folk",
+        "country",
+        "pop"
+      ],
+      "mood": [
+        "stable",
+        "lumineux",
+        "direct"
+      ],
+      "tags": [
+        "tonique repetee",
+        "quatre accords",
+        "cadence",
+        "accompagnement"
+      ]
+    }
+  },
+  {
+    "filename": "prog_015_I_I_IIIm_IIIm.md",
+    "metadata": {
+      "id": "prog_maj__015",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "I",
+        "IIIm",
+        "IIIm"
+      ],
+      "relief": "faible",
+      "styles": [
+        "folk",
+        "pop",
+        "ballade"
+      ],
+      "mood": [
+        "stable",
+        "doux",
+        "intime"
+      ],
+      "tags": [
+        "faible relief",
+        "tonique repetee",
+        "accord mineur repete",
+        "accompagnement"
+      ]
+    }
+  },
+  {
+    "filename": "prog_016_I_VIm_IIIm_I.md",
+    "metadata": {
+      "id": "prog_maj__016",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "I",
+        "VIm",
+        "IIIm",
+        "I"
+      ],
+      "relief": "faible",
+      "styles": [
+        "pop",
+        "ballade",
+        "folk"
+      ],
+      "mood": [
+        "doux",
+        "nostalgique",
+        "apaisé"
+      ],
+      "tags": [
+        "faible relief",
+        "accords mineurs",
+        "retour a la tonique",
+        "boucle"
+      ]
+    }
+  },
+  {
+    "filename": "prog_017_IV_IIm_I_V.md",
+    "metadata": {
+      "id": "prog_maj__017",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "IV",
+        "IIm",
+        "I",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "pop",
+        "soul",
+        "gospel"
+      ],
+      "mood": [
+        "attentif",
+        "chaleureux",
+        "en attente"
+      ],
+      "tags": [
+        "tension maintenue",
+        "sous-dominante",
+        "cadence",
+        "boucle"
+      ]
+    }
+  },
+  {
+    "filename": "prog_018_IV_IV_V_V.md",
+    "metadata": {
+      "id": "prog_maj__018",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "IV",
+        "IV",
+        "V",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "rock",
+        "pop",
+        "gospel"
+      ],
+      "mood": [
+        "attentif",
+        "puissant",
+        "ouvert"
+      ],
+      "tags": [
+        "tension maintenue",
+        "accord repete",
+        "dominante prolongee",
+        "cadence"
+      ]
+    }
+  },
+  {
+    "filename": "prog_019_IV_V_IIm_V.md",
+    "metadata": {
+      "id": "prog_maj__019",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "IV",
+        "V",
+        "IIm",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "jazz",
+        "pop",
+        "soul"
+      ],
+      "mood": [
+        "élégant",
+        "attentif",
+        "en mouvement"
+      ],
+      "tags": [
+        "tension maintenue",
+        "deux-cinq",
+        "dominante repetee",
+        "cadence"
+      ]
+    }
+  },
+  {
+    "filename": "prog_020_Im_III_IVm_V.md",
+    "metadata": {
+      "id": "prog_min__020",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "III",
+        "IVm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "ballade",
+        "cinema"
+      ],
+      "mood": [
+        "melancolique",
+        "dramatique",
+        "emotionnel"
+      ],
+      "tags": [
+        "progression mineure",
+        "harmonie mineure",
+        "dominante majeure",
+        "tension"
+      ]
+    }
+  },
+  {
+    "filename": "prog_021_Im_Vm_IVm_V.md",
+    "metadata": {
+      "id": "prog_min__021",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "Vm",
+        "IVm",
+        "V"
+      ],
+      "relief": "tension_croissante",
+      "styles": [
+        "pop",
+        "rock",
+        "ballade"
+      ],
+      "mood": [
+        "sombre",
+        "attentif",
+        "dramatique"
+      ],
+      "tags": [
+        "progression mineure",
+        "dominante",
+        "tension croissante",
+        "boucle"
+      ]
+    }
+  },
+  {
+    "filename": "prog_022_Im_VII_VI_V.md",
+    "metadata": {
+      "id": "prog_min__022",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "VII",
+        "VI",
+        "V"
+      ],
+      "relief": "dramatique",
+      "styles": [
+        "pop",
+        "rock",
+        "cinema"
+      ],
+      "mood": [
+        "sombre",
+        "epique",
+        "pressant"
+      ],
+      "tags": [
+        "progression mineure",
+        "descente de basse",
+        "dominante",
+        "dramatique"
+      ]
+    }
+  },
+  {
+    "filename": "prog_023_Im_Im_IVm_V.md",
+    "metadata": {
+      "id": "prog_min__023",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "Im",
+        "IVm",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "pop",
+        "ballade",
+        "cinema"
+      ],
+      "mood": [
+        "introspectif",
+        "sombre",
+        "attentif"
+      ],
+      "tags": [
+        "progression mineure",
+        "tonique repetee",
+        "dominante",
+        "tension"
+      ]
+    }
+  },
+  {
+    "filename": "prog_024_Im_IVm_Im_V.md",
+    "metadata": {
+      "id": "prog_min__024",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "IVm",
+        "Im",
+        "V"
+      ],
+      "relief": "tension_cadence",
+      "styles": [
+        "ballade",
+        "pop",
+        "cinema"
+      ],
+      "mood": [
+        "introspectif",
+        "sombre",
+        "resolu"
+      ],
+      "tags": [
+        "progression mineure",
+        "tonique",
+        "sous-dominante",
+        "cadence"
+      ]
+    }
+  },
+  {
+    "filename": "prog_025_Im_VI_IVm_V.md",
+    "metadata": {
+      "id": "prog_min__025",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "VI",
+        "IVm",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "ballade",
+        "cinema"
+      ],
+      "mood": [
+        "melancolique",
+        "dramatique",
+        "emotionnel"
+      ],
+      "tags": [
+        "progression mineure",
+        "degre VI",
+        "sous-dominante",
+        "dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_026_Im_II_III_V.md",
+    "metadata": {
+      "id": "prog_min__026",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "II",
+        "III",
+        "V"
+      ],
+      "relief": "tension_croissante",
+      "styles": [
+        "cinema",
+        "pop",
+        "classique"
+      ],
+      "mood": [
+        "mysterieux",
+        "dramatique",
+        "pressant"
+      ],
+      "tags": [
+        "progression mineure",
+        "accord diminue",
+        "degres conjoints",
+        "dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_027_Im_VII_IVm_V.md",
+    "metadata": {
+      "id": "prog_min__027",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "VII",
+        "IVm",
+        "V"
+      ],
+      "relief": "dramatique",
+      "styles": [
+        "pop",
+        "rock",
+        "cinema"
+      ],
+      "mood": [
+        "sombre",
+        "epique",
+        "attentif"
+      ],
+      "tags": [
+        "progression mineure",
+        "degre VII",
+        "sous-dominante",
+        "cadence"
+      ]
+    }
+  },
+  {
+    "filename": "prog_028_Im_Im_VI_V.md",
+    "metadata": {
+      "id": "prog_min__028",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "Im",
+        "VI",
+        "V"
+      ],
+      "relief": "tension_croissante",
+      "styles": [
+        "pop",
+        "ballade",
+        "cinema"
+      ],
+      "mood": [
+        "introspectif",
+        "melancolique",
+        "attentif"
+      ],
+      "tags": [
+        "progression mineure",
+        "tonique repetee",
+        "degre VI",
+        "dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_029_Im_VI_III_V.md",
+    "metadata": {
+      "id": "prog_min__029",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "VI",
+        "III",
+        "V"
+      ],
+      "relief": "fort",
+      "styles": [
+        "pop",
+        "ballade",
+        "cinema"
+      ],
+      "mood": [
+        "melancolique",
+        "emotionnel",
+        "dramatique"
+      ],
+      "tags": [
+        "progression mineure",
+        "degre VI",
+        "degre III",
+        "dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_030_Im_IVm_VII_V.md",
+    "metadata": {
+      "id": "prog_min__030",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "IVm",
+        "VII",
+        "V"
+      ],
+      "relief": "dramatique",
+      "styles": [
+        "rock",
+        "pop",
+        "cinema"
+      ],
+      "mood": [
+        "sombre",
+        "pressant",
+        "epique"
+      ],
+      "tags": [
+        "progression mineure",
+        "sous-dominante",
+        "degre VII",
+        "cadence"
+      ]
+    }
+  },
+  {
+    "filename": "prog_031_Im_III_VII_IVm.md",
+    "metadata": {
+      "id": "prog_min__031",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "III",
+        "VII",
+        "IVm"
+      ],
+      "relief": "moyen",
+      "styles": [
+        "pop",
+        "ballade",
+        "indie"
+      ],
+      "mood": [
+        "melancolique",
+        "ouvert",
+        "introspectif"
+      ],
+      "tags": [
+        "progression mineure",
+        "moyen relief",
+        "degre III",
+        "sous-dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_032_Im_Vm_III_IVm.md",
+    "metadata": {
+      "id": "prog_min__032",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "Vm",
+        "III",
+        "IVm"
+      ],
+      "relief": "moyen",
+      "styles": [
+        "pop",
+        "ballade",
+        "folk"
+      ],
+      "mood": [
+        "doux",
+        "melancolique",
+        "contemplatif"
+      ],
+      "tags": [
+        "progression mineure",
+        "moyen relief",
+        "dominante mineure",
+        "sous-dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_033_Im_VII_IVm_IVm.md",
+    "metadata": {
+      "id": "prog_min__033",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "VII",
+        "IVm",
+        "IVm"
+      ],
+      "relief": "moyen",
+      "styles": [
+        "pop",
+        "rock",
+        "cinema"
+      ],
+      "mood": [
+        "sombre",
+        "stable",
+        "introspectif"
+      ],
+      "tags": [
+        "progression mineure",
+        "moyen relief",
+        "accord repete",
+        "sous-dominante"
+      ]
+    }
+  },
+  {
+    "filename": "prog_034_Im_III_VI_IVm.md",
+    "metadata": {
+      "id": "prog_min__034",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "III",
+        "VI",
+        "IVm"
+      ],
+      "relief": "moyen",
+      "styles": [
+        "pop",
+        "ballade",
+        "indie"
+      ],
+      "mood": [
+        "melancolique",
+        "ouvert",
+        "chaleureux"
+      ],
+      "tags": [
+        "progression mineure",
+        "moyen relief",
+        "degre III",
+        "degre VI"
+      ]
+    }
+  },
+  {
+    "filename": "prog_035_Im_Im_III_III.md",
+    "metadata": {
+      "id": "prog_min__035",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "Im",
+        "III",
+        "III"
+      ],
+      "relief": "faible",
+      "styles": [
+        "pop",
+        "ballade",
+        "folk"
+      ],
+      "mood": [
+        "doux",
+        "intime",
+        "contemplatif"
+      ],
+      "tags": [
+        "progression mineure",
+        "faible relief",
+        "tonique repetee",
+        "degre III"
+      ]
+    }
+  },
+  {
+    "filename": "prog_036_Im_Im_VI_VI.md",
+    "metadata": {
+      "id": "prog_min__036",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "Im",
+        "VI",
+        "VI"
+      ],
+      "relief": "faible",
+      "styles": [
+        "pop",
+        "ballade",
+        "cinema"
+      ],
+      "mood": [
+        "introspectif",
+        "doux",
+        "melancolique"
+      ],
+      "tags": [
+        "progression mineure",
+        "faible relief",
+        "tonique repetee",
+        "degre VI"
+      ]
+    }
+  },
+  {
+    "filename": "prog_037_Im_VI_Im_III.md",
+    "metadata": {
+      "id": "prog_min__037",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "Im",
+        "VI",
+        "Im",
+        "III"
+      ],
+      "relief": "faible",
+      "styles": [
+        "pop",
+        "ballade",
+        "indie"
+      ],
+      "mood": [
+        "intime",
+        "nostalgique",
+        "doux"
+      ],
+      "tags": [
+        "progression mineure",
+        "faible relief",
+        "tonique",
+        "degre VI",
+        "degre III"
+      ]
+    }
+  },
+  {
+    "filename": "prog_038_VI_VI_V_V.md",
+    "metadata": {
+      "id": "prog_maj__038",
+      "type": "progression",
+      "tonalite": "majeure",
+      "degres": [
+        "VI",
+        "VI",
+        "V",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "pop",
+        "rock",
+        "cinema"
+      ],
+      "mood": [
+        "attentif",
+        "pressant",
+        "suspendu"
+      ],
+      "tags": [
+        "progression majeure",
+        "tension maintenue",
+        "degre VI",
+        "dominante repetee"
+      ]
+    }
+  },
+  {
+    "filename": "prog_039_IVm_IVm_V_V.md",
+    "metadata": {
+      "id": "prog_min__039",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "IVm",
+        "IVm",
+        "V",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "cinema",
+        "pop",
+        "rock"
+      ],
+      "mood": [
+        "sombre",
+        "pressant",
+        "dramatique"
+      ],
+      "tags": [
+        "progression mineure",
+        "tension maintenue",
+        "sous-dominante mineure",
+        "dominante repetee"
+      ]
+    }
+  },
+  {
+    "filename": "prog_040_VI_IVm_VI_V.md",
+    "metadata": {
+      "id": "prog_min__040",
+      "type": "progression",
+      "tonalite": "mineure",
+      "degres": [
+        "VI",
+        "IVm",
+        "VI",
+        "V"
+      ],
+      "relief": "tension_maintenue",
+      "styles": [
+        "pop",
+        "cinema",
+        "ballade"
+      ],
+      "mood": [
+        "sombre",
+        "attentif",
+        "en mouvement"
+      ],
+      "tags": [
+        "progression mineure",
+        "tension maintenue",
+        "degre VI",
+        "sous-dominante mineure",
+        "dominante"
+      ]
+    }
+  }
+]
