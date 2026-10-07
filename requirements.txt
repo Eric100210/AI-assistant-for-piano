@@ -5,4 +5,6 @@ langchain-core>=0.3.0
 langchain-ollama>=0.2.0
 langchain-text-splitters>=0.3.0
 PyYAML>=6.0
+basic-pitch>=0.4.0
+pretty-midi>=0.2.0
 
