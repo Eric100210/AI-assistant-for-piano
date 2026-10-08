@@ -21,6 +21,11 @@ CHORD_TEMPLATES = {
 }
 
 
+def detect_key_from_notes(notes):
+    # Krumhansl-Schmuckler key-finding algorithm
+    return None
+
+
 def group_simultaneous_notes(notes, tolerance=0.03):
     groups = []
 
@@ -78,9 +83,10 @@ def detect_chords(notes_list):
 
 def detect_chords_from_audio(audio_path):
     notes = transcribe_audio(audio_path)
+    key = detect_key_from_notes(notes)
     simultaneous_notes = group_simultaneous_notes(notes)
     chords = detect_chords(simultaneous_notes)
-    return chords
+    return key, chords
 
 
 if __name__ == "__main__":
