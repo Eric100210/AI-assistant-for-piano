@@ -30,8 +30,8 @@ tags: ["progression classique", "harmonie majeure", "tension"]
 ## Variantes
 
 * **Ajout d'une septième** : remplacer l'accord V par V7 pour augmenter la tension et le relief de la progression.
-* **Substitution du premier degré** : remplacer I par VIm ou IIIm.
-* **Substitution du quatrième degré** : remplacer IV par IIm.
+* **Substitution du premier degré** : remplacer I par VI ou III.
+* **Substitution du quatrième degré** : remplacer IV par II.
 
 ## Caractère musical
 

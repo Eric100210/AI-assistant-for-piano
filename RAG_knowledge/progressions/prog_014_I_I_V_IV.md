@@ -36,7 +36,7 @@ Au piano, la seconde occurrence de **I** peut être jouée avec un renversement 
 * **Tonique enrichie** : jouer **I – Iadd9 – V – IVmaj7**.
 * **Dominante renforcée** : remplacer **V** par **V7**.
 * **Fin suspendue** : jouer **IV – Vsus4 – V** avant la reprise sur **I**.
-* **Mouvement plus émotionnel** : remplacer le second **I** par **VIm**.
+* **Mouvement plus émotionnel** : remplacer le second **I** par **VI**.
 * **Basse conjointe** : utiliser **I – I/3 – V/3 – IV** avec des renversements adaptés à la tonalité.
 
 ## Caractère musical
