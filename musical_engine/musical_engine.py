@@ -54,27 +54,29 @@ with open(os.path.join(ROOT, "progressions.json")) as f:
 reference_prog_cut = [prog[:3] for prog in reference_prog]
 
 
-def krumhansl_schmuckler(note_profile):
+def detect_key_from_notes(midi_notes):
     """
     Krumhansl-Schmuckler algorithm to determine the key and the mode
     Returns the key (C), the mode (major/minor), and the correlation score
     """
 
-    note_profile = np.asarray(note_profile)
+    pitch_classes = [note % 12 for note in midi_notes]
+    note_profile = np.zeros(12)
 
-    if note_profile.shape != (12,):
-        raise ValueError("note_profile doit contenir exactement 12 valeurs.")
+    for pitch_class in pitch_classes:
+        note_profile[pitch_class] += 1
 
     best_key = None
     best_mode = None
     best_score = -np.inf
 
     for i, key in enumerate(SEMIS):
+        # Rotate the reference profiles so that they correspond
+        # to the current tonic
         major_profile = np.roll(MAJOR_PROFILE, i)
-
         minor_profile = np.roll(MINOR_PROFILE, i)
 
-        # Corrélation de Pearson
+        # Compare the played notes with the reference profiles
         major_score = np.corrcoef(note_profile, major_profile)[0, 1]
         minor_score = np.corrcoef(note_profile, minor_profile)[0, 1]
 
@@ -88,7 +90,10 @@ def krumhansl_schmuckler(note_profile):
             best_key = key
             best_mode = "minor"
 
-    return best_key, best_mode, best_score
+    if best_mode == "minor":
+        best_key += "m"
+
+    return best_key
 
 
 def enharmonic_to_sharp(note):
