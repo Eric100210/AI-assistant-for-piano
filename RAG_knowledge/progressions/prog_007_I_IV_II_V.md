@@ -2,7 +2,7 @@
 id: prog_maj__007
 type: progression
 tonalite: majeure
-degres: ["I", "IV", "II", "V"]
+degres: ["I", "IV", "ii", "V"]
 relief: fort
 styles: ["jazz", "pop", "soul"]
 mood: ["elegant", "chaleureux", "optimiste"]
@@ -10,16 +10,16 @@ tags: ["cycle des quintes", "deuxieme cinquieme", "cadence", "jazz"]
 
 ---
 
-# Progression I – IV – II – V
+# Progression I – IV – ii – V
 
 ## Structure harmonique
 
 * **I** : tonique, établit la stabilité.
 * **IV** : sous-dominante, élargit la phrase et éloigne de la tonique.
-* **II** : accord de préparation, possède une fonction sous-dominante.
+* **ii** : accord de préparation, possède une fonction sous-dominante.
 * **V** : dominante, appelle une résolution vers **I**.
 
-Le mouvement **II–V** forme un deux-cinq classique. Il donne à la fin de la progression une direction harmonique plus nette que le simple passage **IV–V**.
+Le mouvement **ii–V** forme un deux-cinq classique. Il donne à la fin de la progression une direction harmonique plus nette que le simple passage **IV–V**.
 
 ## Exemples
 
@@ -33,15 +33,15 @@ Au piano, les renversements rendent le deux-cinq très fluide. En Do majeur, on 
 
 ## Variantes
 
-* **Cadence enrichie** : jouer **Imaj7 – IVmaj7 – II7 – V7**.
-* **Préparation prolongée** : ajouter **VII7b5** avant **II7**.
-* **Basse descendante** : essayer **I – IV/3 – II7 – V/3**.
-* **Couleur soul** : remplacer **II** par **II9** et **V** par **V13**.
+* **Cadence enrichie** : jouer **Imaj7 – IVmaj7 – ii7 – V7**.
+* **Préparation prolongée** : ajouter **vii°7b5** avant **ii7**.
+* **Basse descendante** : essayer **I – IV/3 – ii7 – V/3**.
+* **Couleur soul** : remplacer **ii** par **ii9** et **V** par **V13**.
 * **Résolution retardée** : enchaîner **V7sus4 – V7**, puis revenir sur **I**.
 
 ## Caractère musical
 
-La progression commence de façon ouverte avec **IV**, puis devient progressivement plus directionnelle grâce à **II–V**. Elle possède un relief élégant et une sensation de mouvement circulaire liée au cycle des quintes.
+La progression commence de façon ouverte avec **IV**, puis devient progressivement plus directionnelle grâce à **ii–V**. Elle possède un relief élégant et une sensation de mouvement circulaire liée au cycle des quintes.
 
 ## Utilisation
 

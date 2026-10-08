@@ -2,7 +2,7 @@
 id: prog_min__021
 type: progression
 tonalite: mineure
-degres: ["I", "V", "IV", "V"]
+degres: ["i", "V", "iv", "V"]
 relief: tension_croissante
 styles: ["pop", "rock", "ballade"]
 mood: ["sombre", "attentif", "dramatique"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "dominante", "tension croissante", "boucle"]
 
 ---
 
-# Progression I – V – IV – V
+# Progression i – V – iv – V
 
 ## Structure harmonique
 
-* **I** : tonique mineure, pose le centre tonal et la couleur émotionnelle.
+* **i** : tonique mineure, pose le centre tonal et la couleur émotionnelle.
 * **V** : dominante mineure, prolonge le mouvement sans produire une résolution forte.
-* **IV** : sous-dominante mineure, élargit la progression et approfondit sa couleur sombre.
-* **V** : dominante majeure, augmente nettement la tension avant le retour vers **I**.
+* **iv** : sous-dominante mineure, élargit la progression et approfondit sa couleur sombre.
+* **V** : dominante majeure, augmente nettement la tension avant le retour vers **i**.
 
-Le passage de **V** à **IV** évite une résolution immédiate. Le dernier **V**, majeur ou enrichi d'une septième, donne à la boucle une direction claire vers la tonique.
+Le passage de **V** à **iv** évite une résolution immédiate. Le dernier **V**, majeur ou enrichi d'une septième, donne à la boucle une direction claire vers la tonique.
 
 ## Exemples
 
@@ -29,13 +29,13 @@ Le passage de **V** à **IV** évite une résolution immédiate. Le dernier **V*
 * **Sol mineur** : Gm – Dm – Cm – D
 * **Si mineur** : Bm – F#m – Em – F#
 
-Au piano, faire monter progressivement le registre ou la dynamique sur **IV** et **V**. En La mineur, **Am – Em/G – Dm/F – E7** donne une basse descendante puis une forte relance.
+Au piano, faire monter progressivement le registre ou la dynamique sur **iv** et **V**. En La mineur, **Am – Em/G – Dm/F – E7** donne une basse descendante puis une forte relance.
 
 ## Variantes
 
 * **Dominante plus expressive** : jouer **V7**, **V9** ou **V7sus4 – V7**.
 * **Couleur modale** : remplacer **V** par **V** pour supprimer la sensible et obtenir une boucle plus douce.
-* **Tension retardée** : prolonger **IV** avec **IV7** ou **IV6**.
+* **Tension retardée** : prolonger **iv** avec **iv7** ou **iv6**.
 * **Version rock** : jouer les accords en power chords, puis réserver l'accord majeur à **V**.
 
 ## Caractère musical

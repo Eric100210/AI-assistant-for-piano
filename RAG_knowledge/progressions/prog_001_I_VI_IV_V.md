@@ -3,7 +3,7 @@
 id: prog_maj__001
 type: progression
 tonalite: majeure
-degres: ["I", "VI", "IV", "V"]
+degres: ["I", "vi", "IV", "V"]
 relief: fort
 styles: ["pop", "ballade"]
 mood: ["melancolique", "emotionnel"]
@@ -11,12 +11,12 @@ tags: ["progression classique", "harmonie majeure", "tension"]
 
 ---
 
-# Progression I – VI – IV – V
+# Progression I – vi – IV – V
 
 ## Structure harmonique
 
 * **I** : premier degré
-* **VI** : sixième degré
+* **vi** : sixième degré
 * **IV** : quatrième degré
 * **V** : cinquième degré
 
@@ -30,8 +30,8 @@ tags: ["progression classique", "harmonie majeure", "tension"]
 ## Variantes
 
 * **Ajout d'une septième** : remplacer l'accord V par V7 pour augmenter la tension et le relief de la progression.
-* **Substitution du premier degré** : remplacer I par VI ou III.
-* **Substitution du quatrième degré** : remplacer IV par II.
+* **Substitution du premier degré** : remplacer I par vi ou iii.
+* **Substitution du quatrième degré** : remplacer IV par ii.
 
 ## Caractère musical
 

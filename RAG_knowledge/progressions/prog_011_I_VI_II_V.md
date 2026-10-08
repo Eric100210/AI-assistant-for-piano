@@ -2,7 +2,7 @@
 id: prog_maj__011
 type: progression
 tonalite: majeure
-degres: ["I", "VI", "II", "V"]
+degres: ["I", "vi", "ii", "V"]
 relief: fort
 styles: ["jazz", "pop", "soul"]
 mood: ["chaleureux", "nostalgique", "résolu"]
@@ -10,16 +10,16 @@ tags: ["cycle des quintes", "deux-cinq", "cadence", "accords mineurs"]
 
 ---
 
-# Progression I – VI – II – V
+# Progression I – vi – ii – V
 
 ## Structure harmonique
 
 * **I** : tonique, établit le centre tonal.
-* **VI** : sixième degré mineur, apporte une couleur relative mineure tout en conservant la tonalité.
-* **II** : deuxième degré mineur, prépare la dominante avec une fonction sous-dominante.
+* **vi** : sixième degré mineur, apporte une couleur relative mineure tout en conservant la tonalité.
+* **ii** : deuxième degré mineur, prépare la dominante avec une fonction sous-dominante.
 * **V** : dominante, crée une tension forte qui appelle le retour vers **I**.
 
-La fin **II–V** forme un deux-cinq classique. Le mouvement des fondamentales **VI–II–V–I** rappelle le cycle des quintes et donne à la boucle une direction harmonique très lisible.
+La fin **ii–V** forme un deux-cinq classique. Le mouvement des fondamentales **vi–ii–V–I** rappelle le cycle des quintes et donne à la boucle une direction harmonique très lisible.
 
 ## Exemples
 
@@ -33,15 +33,15 @@ Au piano, les accords de septième et les renversements rendent le mouvement tr�
 
 ## Variantes
 
-* **Version jazz** : jouer **Imaj7 – VI7 – II7 – V7**.
-* **Couleur pop** : utiliser **Iadd9 – VI7 – II7 – V**.
-* **Basse descendante** : essayer **I – VI/3 – II/3 – V/3** pour relier les accords par mouvements conjoints.
-* **Deux-cinq prolongé** : ajouter **VII7b5** avant **II7**.
+* **Version jazz** : jouer **Imaj7 – vi7 – ii7 – V7**.
+* **Couleur pop** : utiliser **Iadd9 – vi7 – ii7 – V**.
+* **Basse descendante** : essayer **I – vi/3 – ii/3 – V/3** pour relier les accords par mouvements conjoints.
+* **Deux-cinq prolongé** : ajouter **vii°7b5** avant **ii7**.
 * **Dominante enrichie** : remplacer **V** par **V9**, **V13** ou **V7sus4–V7**.
 
 ## Caractère musical
 
-La progression commence de manière stable, puis l'accord **VI** introduit une nuance nostalgique. Le passage vers **II–V** resserre progressivement la direction harmonique et crée une attente claire avant la résolution sur **I**.
+La progression commence de manière stable, puis l'accord **vi** introduit une nuance nostalgique. Le passage vers **ii–V** resserre progressivement la direction harmonique et crée une attente claire avant la résolution sur **I**.
 
 ## Utilisation
 

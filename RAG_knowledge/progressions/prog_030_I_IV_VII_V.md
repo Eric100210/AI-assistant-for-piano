@@ -2,7 +2,7 @@
 id: prog_min__030
 type: progression
 tonalite: mineure
-degres: ["I", "IV", "VII", "V"]
+degres: ["i", "iv", "VII", "V"]
 relief: dramatique
 styles: ["rock", "pop", "cinema"]
 mood: ["sombre", "pressant", "epique"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "sous-dominante", "degre VII", "cadence"]
 
 ---
 
-# Progression I – IV – VII – V
+# Progression i – iv – VII – V
 
 ## Structure harmonique
 
-* **I** : tonique mineure, pose le centre tonal et la couleur sombre.
-* **IV** : sous-dominante mineure, ouvre la phrase avec une tension introspective.
+* **i** : tonique mineure, pose le centre tonal et la couleur sombre.
+* **iv** : sous-dominante mineure, ouvre la phrase avec une tension introspective.
 * **VII** : degré majeur, élargit le mouvement et apporte une nouvelle impulsion.
-* **V** : dominante majeure, crée la tension finale vers **I**.
+* **V** : dominante majeure, crée la tension finale vers **i**.
 
-Le passage de **IV** à **VII** évite une résolution immédiate. La dominante finale concentre ensuite l'énergie et donne à la boucle une direction très claire.
+Le passage de **iv** à **VII** évite une résolution immédiate. La dominante finale concentre ensuite l'énergie et donne à la boucle une direction très claire.
 
 ## Exemples
 
@@ -34,9 +34,9 @@ Au piano, faire ressortir la basse et réserver les voicings les plus tendus à 
 ## Variantes
 
 * **Dominante renforcée** : utiliser **V7**, **V9** ou **V7(b9)**.
-* **Sous-dominante enrichie** : jouer **IV7** ou **IV6**.
+* **Sous-dominante enrichie** : jouer **iv7** ou **iv6**.
 * **Degré VII ouvert** : remplacer **VII** par **VIIadd9**.
-* **Cadence suspendue** : jouer **V7sus4 – V7** avant le retour vers **I**.
+* **Cadence suspendue** : jouer **V7sus4 – V7** avant le retour vers **i**.
 
 ## Caractère musical
 

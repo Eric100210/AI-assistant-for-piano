@@ -2,7 +2,7 @@
 id: prog_min__033
 type: progression
 tonalite: mineure
-degres: ["I", "VII", "IV", "IV"]
+degres: ["i", "VII", "iv", "iv"]
 relief: moyen
 styles: ["pop", "rock", "cinema"]
 mood: ["sombre", "stable", "introspectif"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "moyen relief", "accord repete", "sous-dominante"]
 
 ---
 
-# Progression I – VII – IV – IV
+# Progression i – VII – iv – iv
 
 ## Structure harmonique
 
-* **I** : tonique mineure, présente le centre tonal.
+* **i** : tonique mineure, présente le centre tonal.
 * **VII** : degré majeur, apporte une ouverture et un déplacement de la basse.
-* **IV** : sous-dominante mineure, installe une tension douce.
-* **IV** : sous-dominante répétée, prolonge la couleur avant le retour vers **I**.
+* **iv** : sous-dominante mineure, installe une tension douce.
+* **iv** : sous-dominante répétée, prolonge la couleur avant le retour vers **i**.
 
-La répétition de **IV** maintient la tension sans produire de cadence forte. Le degré **VII** crée suffisamment de mouvement pour éviter une boucle statique.
+La répétition de **iv** maintient la tension sans produire de cadence forte. Le degré **VII** crée suffisamment de mouvement pour éviter une boucle statique.
 
 ## Exemples
 
@@ -29,18 +29,18 @@ La répétition de **IV** maintient la tension sans produire de cadence forte. L
 * **Sol mineur** : Gm – F – Cm – Cm
 * **Si mineur** : Bm – A – Em – Em
 
-Au piano, varier le second **IV** avec une sixte, une septième ou un renversement. En La mineur, essayer **Am – G/B – Dm/F – Dm6** pour maintenir le mouvement dans les voix intérieures.
+Au piano, varier le second **iv** avec une sixte, une septième ou un renversement. En La mineur, essayer **Am – G/B – Dm/F – Dm6** pour maintenir le mouvement dans les voix intérieures.
 
 ## Variantes
 
-* **Sous-dominante enrichie** : jouer **IV7**, **IV6** ou **IV(add9)**.
-* **Retour plus net** : ajouter **V** après le dernier **IV**.
+* **Sous-dominante enrichie** : jouer **iv7**, **iv6** ou **iv(add9)**.
+* **Retour plus net** : ajouter **V** après le dernier **iv**.
 * **Degré VII ouvert** : utiliser **VIIadd9**.
-* **Montée dynamique** : augmenter progressivement le registre sur les deux accords **IV**.
+* **Montée dynamique** : augmenter progressivement le registre sur les deux accords **iv**.
 
 ## Caractère musical
 
-La progression est sombre mais équilibrée. La répétition de **IV** crée une sensation de suspension, tandis que **VII** apporte le mouvement nécessaire à la boucle.
+La progression est sombre mais équilibrée. La répétition de **iv** crée une sensation de suspension, tandis que **VII** apporte le mouvement nécessaire à la boucle.
 
 ## Utilisation
 

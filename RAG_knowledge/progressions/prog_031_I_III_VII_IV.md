@@ -2,7 +2,7 @@
 id: prog_min__031
 type: progression
 tonalite: mineure
-degres: ["I", "III", "VII", "IV"]
+degres: ["i", "III", "VII", "iv"]
 relief: moyen
 styles: ["pop", "ballade", "indie"]
 mood: ["melancolique", "ouvert", "introspectif"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "moyen relief", "degre III", "sous-dominante"]
 
 ---
 
-# Progression I – III – VII – IV
+# Progression i – III – VII – iv
 
 ## Structure harmonique
 
-* **I** : tonique mineure, établit la couleur émotionnelle.
+* **i** : tonique mineure, établit la couleur émotionnelle.
 * **III** : degré majeur, apporte une éclaircie et un contraste doux.
 * **VII** : degré majeur, élargit la progression sans créer de cadence définitive.
-* **IV** : sous-dominante mineure, referme la phrase sur une tension modérée.
+* **iv** : sous-dominante mineure, referme la phrase sur une tension modérée.
 
-L'absence de dominante majeure rend la progression moins conclusive. Les degrés majeurs **III** et **VII** équilibrent la couleur mineure de **I** et **IV**.
+L'absence de dominante majeure rend la progression moins conclusive. Les degrés majeurs **III** et **VII** équilibrent la couleur mineure de **i** et **iv**.
 
 ## Exemples
 
@@ -34,13 +34,13 @@ Au piano, privilégier des voicings aérés et des notes communes entre **III** 
 ## Variantes
 
 * **Couleur plus lumineuse** : jouer **IIImaj7** ou **VIIadd9**.
-* **Fin plus ouverte** : remplacer **IV** par **IV7**.
-* **Cadence plus forte** : ajouter **V** après le dernier **IV**.
+* **Fin plus ouverte** : remplacer **iv** par **iv7**.
+* **Cadence plus forte** : ajouter **V** après le dernier **iv**.
 * **Version douce** : utiliser des accords add9 et des renversements rapprochés.
 
 ## Caractère musical
 
-La progression reste expressive sans devenir fortement dramatique. Les accords majeurs centraux donnent de l'air, tandis que **IV** conserve une teinte introspective.
+La progression reste expressive sans devenir fortement dramatique. Les accords majeurs centraux donnent de l'air, tandis que **iv** conserve une teinte introspective.
 
 ## Utilisation
 

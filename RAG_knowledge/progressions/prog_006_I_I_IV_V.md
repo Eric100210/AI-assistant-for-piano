@@ -35,7 +35,7 @@ Au piano, la seconde occurrence de **I** peut recevoir une autre position ou une
 
 * **Tonique enrichie** : utiliser **I – Iadd9 – IV – V**.
 * **Dominante expressive** : remplacer **V** par **V7**.
-* **Mouvement préparatoire** : remplacer le second **I** par **VI** pour obtenir une transition plus émotionnelle.
+* **Mouvement préparatoire** : remplacer le second **I** par **vi** pour obtenir une transition plus émotionnelle.
 * **Sous-dominante colorée** : jouer **IVmaj7** ou **IV6**.
 * **Suspension finale** : jouer **IV – Vsus4 – V** pour étirer la résolution.
 

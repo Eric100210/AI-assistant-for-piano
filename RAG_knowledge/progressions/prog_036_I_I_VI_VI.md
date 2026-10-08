@@ -2,7 +2,7 @@
 id: prog_min__036
 type: progression
 tonalite: mineure
-degres: ["I", "I", "VI", "VI"]
+degres: ["i", "i", "VI", "VI"]
 relief: faible
 styles: ["pop", "ballade", "cinema"]
 mood: ["introspectif", "doux", "melancolique"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "faible relief", "tonique repetee", "degre VI"]
 
 ---
 
-# Progression I – I – VI – VI
+# Progression i – i – VI – VI
 
 ## Structure harmonique
 
-* **I** : tonique mineure, installe le centre tonal et l'atmosphère sombre.
-* **I** : tonique répétée, prolonge l'ancrage et retarde le changement d'accord.
+* **i** : tonique mineure, installe le centre tonal et l'atmosphère sombre.
+* **i** : tonique répétée, prolonge l'ancrage et retarde le changement d'accord.
 * **VI** : degré majeur, apporte une ouverture et une couleur plus lumineuse.
 * **VI** : degré majeur répété, prolonge cette ouverture sans créer de cadence.
 
-La structure en deux paires crée un relief faible et une impression de suspension. Le contraste entre **I** et **VI** est sensible, mais l'absence de dominante empêche une résolution forte.
+La structure en deux paires crée un relief faible et une impression de suspension. Le contraste entre **i** et **VI** est sensible, mais l'absence de dominante empêche une résolution forte.
 
 ## Exemples
 
@@ -29,18 +29,18 @@ La structure en deux paires crée un relief faible et une impression de suspensi
 * **Sol mineur** : Gm – Gm – Eb – Eb
 * **Si mineur** : Bm – Bm – G – G
 
-Au piano, enrichir le deuxième **I** puis le deuxième **VI** pour faire respirer la boucle. En La mineur, essayer **Am – Am(add9) – F/C – Fmaj7** pour une conduite de voix souple.
+Au piano, enrichir le deuxième **i** puis le deuxième **VI** pour faire respirer la boucle. En La mineur, essayer **Am – Am(add9) – F/C – Fmaj7** pour une conduite de voix souple.
 
 ## Variantes
 
-* **Couleur plus riche** : jouer **I7 – I(add9) – VImaj7 – VI6**.
-* **Basse descendante** : utiliser **I – I/7 – VI/3 – VI** avec des renversements adaptés.
-* **Relief légèrement supérieur** : remplacer le dernier **VI** par **IV**.
+* **Couleur plus riche** : jouer **i7 – i(add9) – VImaj7 – VI6**.
+* **Basse descendante** : utiliser **i – i/7 – VI/3 – VI** avec des renversements adaptés.
+* **Relief légèrement supérieur** : remplacer le dernier **VI** par **iv**.
 * **Relance vers la tonique** : ajouter **V** après le dernier **VI**.
 
 ## Caractère musical
 
-La répétition de **I** crée une base stable et introspective. **VI** ouvre la couleur harmonique, mais sa répétition maintient une atmosphère douce et peu directive.
+La répétition de **i** crée une base stable et introspective. **VI** ouvre la couleur harmonique, mais sa répétition maintient une atmosphère douce et peu directive.
 
 ## Utilisation
 

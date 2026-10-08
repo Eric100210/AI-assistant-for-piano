@@ -2,7 +2,7 @@
 id: prog_min__037
 type: progression
 tonalite: mineure
-degres: ["I", "VI", "I", "III"]
+degres: ["i", "VI", "i", "III"]
 relief: faible
 styles: ["pop", "ballade", "indie"]
 mood: ["intime", "nostalgique", "doux"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "faible relief", "tonique", "degre VI", "degre III
 
 ---
 
-# Progression I – VI – I – III
+# Progression i – VI – i – III
 
 ## Structure harmonique
 
-* **I** : tonique mineure, établit immédiatement le centre tonal.
+* **i** : tonique mineure, établit immédiatement le centre tonal.
 * **VI** : degré majeur, apporte une ouverture lumineuse et un contraste doux.
-* **I** : retour à la tonique, réaffirme le centre sans produire de cadence forte.
+* **i** : retour à la tonique, réaffirme le centre sans produire de cadence forte.
 * **III** : degré majeur, termine la boucle sur une couleur ouverte et apaisée.
 
-Les retours réguliers vers **I** limitent la tension directionnelle. **VI** et **III** colorent la phrase sans introduire la dominante majeure, ce qui donne à l'ensemble un relief faible.
+Les retours réguliers vers **i** limitent la tension directionnelle. **VI** et **III** colorent la phrase sans introduire la dominante majeure, ce qui donne à l'ensemble un relief faible.
 
 ## Exemples
 
@@ -33,10 +33,10 @@ Au piano, garder une note commune dans les voix supérieures pour relier les acc
 
 ## Variantes
 
-* **Couleur plus aérienne** : utiliser **I(add9) – VImaj7 – I7 – IIIadd9**.
-* **Basse plus chantante** : jouer **I – VI/3 – I/5 – III**.
+* **Couleur plus aérienne** : utiliser **i(add9) – VImaj7 – i7 – IIIadd9**.
+* **Basse plus chantante** : jouer **i – VI/3 – i/5 – III**.
 * **Relief supérieur** : remplacer le dernier **III** par **V**.
-* **Version plus sombre** : remplacer **III** par **IV**.
+* **Version plus sombre** : remplacer **III** par **iv**.
 
 ## Caractère musical
 

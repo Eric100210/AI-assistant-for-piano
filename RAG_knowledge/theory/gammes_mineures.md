@@ -4,7 +4,7 @@ type: gamme
 tonalite: mineure
 ---
 
-# Gamme majeure naturelle
+# Gamme mineure naturelle
 
 Dans la gamme majeure naturelle, les degrés sont répartis ainsi : 
 Degré I | 1 ton | degré II | 1/2 ton | degré III | 1 ton | degré IV | 1 ton | degré V | 1/2 ton | degré VI | 1 ton | degré VII | 1 ton

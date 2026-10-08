@@ -2,7 +2,7 @@
 id: prog_min__020
 type: progression
 tonalite: mineure
-degres: ["I", "III", "IV", "V"]
+degres: ["i", "III", "iv", "V"]
 relief: fort
 styles: ["pop", "ballade", "cinema"]
 mood: ["melancolique", "dramatique", "emotionnel"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "harmonie mineure", "dominante majeure", "tension"
 
 ---
 
-# Progression I – III – IV – V
+# Progression i – III – iv – V
 
 ## Structure harmonique
 
-* **I** : tonique mineure, installe immédiatement la couleur sombre de la tonalité.
+* **i** : tonique mineure, installe immédiatement la couleur sombre de la tonalité.
 * **III** : degré majeur relatif, apporte un contraste lumineux après la tonique.
-* **IV** : sous-dominante mineure, réintroduit une couleur plus introspective.
-* **V** : dominante majeure, crée une forte tension et appelle le retour vers **I**.
+* **iv** : sous-dominante mineure, réintroduit une couleur plus introspective.
+* **V** : dominante majeure, crée une forte tension et appelle le retour vers **i**.
 
-L'alternance entre le degré **III** majeur et le degré **IV** donne à la progression un relief marqué. La dominante majeure peut provenir de la gamme mineure harmonique.
+L'alternance entre le degré **III** majeur et le degré **iv** donne à la progression un relief marqué. La dominante majeure peut provenir de la gamme mineure harmonique.
 
 ## Exemples
 
@@ -29,18 +29,18 @@ L'alternance entre le degré **III** majeur et le degré **IV** donne à la prog
 * **Sol mineur** : Gm – Bb – Cm – D
 * **Si mineur** : Bm – D – Em – F#
 
-Au piano, conserver une voix commune entre **III** et **IV** lorsque c'est possible. En La mineur, essayer **Am – C/E – Dm/F – E7** pour fluidifier la basse.
+Au piano, conserver une voix commune entre **III** et **iv** lorsque c'est possible. En La mineur, essayer **Am – C/E – Dm/F – E7** pour fluidifier la basse.
 
 ## Variantes
 
 * **Dominante renforcée** : remplacer **V** par **V7** ou **V9**.
 * **Couleur plus douce** : remplacer **III** par **IIImaj7**.
-* **Tension progressive** : jouer **IV – IV6 – V7** avant le retour vers **I**.
+* **Tension progressive** : jouer **iv – iv6 – V7** avant le retour vers **i**.
 * **Version cinématographique** : utiliser des accords larges et des notes communes dans les voix supérieures.
 
 ## Caractère musical
 
-Le contraste entre **III** majeur et **IV** crée une alternance entre éclaircie et assombrissement. La dominante majeure concentre ensuite la tension avant la résolution mineure.
+Le contraste entre **III** majeur et **iv** crée une alternance entre éclaircie et assombrissement. La dominante majeure concentre ensuite la tension avant la résolution mineure.
 
 ## Utilisation
 

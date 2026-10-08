@@ -2,7 +2,7 @@
 id: prog_min__039
 type: progression
 tonalite: mineure
-degres: ["IV", "IV", "V", "V"]
+degres: ["iv", "iv", "V", "V"]
 relief: tension_maintenue
 styles: ["cinema", "pop", "rock"]
 mood: ["sombre", "pressant", "dramatique"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "tension maintenue", "sous-dominante mineure", "do
 
 ---
 
-# Progression IV – IV – V – V
+# Progression iv – iv – V – V
 
 ## Structure harmonique
 
-* **IVm** : sous-dominante mineure, installe une tension sombre et éloigne de la tonique.
-* **IVm** : sous-dominante mineure répétée, prolonge la préparation sans résolution.
-* **V** : dominante majeure, concentre l'énergie et appelle le retour vers **Im**.
+* **iv** : sous-dominante mineure, installe une tension sombre et éloigne de la tonique.
+* **iv** : sous-dominante mineure répétée, prolonge la préparation sans résolution.
+* **V** : dominante majeure, concentre l'énergie et appelle le retour vers **i**.
 * **V** : dominante répétée, maintient cette attente et retarde la résolution.
 
-La première paire installe la couleur dramatique, tandis que la répétition de **V** bloque volontairement la cadence. La progression devient particulièrement efficace lorsqu'elle boucle vers **I**.
+La première paire installe la couleur dramatique, tandis que la répétition de **V** bloque volontairement la cadence. La progression devient particulièrement efficace lorsqu'elle boucle vers **i**.
 
 ## Exemples
 
@@ -34,13 +34,13 @@ Au piano, réserver les voicings les plus ouverts ou les extensions au dernier *
 ## Variantes
 
 * **Dominante plus dramatique** : utiliser **V7**, **V9** ou **V7(b9)**.
-* **Sous-dominante enrichie** : jouer **IV7** ou **IV6**.
+* **Sous-dominante enrichie** : jouer **iv7** ou **iv6**.
 * **Suspension** : remplacer le premier **V** par **Vsus4**.
-* **Résolution retardée** : enchaîner vers **VI** ou **III** avant de revenir à **Im**.
+* **Résolution retardée** : enchaîner vers **VI** ou **III** avant de revenir à **i**.
 
 ## Caractère musical
 
-La sous-dominante mineure assombrit la phrase, puis la dominante répétée concentre l'énergie sans la libérer. La tension reste active jusqu'au retour vers **I**.
+La sous-dominante mineure assombrit la phrase, puis la dominante répétée concentre l'énergie sans la libérer. La tension reste active jusqu'au retour vers **i**.
 
 ## Utilisation
 

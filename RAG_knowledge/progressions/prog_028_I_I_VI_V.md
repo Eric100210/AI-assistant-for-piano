@@ -2,7 +2,7 @@
 id: prog_min__028
 type: progression
 tonalite: mineure
-degres: ["I", "I", "VI", "V"]
+degres: ["i", "i", "VI", "V"]
 relief: tension_croissante
 styles: ["pop", "ballade", "cinema"]
 mood: ["introspectif", "melancolique", "attentif"]
@@ -10,14 +10,14 @@ tags: ["progression mineure", "tonique repetee", "degre VI", "dominante"]
 
 ---
 
-# Progression I – I – VI – V
+# Progression i – i – VI – V
 
 ## Structure harmonique
 
-* **I** : tonique mineure, établit immédiatement le centre tonal.
-* **I** : tonique répétée, renforce l'ancrage et laisse de l'espace à la mélodie.
+* **i** : tonique mineure, établit immédiatement le centre tonal.
+* **i** : tonique répétée, renforce l'ancrage et laisse de l'espace à la mélodie.
 * **VI** : degré majeur, apporte une ouverture et un contraste lumineux.
-* **V** : dominante majeure, concentre la tension et prépare le retour vers **I**.
+* **V** : dominante majeure, concentre la tension et prépare le retour vers **i**.
 
 La répétition de la tonique retarde le mouvement harmonique. Le passage vers **VI** élargit ensuite la phrase avant la relance forte de la dominante.
 
@@ -29,14 +29,14 @@ La répétition de la tonique retarde le mouvement harmonique. Le passage vers *
 * **Sol mineur** : Gm – Gm – Eb – D
 * **Si mineur** : Bm – Bm – G – F#
 
-Au piano, enrichir le deuxième **I** pour créer un mouvement discret. En La mineur, essayer **Am – Am(add9) – F/C – E7** pour une basse plus liée.
+Au piano, enrichir le deuxième **i** pour créer un mouvement discret. En La mineur, essayer **Am – Am(add9) – F/C – E7** pour une basse plus liée.
 
 ## Variantes
 
-* **Tonique enrichie** : jouer **I – I7** ou **I(add9)**.
+* **Tonique enrichie** : jouer **i – i7** ou **i(add9)**.
 * **Degré VI ouvert** : remplacer **VI** par **VImaj7**.
 * **Dominante renforcée** : utiliser **V7**, **V9** ou **V7(b9)**.
-* **Cadence suspendue** : jouer **V7sus4 – V7** avant le retour vers **I**.
+* **Cadence suspendue** : jouer **V7sus4 – V7** avant le retour vers **i**.
 
 ## Caractère musical
 

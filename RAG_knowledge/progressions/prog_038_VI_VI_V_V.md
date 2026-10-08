@@ -2,20 +2,20 @@
 id: prog_maj__038
 type: progression
 tonalite: majeure
-degres: ["VI", "VI", "V", "V"]
+degres: ["vi", "vi", "V", "V"]
 relief: tension_maintenue
 styles: ["pop", "rock", "cinema"]
 mood: ["attentif", "pressant", "suspendu"]
-tags: ["progression majeure", "tension maintenue", "degre VI", "dominante repetee"]
+tags: ["progression majeure", "tension maintenue", "degre vi", "dominante repetee"]
 
 ---
 
-# Progression VI – VI – V – V
+# Progression vi – vi – V – V
 
 ## Structure harmonique
 
-* **VI** : degré mineur, installe une couleur émotionnelle sans résoudre vers la tonique.
-* **VI** : degré mineur répété, prolonge l'attente et maintient l'énergie contenue.
+* **vi** : degré mineur, installe une couleur émotionnelle sans résoudre vers la tonique.
+* **vi** : degré mineur répété, prolonge l'attente et maintient l'énergie contenue.
 * **V** : dominante majeure, introduit une tension claire vers la tonique.
 * **V** : dominante répétée, empêche la résolution et maintient la pression harmonique.
 

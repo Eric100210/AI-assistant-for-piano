@@ -2,7 +2,7 @@
 id: prog_maj__017
 type: progression
 tonalite: majeure
-degres: ["IV", "II", "I", "V"]
+degres: ["IV", "ii", "I", "V"]
 relief: tension_maintenue
 styles: ["pop", "soul", "gospel"]
 mood: ["attentif", "chaleureux", "en attente"]
@@ -10,12 +10,12 @@ tags: ["tension maintenue", "sous-dominante", "cadence", "boucle"]
 
 ---
 
-# Progression IV – II – I – V
+# Progression IV – ii – I – V
 
 ## Structure harmonique
 
 * **IV** : sous-dominante, ouvre la progression sans donner immédiatement la résolution.
-* **II** : accord mineur de préparation, prolonge la fonction sous-dominante.
+* **ii** : accord mineur de préparation, prolonge la fonction sous-dominante.
 * **I** : tonique, apporte un moment de stabilité.
 * **V** : dominante, relance la tension et prépare le retour vers **IV**.
 
@@ -29,13 +29,13 @@ La progression ne commence pas par la tonique et se termine sur **V**. Même si 
 * **La majeur** : D – Bm – A – E
 * **Fa majeur** : Bb – Gm – F – C
 
-Au piano, les renversements peuvent conserver une voix supérieure commune entre **IV** et **II**. En Do majeur, essayer **F – Dm7 – C/E – G** pour faire monter la basse vers la dominante.
+Au piano, les renversements peuvent conserver une voix supérieure commune entre **IV** et **ii**. En Do majeur, essayer **F – Dm7 – C/E – G** pour faire monter la basse vers la dominante.
 
 ## Variantes
 
-* **Deux-cinq mis en valeur** : jouer **IVmaj7 – II7 – Imaj7 – V7**.
+* **Deux-cinq mis en valeur** : jouer **IVmaj7 – ii7 – Imaj7 – V7**.
 * **Tension renforcée** : remplacer **V** par **V7** ou **V9**.
-* **Départ plus suspendu** : jouer **IV – IVmaj7 – II – V**.
+* **Départ plus suspendu** : jouer **IV – IVmaj7 – ii – V**.
 * **Retour différé** : enchaîner **V7sus4 – V7** avant de revenir à **IV**.
 * **Couleur gospel** : utiliser des accords de sixte et des renversements rapprochés.
 

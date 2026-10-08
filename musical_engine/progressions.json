@@ -1,13 +1,13 @@
 [
   {
-    "filename": "prog_001_I_VI_IV_V.md",
+    "filename": "prog_001_I_vi_IV_V.md",
     "metadata": {
       "id": "prog_maj__001",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "VI",
+        "vi",
         "IV",
         "V"
       ],
@@ -28,7 +28,7 @@
     }
   },
   {
-    "filename": "prog_002_I_IV_VI_V.md",
+    "filename": "prog_002_I_IV_vi_V.md",
     "metadata": {
       "id": "prog_maj__002",
       "type": "progression",
@@ -36,7 +36,7 @@
       "degres": [
         "I",
         "IV",
-        "VI",
+        "vi",
         "V"
       ],
       "relief": "fort",
@@ -59,14 +59,14 @@
     }
   },
   {
-    "filename": "prog_003_I_VI_IV_V.md",
+    "filename": "prog_003_I_vi_IV_V.md",
     "metadata": {
       "id": "prog_maj__003",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "VI",
+        "vi",
         "IV",
         "V"
       ],
@@ -121,7 +121,7 @@
     }
   },
   {
-    "filename": "prog_005_I_V_VI_V.md",
+    "filename": "prog_005_I_V_vi_V.md",
     "metadata": {
       "id": "prog_maj__005",
       "type": "progression",
@@ -129,7 +129,7 @@
       "degres": [
         "I",
         "V",
-        "VI",
+        "vi",
         "V"
       ],
       "relief": "fort",
@@ -183,7 +183,7 @@
     }
   },
   {
-    "filename": "prog_007_I_IV_II_V.md",
+    "filename": "prog_007_I_IV_ii_V.md",
     "metadata": {
       "id": "prog_maj__007",
       "type": "progression",
@@ -191,7 +191,7 @@
       "degres": [
         "I",
         "IV",
-        "II",
+        "ii",
         "V"
       ],
       "relief": "fort",
@@ -245,14 +245,14 @@
     }
   },
   {
-    "filename": "prog_009_I_III_IV_V.md",
+    "filename": "prog_009_I_iii_IV_V.md",
     "metadata": {
       "id": "prog_maj__009",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "III",
+        "iii",
         "IV",
         "V"
       ],
@@ -276,15 +276,15 @@
     }
   },
   {
-    "filename": "prog_010_I_II_III_V.md",
+    "filename": "prog_010_I_ii_iii_V.md",
     "metadata": {
       "id": "prog_maj__010",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "II",
-        "III",
+        "ii",
+        "iii",
         "V"
       ],
       "relief": "fort",
@@ -307,15 +307,15 @@
     }
   },
   {
-    "filename": "prog_011_I_VI_II_V.md",
+    "filename": "prog_011_I_vi_ii_V.md",
     "metadata": {
       "id": "prog_maj__011",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "VI",
-        "II",
+        "vi",
+        "ii",
         "V"
       ],
       "relief": "fort",
@@ -338,7 +338,7 @@
     }
   },
   {
-    "filename": "prog_012_I_V_VI_IV.md",
+    "filename": "prog_012_I_V_vi_IV.md",
     "metadata": {
       "id": "prog_maj__012",
       "type": "progression",
@@ -346,7 +346,7 @@
       "degres": [
         "I",
         "V",
-        "VI",
+        "vi",
         "IV"
       ],
       "relief": "modere",
@@ -369,15 +369,15 @@
     }
   },
   {
-    "filename": "prog_013_I_III_VI_IV.md",
+    "filename": "prog_013_I_iii_vi_IV.md",
     "metadata": {
       "id": "prog_maj__013",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "III",
-        "VI",
+        "iii",
+        "vi",
         "IV"
       ],
       "relief": "modere",
@@ -431,7 +431,7 @@
     }
   },
   {
-    "filename": "prog_015_I_I_III_III.md",
+    "filename": "prog_015_I_I_iii_iii.md",
     "metadata": {
       "id": "prog_maj__015",
       "type": "progression",
@@ -439,8 +439,8 @@
       "degres": [
         "I",
         "I",
-        "III",
-        "III"
+        "iii",
+        "iii"
       ],
       "relief": "faible",
       "styles": [
@@ -462,15 +462,15 @@
     }
   },
   {
-    "filename": "prog_016_I_VI_III_I.md",
+    "filename": "prog_016_I_vi_iii_I.md",
     "metadata": {
       "id": "prog_maj__016",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "I",
-        "VI",
-        "III",
+        "vi",
+        "iii",
         "I"
       ],
       "relief": "faible",
@@ -493,14 +493,14 @@
     }
   },
   {
-    "filename": "prog_017_IV_II_I_V.md",
+    "filename": "prog_017_IV_ii_I_V.md",
     "metadata": {
       "id": "prog_maj__017",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
         "IV",
-        "II",
+        "ii",
         "I",
         "V"
       ],
@@ -555,7 +555,7 @@
     }
   },
   {
-    "filename": "prog_019_IV_V_II_V.md",
+    "filename": "prog_019_IV_V_ii_V.md",
     "metadata": {
       "id": "prog_maj__019",
       "type": "progression",
@@ -563,7 +563,7 @@
       "degres": [
         "IV",
         "V",
-        "II",
+        "ii",
         "V"
       ],
       "relief": "tension_maintenue",
@@ -586,15 +586,15 @@
     }
   },
   {
-    "filename": "prog_020_I_III_IV_V.md",
+    "filename": "prog_020_i_iii_iv_V.md",
     "metadata": {
       "id": "prog_min__020",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "III",
-        "IV",
+        "i",
+        "iii",
+        "iv",
         "V"
       ],
       "relief": "fort",
@@ -617,15 +617,15 @@
     }
   },
   {
-    "filename": "prog_021_I_V_IV_V.md",
+    "filename": "prog_021_i_V_iv_V.md",
     "metadata": {
       "id": "prog_min__021",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "V",
-        "IV",
+        "iv",
         "V"
       ],
       "relief": "tension_croissante",
@@ -648,13 +648,13 @@
     }
   },
   {
-    "filename": "prog_022_I_VII_VI_V.md",
+    "filename": "prog_022_i_Vii_Vi_V.md",
     "metadata": {
       "id": "prog_min__022",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "VII",
         "VI",
         "V"
@@ -679,15 +679,15 @@
     }
   },
   {
-    "filename": "prog_023_I_I_IV_V.md",
+    "filename": "prog_023_i_i_iv_V.md",
     "metadata": {
       "id": "prog_min__023",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "I",
-        "IV",
+        "i",
+        "i",
+        "iv",
         "V"
       ],
       "relief": "tension_maintenue",
@@ -710,15 +710,15 @@
     }
   },
   {
-    "filename": "prog_024_I_IV_I_V.md",
+    "filename": "prog_024_i_iv_i_V.md",
     "metadata": {
       "id": "prog_min__024",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "IV",
-        "I",
+        "i",
+        "iv",
+        "i",
         "V"
       ],
       "relief": "tension_cadence",
@@ -741,15 +741,15 @@
     }
   },
   {
-    "filename": "prog_025_I_VI_IV_V.md",
+    "filename": "prog_025_i_Vi_iv_V.md",
     "metadata": {
       "id": "prog_min__025",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "VI",
-        "IV",
+        "iv",
         "V"
       ],
       "relief": "fort",
@@ -772,15 +772,15 @@
     }
   },
   {
-    "filename": "prog_026_I_II_III_V.md",
+    "filename": "prog_026_i_ii_iii_V.md",
     "metadata": {
       "id": "prog_min__026",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "II",
-        "III",
+        "i",
+        "ii°",
+        "iii",
         "V"
       ],
       "relief": "tension_croissante",
@@ -803,15 +803,15 @@
     }
   },
   {
-    "filename": "prog_027_I_VII_IV_V.md",
+    "filename": "prog_027_i_Vii_iv_V.md",
     "metadata": {
       "id": "prog_min__027",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "VII",
-        "IV",
+        "iv",
         "V"
       ],
       "relief": "dramatique",
@@ -834,14 +834,14 @@
     }
   },
   {
-    "filename": "prog_028_I_I_VI_V.md",
+    "filename": "prog_028_i_i_Vi_V.md",
     "metadata": {
       "id": "prog_min__028",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "I",
+        "i",
+        "i",
         "VI",
         "V"
       ],
@@ -865,15 +865,15 @@
     }
   },
   {
-    "filename": "prog_029_I_VI_III_V.md",
+    "filename": "prog_029_i_Vi_iii_V.md",
     "metadata": {
       "id": "prog_min__029",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "VI",
-        "III",
+        "iii",
         "V"
       ],
       "relief": "fort",
@@ -896,14 +896,14 @@
     }
   },
   {
-    "filename": "prog_030_I_IV_VII_V.md",
+    "filename": "prog_030_i_iv_Vii_V.md",
     "metadata": {
       "id": "prog_min__030",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "IV",
+        "i",
+        "iv",
         "VII",
         "V"
       ],
@@ -927,16 +927,16 @@
     }
   },
   {
-    "filename": "prog_031_I_III_VII_IV.md",
+    "filename": "prog_031_i_iii_Vii_iv.md",
     "metadata": {
       "id": "prog_min__031",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "III",
+        "i",
+        "iii",
         "VII",
-        "IV"
+        "iv"
       ],
       "relief": "moyen",
       "styles": [
@@ -958,16 +958,16 @@
     }
   },
   {
-    "filename": "prog_032_I_V_III_IV.md",
+    "filename": "prog_032_i_V_iii_iv.md",
     "metadata": {
       "id": "prog_min__032",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "V",
-        "III",
-        "IV"
+        "iii",
+        "iv"
       ],
       "relief": "moyen",
       "styles": [
@@ -989,16 +989,16 @@
     }
   },
   {
-    "filename": "prog_033_I_VII_IV_IV.md",
+    "filename": "prog_033_i_Vii_iv_iv.md",
     "metadata": {
       "id": "prog_min__033",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "VII",
-        "IV",
-        "IV"
+        "iv",
+        "iv"
       ],
       "relief": "moyen",
       "styles": [
@@ -1020,16 +1020,16 @@
     }
   },
   {
-    "filename": "prog_034_I_III_VI_IV.md",
+    "filename": "prog_034_i_iii_Vi_iv.md",
     "metadata": {
       "id": "prog_min__034",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "III",
+        "i",
+        "iii",
         "VI",
-        "IV"
+        "iv"
       ],
       "relief": "moyen",
       "styles": [
@@ -1051,16 +1051,16 @@
     }
   },
   {
-    "filename": "prog_035_I_I_III_III.md",
+    "filename": "prog_035_i_i_iii_iii.md",
     "metadata": {
       "id": "prog_min__035",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "I",
-        "III",
-        "III"
+        "i",
+        "i",
+        "iii",
+        "iii"
       ],
       "relief": "faible",
       "styles": [
@@ -1082,14 +1082,14 @@
     }
   },
   {
-    "filename": "prog_036_I_I_VI_VI.md",
+    "filename": "prog_036_i_i_Vi_Vi.md",
     "metadata": {
       "id": "prog_min__036",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
-        "I",
+        "i",
+        "i",
         "VI",
         "VI"
       ],
@@ -1113,16 +1113,16 @@
     }
   },
   {
-    "filename": "prog_037_I_VI_I_III.md",
+    "filename": "prog_037_i_Vi_i_iii.md",
     "metadata": {
       "id": "prog_min__037",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "I",
+        "i",
         "VI",
-        "I",
-        "III"
+        "i",
+        "iii"
       ],
       "relief": "faible",
       "styles": [
@@ -1145,14 +1145,14 @@
     }
   },
   {
-    "filename": "prog_038_VI_VI_V_V.md",
+    "filename": "prog_038_vi_vi_V_V.md",
     "metadata": {
       "id": "prog_maj__038",
       "type": "progression",
       "tonalite": "majeure",
       "degres": [
-        "VI",
-        "VI",
+        "vi",
+        "vi",
         "V",
         "V"
       ],
@@ -1176,14 +1176,14 @@
     }
   },
   {
-    "filename": "prog_039_IV_IV_V_V.md",
+    "filename": "prog_039_iv_iv_V_V.md",
     "metadata": {
       "id": "prog_min__039",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
-        "IV",
-        "IV",
+        "iv",
+        "iv",
         "V",
         "V"
       ],
@@ -1207,14 +1207,14 @@
     }
   },
   {
-    "filename": "prog_040_VI_IV_VI_V.md",
+    "filename": "prog_040_Vi_iv_Vi_V.md",
     "metadata": {
       "id": "prog_min__040",
       "type": "progression",
       "tonalite": "mineure",
       "degres": [
         "VI",
-        "IV",
+        "iv",
         "VI",
         "V"
       ],

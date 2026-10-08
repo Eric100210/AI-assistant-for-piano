@@ -2,7 +2,7 @@
 id: prog_min__040
 type: progression
 tonalite: mineure
-degres: ["VI", "IV", "VI", "V"]
+degres: ["VI", "iv", "VI", "V"]
 relief: tension_maintenue
 styles: ["pop", "cinema", "ballade"]
 mood: ["sombre", "attentif", "en mouvement"]
@@ -10,16 +10,16 @@ tags: ["progression mineure", "tension maintenue", "degre VI", "sous-dominante m
 
 ---
 
-# Progression VI – IVm – VI – V
+# Progression VI – iv – VI – V
 
 ## Structure harmonique
 
 * **VI** : degré majeur, ouvre la phrase avec une couleur plus lumineuse que la tonique mineure.
-* **IV** : sous-dominante mineure, assombrit le mouvement et augmente la tension.
+* **iv** : sous-dominante mineure, assombrit le mouvement et augmente la tension.
 * **VI** : retour au degré VI, réinstalle la couleur initiale tout en conservant l'attente.
-* **V** : dominante majeure, concentre la tension et prépare fortement le retour vers **I**.
+* **V** : dominante majeure, concentre la tension et prépare fortement le retour vers **i**.
 
-L'alternance entre **VI** et **IV** maintient le mouvement sans résolution. La dominante finale donne une direction claire, mais la boucle reste en suspens tant que **Im** n'est pas joué.
+L'alternance entre **VI** et **iv** maintient le mouvement sans résolution. La dominante finale donne une direction claire, mais la boucle reste en suspens tant que **i** n'est pas joué.
 
 ## Exemples
 
@@ -34,13 +34,13 @@ Au piano, utiliser des renversements pour relier les deux retours vers **VI**. E
 ## Variantes
 
 * **Tension renforcée** : remplacer le dernier **V** par **V7** ou **V7(b9)**.
-* **Couleur plus ample** : jouer **VImaj7 – IVm7 – VI6 – V7**.
+* **Couleur plus ample** : jouer **VImaj7 – iv7 – VI6 – V7**.
 * **Fin suspendue** : utiliser **Vsus4 – V7**.
-* **Résolution différée** : remplacer le dernier **V** par **Vm** pour une boucle moins conclusive.
+* **Résolution différée** : remplacer le dernier **V** par **v** pour une boucle moins conclusive.
 
 ## Caractère musical
 
-Le retour régulier vers **VI** empêche la tension de retomber complètement. **IVm** apporte une ombre expressive et **V** termine la phrase sur une attente nette vers **Im**.
+Le retour régulier vers **VI** empêche la tension de retomber complètement. **iv** apporte une ombre expressive et **V** termine la phrase sur une attente nette vers **i**.
 
 ## Utilisation
 

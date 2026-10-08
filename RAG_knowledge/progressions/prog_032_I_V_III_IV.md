@@ -2,7 +2,7 @@
 id: prog_min__032
 type: progression
 tonalite: mineure
-degres: ["I", "V", "III", "IV"]
+degres: ["i", "V", "III", "iv"]
 relief: moyen
 styles: ["pop", "ballade", "folk"]
 mood: ["doux", "melancolique", "contemplatif"]
@@ -10,14 +10,14 @@ tags: ["progression mineure", "moyen relief", "dominante mineure", "sous-dominan
 
 ---
 
-# Progression I – V – III – IV
+# Progression i – V – III – iv
 
 ## Structure harmonique
 
-* **I** : tonique mineure, installe le centre tonal.
+* **i** : tonique mineure, installe le centre tonal.
 * **V** : dominante mineure, prolonge le mouvement sans imposer une résolution forte.
 * **III** : degré majeur, apporte une ouverture au milieu de la boucle.
-* **IV** : sous-dominante mineure, ramène une couleur introspective et prépare la reprise.
+* **iv** : sous-dominante mineure, ramène une couleur introspective et prépare la reprise.
 
 L'emploi de **V** au lieu de **V** réduit la tension cadentielle. La progression circule ainsi entre plusieurs couleurs sans résolution définitive.
 
@@ -34,13 +34,13 @@ Au piano, jouer **V** avec une basse légère, puis ouvrir l'accord **III**. En 
 ## Variantes
 
 * **Couleur plus riche** : remplacer **V** par **V7** et **III** par **IIImaj7**.
-* **Tension accrue** : remplacer le dernier **IV** par **V**.
-* **Fin suspendue** : jouer **IV7** ou **IV6**.
+* **Tension accrue** : remplacer le dernier **iv** par **V**.
+* **Fin suspendue** : jouer **iv7** ou **iv6**.
 * **Version folk** : utiliser des accords simples et une basse régulière.
 
 ## Caractère musical
 
-La dominante mineure conserve une atmosphère douce et évite l'appel dramatique de **V** majeur. Le degré **III** apporte une éclaircie avant le retour vers **IV**.
+La dominante mineure conserve une atmosphère douce et évite l'appel dramatique de **V** majeur. Le degré **III** apporte une éclaircie avant le retour vers **iv**.
 
 ## Utilisation
 

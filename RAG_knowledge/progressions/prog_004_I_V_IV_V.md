@@ -35,13 +35,13 @@ Pour un accompagnement de piano énergique, jouer les basses en octaves et les a
 
 * **Dominante enrichie** : remplacer les deux accords **V** par **V7**.
 * **Attaque rock** : jouer **I5 – V5 – IV5 – V5** sans tierce pour un son plus ouvert.
-* **Sous-dominante douce** : remplacer **IV** par **II7**.
+* **Sous-dominante douce** : remplacer **IV** par **ii7**.
 * **Relance suspendue** : utiliser **Vsus4 – V** sur le dernier temps de chaque mesure.
 * **Ligne de basse descendante** : employer des renversements comme **I – V/3 – IV – V/3**.
 
 ## Caractère musical
 
-La progression est plus directe et moins mélancolique que **I–VI–IV–V**. Le retour fréquent de la dominante entretient une tension continue, tandis que **IV** apporte l'ouverture nécessaire pour éviter une boucle trop statique.
+La progression est plus directe et moins mélancolique que **I–vi–IV–V**. Le retour fréquent de la dominante entretient une tension continue, tandis que **IV** apporte l'ouverture nécessaire pour éviter une boucle trop statique.
 
 ## Utilisation
 

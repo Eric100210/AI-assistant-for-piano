@@ -2,7 +2,7 @@
 id: prog_min__029
 type: progression
 tonalite: mineure
-degres: ["I", "VI", "III", "V"]
+degres: ["i", "VI", "III", "V"]
 relief: fort
 styles: ["pop", "ballade", "cinema"]
 mood: ["melancolique", "emotionnel", "dramatique"]
@@ -10,14 +10,14 @@ tags: ["progression mineure", "degre VI", "degre III", "dominante"]
 
 ---
 
-# Progression I – VI – III – V
+# Progression i – VI – III – V
 
 ## Structure harmonique
 
-* **I** : tonique mineure, installe la couleur émotionnelle de la tonalité.
+* **i** : tonique mineure, installe la couleur émotionnelle de la tonalité.
 * **VI** : degré majeur, ouvre la progression et crée un premier contraste.
 * **III** : degré majeur, prolonge cette éclaircie tout en éloignant la tonique.
-* **V** : dominante majeure, ramène une tension forte vers **I**.
+* **V** : dominante majeure, ramène une tension forte vers **i**.
 
 Les degrés **VI** et **III** forment une zone plus lumineuse au centre de la progression. La dominante finale réoriente clairement l'écoute vers la tonique mineure.
 
@@ -40,7 +40,7 @@ Au piano, ouvrir les voicings sur **VI** et **III**, puis resserrer l'accord de 
 
 ## Caractère musical
 
-La progression passe d'une couleur mineure à une ouverture centrale portée par **VI** et **III**. La dominante finale rétablit le caractère dramatique et la direction vers **I**.
+La progression passe d'une couleur mineure à une ouverture centrale portée par **VI** et **III**. La dominante finale rétablit le caractère dramatique et la direction vers **i**.
 
 ## Utilisation
 
