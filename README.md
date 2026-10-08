@@ -13,11 +13,14 @@ First version of the RAG :
 - Ingestion of my personal musical theory courses (embedding, vector database)
 - Conversational RAG with chat history (model OllamaLLM)
 
-First version of audio analysis:
+First version of audio analysis pipeline:
 - Download a .mp3 file
 - Transcribe in MIDI Data thanks to basic pitch model
+- Get the key and the mode, with Krumhansl-Schmuckler key-finding algorithm
 - Get the simultaneous notes to identify potential chords
 - Identify the precise chord by comparing to known chords with a score function
+- Convert the chord into degrees (conventional notation for music)
+- Suggest the next chord by comparing to a dataset of usual chord progressions
 
 
 
