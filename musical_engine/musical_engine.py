@@ -4,19 +4,34 @@ import numpy as np
 
 SEMIS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 SPECIFICATIONS = ["m", "maj", "7", "6", "4", "9", "sus", "dim", "aug", "°"]
-CHROMATIC_DEGREES = [
+CHROMATIC_DEGREES_MAJOR = [
     "I",
     "bII",
-    "II",
+    "ii",
     "bIII",
-    "III",
+    "iii",
     "IV",
     "#IV",
     "V",
     "bVI",
-    "VI",
+    "vi",
     "bVII",
+    "vii°",
+]
+
+CHROMATIC_DEGREES_MINOR = [
+    "i",
+    "bII",
+    "ii°",
+    "III",
+    "#III",
+    "iv",
+    "#IV",
+    "v",
+    "VI",
+    "#VI",
     "VII",
+    "#VII",
 ]
 
 # Krumhansl-Kessler profiles
@@ -110,10 +125,33 @@ def split_chord(chord):
 
 def chords_to_degrees(key, chords):
 
-    # we use the sharp notation for the key
     key = enharmonic_to_sharp(key)
     key_root, key_spec = split_chord(key)
     key_index = SEMIS.index(key_root)
+
+    if key_spec == "m":
+        chromatic_degrees = CHROMATIC_DEGREES_MINOR
+        natural_specifications = {
+            0: "m",  # i
+            2: "dim",  # ii°
+            3: "",  # III
+            5: "m",  # iv
+            7: "m",  # v
+            8: "",  # VI
+            10: "",  # VII
+        }
+
+    else:
+        chromatic_degrees = CHROMATIC_DEGREES_MAJOR
+        natural_specifications = {
+            0: "",  # I
+            2: "m",  # ii
+            4: "m",  # iii
+            5: "",  # IV
+            7: "",  # V
+            9: "m",  # vi
+            11: "dim",  # vii°
+        }
 
     degrees = []
 
@@ -129,16 +167,19 @@ def chords_to_degrees(key, chords):
 
         interval = (chord_index - key_index) % 12
 
-        degree = CHROMATIC_DEGREES[interval]
-        if specification:
-            if key_spec == "m":
-                # if degree = I, IV or V, it is naturally minor in a minor key
-                if not (specification == "m" and degree in ["I", "IV", "V"]):
+        degree = chromatic_degrees[interval]
+
+        # Adding specification if it differs from the natural one of the key
+        # (e.g., "C" in the key of C major is I, but "C#" would be #I)
+        if interval in natural_specifications:
+            expected = natural_specifications[interval]
+
+            if specification != expected:
+                if specification:
                     degree += specification
-            else:
-                # if degree = II, III, VI or VII, it is naturally minor in a major key
-                if not (specification == "m" and degree in ["II", "III", "VI", "VII"]):
-                    degree += specification
+        else:
+            if specification:
+                degree += specification
 
         degrees.append(degree)
 
@@ -152,6 +193,9 @@ def suggest_next_chord(key, chords):
 
     # Considering for now only the last 3 different chords
     last_three_degrees = degree_progression[-3:]
+
+    # for now, suggestion when perfect match, otherwise None
+    # TODO : implement a more flexible suggestion system, e.g., using Levenshtein distance ?
     if last_three_degrees in reference_prog_cut:
         index = reference_prog_cut.index(last_three_degrees)
         next_prog = reference_prog[index]
@@ -167,6 +211,6 @@ if __name__ == "__main__":
     print(chords_to_degrees("Bb", ["Bb", "F", "Gm", "Eb"]))
 
     print(reference_prog_cut)
-    test_progression = ["C", "G", "Am"]
-    next_chord = suggest_next_chord("C", test_progression)
+    test_progression = ["Cm", "Gm", "Bm"]
+    next_chord = suggest_next_chord("Cm", test_progression)
     print(f"Next chord suggestion for {test_progression}: {next_chord}")
