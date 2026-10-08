@@ -3,6 +3,7 @@ import os
 import numpy as np
 
 from audio_transcriber import transcribe_audio
+from musical_engine.musical_engine import detect_key_from_notes
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TEST_FOLDER = os.path.join(ROOT, "test_data")
@@ -19,11 +20,6 @@ CHORD_TEMPLATES = {
     "minor7": (0, 3, 7, 10),
     "dominant7": (0, 4, 7, 10),
 }
-
-
-def detect_key_from_notes(notes):
-    # Krumhansl-Schmuckler key-finding algorithm
-    return None
 
 
 def group_simultaneous_notes(notes, tolerance=0.03):
@@ -65,28 +61,17 @@ def detect_chord(pitches):
     return best_chord
 
 
-def detect_chords(notes_list):
+def detect_chords(notes_list: list[dict]):
     if not notes_list:
         return None
-
-    groups = group_simultaneous_notes(notes)
-
     chords = []
-    for group in groups:
+    for group in notes_list:
         pitches = [note["pitch"] for note in group["notes"]]
         chord = detect_chord(pitches)
         if chord:
             chords.append(chord)
 
     return chords
-
-
-def detect_chords_from_audio(audio_path):
-    notes = transcribe_audio(audio_path)
-    key = detect_key_from_notes(notes)
-    simultaneous_notes = group_simultaneous_notes(notes)
-    chords = detect_chords(simultaneous_notes)
-    return key, chords
 
 
 if __name__ == "__main__":
