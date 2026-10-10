@@ -175,7 +175,7 @@ def chords_to_degrees(key, chords):
         degree = chromatic_degrees[interval]
 
         # Adding specification if it differs from the natural one of the key
-        # (e.g., "C" in the key of C major is I, but "C#" would be #I)
+        # (e.g., "Am" in the key of C major is VI, but "Gm" would be Vm)
         if interval in natural_specifications:
             expected = natural_specifications[interval]
 
@@ -195,6 +195,7 @@ def suggest_next_chord(key, chords):
     # chord_progression is the full progression of chords played so far
     # hoping that the full progression will help identify the key to convert in degrees
     degree_progression = chords_to_degrees(key, chords)
+    print(f"Degree progression: {degree_progression}")
 
     # Considering for now only the last 3 different chords
     last_three_degrees = degree_progression[-3:]

@@ -11,19 +11,23 @@ from musical_engine.musical_engine import detect_key_from_notes, suggest_next_ch
 # Test data
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TEST_FOLDER = os.path.join(ROOT, "test_data")
-TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio.mp3")
+TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio_longer.mp3")
 
 
 def suggest_next_chord_from_audio(audio_path):
     midi_notes = transcribe_audio(audio_path)  # list[dict{pitch, start, end, velocity}]
+    for note in midi_notes:
+        print(
+            f"Pitch: {note['pitch']}, Start: {note['start']:.2f}, End: {note['end']:.2f}, Velocity: {note['velocity']}"
+        )
     notes = [note["pitch"] for note in midi_notes]
     key = detect_key_from_notes(notes)  # str with key+tone
     simultaneous_notes = group_simultaneous_notes(
         midi_notes
-    )  # list[dict{start, notes}]
-    chords = detect_chords(simultaneous_notes)
+    )  # list[dict{start, notes: dict{pitch, start, end, velocity}}]
+    chords = detect_chords(simultaneous_notes)  # list[str]
     next_chord = suggest_next_chord(key, chords)
-    return key, chords, next_chord
+    return key, chords, next_chord  # for the RAG query
 
 
 if __name__ == "__main__":

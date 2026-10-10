@@ -1,13 +1,13 @@
-import pretty_midi
 import os
 import numpy as np
+from pychord import find_chords_from_notes
 
 from audio_transcriber import transcribe_audio
 from musical_engine.musical_engine import detect_key_from_notes
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 TEST_FOLDER = os.path.join(ROOT, "test_data")
-TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio.mp3")
+TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio_longer.mp3")
 
 
 SEMIS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
@@ -19,6 +19,8 @@ CHORD_TEMPLATES = {
     "major7": (0, 4, 7, 11),
     "minor7": (0, 3, 7, 10),
     "dominant7": (0, 4, 7, 10),
+    "sus2": (0, 2, 7),
+    "sus4": (0, 5, 7),
 }
 
 
@@ -37,7 +39,7 @@ def group_simultaneous_notes(notes, tolerance=0.03):
 def detect_chord(pitches):
     pitch_classes = {pitch % 12 for pitch in pitches}
 
-    if len(pitch_classes) < 3:  # not a real chord
+    if len(pitch_classes) < 2:  # not a real chord
         return None
 
     best_chord = None
