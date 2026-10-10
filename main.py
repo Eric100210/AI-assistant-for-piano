@@ -3,7 +3,6 @@ import os
 
 from audio_transcriber import transcribe_audio
 from chord_detector import (
-    group_simultaneous_notes,
     detect_chords,
 )
 from musical_engine.musical_engine import detect_key_from_notes, suggest_next_chord
@@ -22,10 +21,7 @@ def suggest_next_chord_from_audio(audio_path):
         )
     notes = [note["pitch"] for note in midi_notes]
     key = detect_key_from_notes(notes)  # str with key+tone
-    simultaneous_notes = group_simultaneous_notes(
-        midi_notes
-    )  # list[dict{start, notes: dict{pitch, start, end, velocity}}]
-    chords = detect_chords(simultaneous_notes)  # list[str]
+    chords = detect_chords(midi_notes)  # list[dict[chord, start, end]]
     next_chord = suggest_next_chord(key, chords)
     return key, chords, next_chord  # for the RAG query
 
