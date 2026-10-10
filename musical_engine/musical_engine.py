@@ -208,8 +208,10 @@ def chords_to_degrees(key, chords):
 
 
 def progression_simplification(progression):
+    simplified_progression = progression.copy()
+
     # removing extra specifications
-    for i, chord in enumerate(progression):
+    for i, chord in enumerate(simplified_progression):
         while any(chord.endswith(spec) for spec in SPECIFICATIONS) or "/" in chord:
             for spec in SPECIFICATIONS:
                 if chord.endswith(spec):
@@ -218,11 +220,11 @@ def progression_simplification(progression):
                 if "/" in chord:
                     chord = chord.split("/")[0]
                     break
-        progression[i] = chord
+        simplified_progression[i] = chord
 
     # removing consecutive identical chords
-    simplified = [progression[0]]
-    for chord in progression[1:]:
+    simplified = [simplified_progression[0]]
+    for chord in simplified_progression[1:]:
         if chord != simplified[-1]:
             simplified.append(chord)
 
@@ -249,18 +251,14 @@ def suggest_next_chord(key, chords):
     if last_three_degrees in reference_prog_cut:
         index = reference_prog_cut.index(last_three_degrees)
         next_prog = reference_prog[index]
-        return next_prog[3] if len(next_prog) > 3 else None
-    return None
+        if len(next_prog) > 3:
+            next_chord = next_prog[3]
+            return degree_progression, next_chord
+    return degree_progression, None
 
 
 if __name__ == "__main__":
-    # # chords_to_degrees test
-    print(chords_to_degrees("C", ["C", "G", "Am"]))
-    print(chords_to_degrees("Cm", ["Cm", "Gm", "B", "Eb"]))
-    print(chords_to_degrees("Cm", ["Cm", "Gm", "Bm", "Eb"]))
-    print(chords_to_degrees("Bb", ["Bb", "F", "Gm", "Eb"]))
-
     print(reference_prog_cut)
     test_progression = ["Cm", "Gm", "Bm"]
-    next_chord = suggest_next_chord("Cm", test_progression)
+    degree_progression, next_chord = suggest_next_chord("Cm", test_progression)
     print(f"Next chord suggestion for {test_progression}: {next_chord}")
