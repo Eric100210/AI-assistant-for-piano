@@ -21,7 +21,9 @@ First version of audio analysis pipeline:
 - Identify the precise chord for each time with pychord (I tried with a personal chord finder, but less efficient)
 - Merge the consecutive chords to get the real chord prediction
 - Convert the chords into degrees (conventional notation for music)
-- Suggest the next chord by comparing to a dataset of usual degree progressions
+Then two options : 
+(1): simplify the progression by removing specifications and suggesting the next degree with a deterministic engine (comparing to a dataset). The RAG in this case is used to explain the theory or suggest variations.
+(2) : pass the simplify progression and the real one to the RAG, which suggests directly the next one and variations knowing the full real progression
 
 
 

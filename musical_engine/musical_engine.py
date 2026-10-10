@@ -3,7 +3,21 @@ import os
 import numpy as np
 
 SEMIS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-SPECIFICATIONS = ["m", "maj", "7", "6", "4", "9", "sus", "dim", "aug", "°"]
+SPECIFICATIONS = [
+    "m",
+    "maj",
+    "2",
+    "4",
+    "5",
+    "6",
+    "7",
+    "9",
+    "sus",
+    "dim",
+    "aug",
+    "add",
+    "°",
+]
 CHROMATIC_DEGREES_MAJOR = [
     "I",
     "bII",
@@ -118,6 +132,7 @@ def split_chord(chord):
         F#dim   -> ("F#", "dim")
         Bb7     -> ("Bb", "7")
     """
+    chord = str(chord)
     if len(chord) >= 2 and chord[1] in ["#", "b"]:
         root = chord[:2]
         specification = chord[2:]
@@ -160,7 +175,8 @@ def chords_to_degrees(key, chords):
 
     degrees = []
 
-    for chord in chords:
+    for chord_info in chords:
+        chord = chord_info["chord"]
         root, specification = split_chord(chord)
         root = enharmonic_to_sharp(root)
 
@@ -191,14 +207,42 @@ def chords_to_degrees(key, chords):
     return degrees
 
 
+def progression_simplification(progression):
+    # removing extra specifications
+    for i, chord in enumerate(progression):
+        while any(chord.endswith(spec) for spec in SPECIFICATIONS) or "/" in chord:
+            for spec in SPECIFICATIONS:
+                if chord.endswith(spec):
+                    chord = chord[: -len(spec)]
+                    break
+                if "/" in chord:
+                    chord = chord.split("/")[0]
+                    break
+        progression[i] = chord
+
+    # removing consecutive identical chords
+    simplified = [progression[0]]
+    for chord in progression[1:]:
+        if chord != simplified[-1]:
+            simplified.append(chord)
+
+    return simplified
+
+
 def suggest_next_chord(key, chords):
     # chord_progression is the full progression of chords played so far
     # hoping that the full progression will help identify the key to convert in degrees
     degree_progression = chords_to_degrees(key, chords)
     print(f"Degree progression: {degree_progression}")
 
-    # Considering for now only the last 3 different chords
-    last_three_degrees = degree_progression[-3:]
+    simplified_progression = progression_simplification(degree_progression)
+    print(f"Simplified progression: {simplified_progression}")
+
+    last_three_degrees = (
+        simplified_progression[-3:]
+        if len(simplified_progression) >= 3
+        else simplified_progression
+    )
 
     # for now, suggestion when perfect match, otherwise None
     # TODO : implement a more flexible suggestion system, e.g., using Levenshtein distance ?

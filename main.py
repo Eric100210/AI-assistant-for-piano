@@ -29,5 +29,6 @@ def suggest_next_chord_from_audio(audio_path):
 if __name__ == "__main__":
     key, chords, next_chord = suggest_next_chord_from_audio(TEST_AUDIO_PATH)
     print(f"Key: {key}")
-    print(f"Chords: {chords}")
+    for chord_info in chords:
+        print(f"Chord : {chord_info['chord']}")
     print(f"Suggested next chord: {next_chord}")
