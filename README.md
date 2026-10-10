@@ -17,10 +17,11 @@ First version of audio analysis pipeline:
 - Download a .mp3 file
 - Transcribe in MIDI Data thanks to basic pitch model
 - Get the key and the mode, with Krumhansl-Schmuckler key-finding algorithm
-- Get the simultaneous notes to identify potential chords
-- Identify the precise chord by comparing to known chords with a score function
-- Convert the chord into degrees (conventional notation for music)
-- Suggest the next chord by comparing to a dataset of usual chord progressions
+- Get the notes by time with a time window system to identify important notes (notes potentially linked to chords)
+- Identify the precise chord for each time with pychord (I tried with a personal chord finder, but less efficient)
+- Merge the consecutive chords to get the real chord prediction
+- Convert the chords into degrees (conventional notation for music)
+- Suggest the next chord by comparing to a dataset of usual degree progressions
 
 
 
