@@ -43,7 +43,7 @@ def generate_response(query, documents):
         content="Tu es un assistant musical qui fournit des explications et des suggestions basées sur les progressions musicales fournies."
     )
     human_message = HumanMessage(
-        content=f"Demande: {query}\n\nFournis une réponse claire et aidante à partir des documents suivants :\n{[doc.page_content for doc in documents]}"
+        content=f"Demande: {query}\n\nFournis une réponse claire et aidante à partir des documents suivants (s'ils sont pertinents par rapport à la demande):\n{[doc.page_content for doc in documents]}"
     )
 
     messages = [system_message, human_message]

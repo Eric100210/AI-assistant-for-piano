@@ -13,48 +13,59 @@ Explique l’effet créé par ces progressions possibles et propose des variante
 
 llm = OllamaLLM(model=LLM_MODEL, base_url="http://localhost:11434")
 
-chat_history = []
 
+class LLMChat:
+    def __init__(self):
+        self.chat_history = []
 
-def ask_question(query):
-    if chat_history:
-        # Ask AI to make the question standalone
-        messages = (
-            SystemMessage(
-                content="Etant donné l'historique du chat, reformule la nouvelle question pour qu'elle soit autonome et compréhensible sans contexte :"
-            ),
-            *chat_history,
-            HumanMessage(content=f"Nouvelle question : {query}"),
-        )
-        result = llm.invoke(messages)
-        standalone_query = result.strip()
-    else:
-        standalone_query = query
-    return standalone_query
+    def ask_question(self, query):
+        if self.chat_history:
+            # Ask AI to make the question standalone
+            messages = (
+                SystemMessage(
+                    content="Etant donné l'historique du chat, reformule la nouvelle question pour qu'elle soit autonome et compréhensible sans contexte :"
+                ),
+                *self.chat_history,
+                HumanMessage(content=f"Nouvelle question : {query}"),
+            )
+            result = llm.invoke(messages)
+            standalone_query = result.strip()
+        else:
+            standalone_query = query
+        return standalone_query
 
+    def start_chat(self, initial_query=None):
+        if not initial_query:
+            print(
+                "Bienvenue dans l'assistant musical MusAIc ! Posez vos questions sur les progressions musicales que vous jouez."
+            )
+        while True:
+            if not initial_query:
+                user_input = input("Votre question: ")
+                if user_input.lower() in ["exit", "quit", "q"]:
+                    print("À bientôt !")
+                    break
 
-def start_chat():
-    print(
-        "Bienvenue dans l'assistant musical MusAIc ! Posez vos questions sur les progressions musicales que vous jouez."
-    )
-    while True:
-        user_input = input("Votre question: ")
-        if user_input.lower() in ["exit", "quit", "q"]:
-            print("À bientôt !")
-            break
+            else:
+                user_input = initial_query
 
-        query = ask_question(user_input)  # reformulate the question to be standalone
+            query = self.ask_question(
+                user_input
+            )  # reformulate the question to be standalone
 
-        # Generate response using the retrieval pipeline
-        documents = retrieve_documents(query)
-        response = generate_response(query, documents)
+            # Generate response using the retrieval pipeline
+            documents = retrieve_documents(query)
+            response = generate_response(query, documents)
 
-        # Remember the conversation in chat_history
-        chat_history.append(HumanMessage(content=user_input))
-        chat_history.append(AIMessage(content=response))
+            # Remember the conversation in chat_history
+            self.chat_history.append(HumanMessage(content=user_input))
+            self.chat_history.append(AIMessage(content=response))
+            initial_query = None
 
-        print(f"MusAIc: {response}")
+            print(f"MusAIc: {response}")
 
 
 if __name__ == "__main__":
-    start_chat()
+    chat = LLMChat()
+    print(chat.chat_history)
+    chat.start_chat(initial_query=TEST_QUERY)
