@@ -24,13 +24,22 @@ def suggest_next_chord_from_audio(audio_path):
 
 
 def asking_rag(key, progression_degrees, next_chord):
-    query = f"""J’ai joué une progression {", ".join(progression_degrees)} en tonalité de {key}. 
-    En regardant globalement la progression, on me conseille de continuer avec un accord parmi les suivants : {next_chord}. 
-    Explique l’effet créé par ces progressions possibles (ou propose des cohérentes s'il n'y en a pas) et propose des variantes pertinentes connaissant la vraie progression et ses spécifications.
-    """
+    if next_chord:
+        query = f"""J’ai joué une progression {", ".join(progression_degrees)} en tonalité de {key}. 
+        En regardant globalement la progression, on me conseille de continuer avec un accord parmi les suivants : {next_chord}. 
+        Explique l’effet créé par ces progressions possibles et propose des variantes pertinentes connaissant la vraie progression et ses spécifications.
+        """
 
-    chat = LLMChat()
-    chat.start_chat(initial_query=query)
+        chat = LLMChat()
+        chat.start_chat(initial_query=query)
+
+    else:
+        query = f"""J’ai joué une progression {", ".join(progression_degrees)} en tonalité de {key}. 
+        Compte tenu de tes connaissances et des documents pertinents, propose des accords qui pourraient suivre cette progression, explique rapidement l’effet créé par ces progressions possibles et propose des variantes pertinentes.
+        """
+
+        chat = LLMChat()
+        chat.start_chat(initial_query=query)
 
 
 if __name__ == "__main__":

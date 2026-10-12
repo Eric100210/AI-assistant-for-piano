@@ -23,7 +23,7 @@ First version of audio analysis pipeline:
 - Convert the chords into degrees (conventional notation for music)
 Then two options : 
 (1): simplify the progression by removing specifications and suggesting the next degree with a deterministic engine (comparing to a dataset). The RAG in this case is used to explain the theory or suggest variations.
-(2) : pass the simplify progression and the real one to the RAG, which suggests directly the next one and variations knowing the full real progression
+(2) : pass the simplify progression and the real one to the RAG, which suggests directly the next one and variations knowing the full real progression. This second option can also be used if the deterministic musical engine does not find a relevant chord to suggest : the RAG has to suggest one.
 
 
 
