@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+/* ==========================================================================
+   Design tokens — thème "studio" sombre
+   ========================================================================== */
+:root {
+  /* Fonds */
+  --bg: #08090e;
+  --bg-soft: #0d0e15;
+  --panel: #13141d;
+  --panel-2: #181a25;
+  --panel-3: #1e2030;
+
+  /* Bordures & traits */
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.13);
+
+  /* Texte */
+  --text: #edeef5;
+  --text-muted: #a3a9bd;
+  --text-dim: #6d7387;
+
+  /* Accents */
+  --violet: #a78bfa;
+  --violet-deep: #8b5cf6;
+  --cyan: #22d3ee;
+  --pink: #f472b6;
+  --green: #34d399;
+  --amber: #fbbf24;
+
+  --accent-grad: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+  --accent-grad-soft: linear-gradient(
+    135deg,
+    rgba(167, 139, 250, 0.16) 0%,
+    rgba(34, 211, 238, 0.12) 100%
+  );
+
+  /* Divers */
+  --radius-lg: 20px;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow-lg: 0 30px 60px -25px rgba(0, 0, 0, 0.8);
+  --shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.7);
+  --ring: 0 0 0 1px var(--border-strong), 0 0 0 4px rgba(167, 139, 250, 0.14);
+
+  /* Typo */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* ==========================================================================
+   Reset minimal
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  background-image: radial-gradient(
+      900px 520px at 10% -12%,
+      rgba(167, 139, 250, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      820px 520px at 98% -6%,
+      rgba(34, 211, 238, 0.13),
+      transparent 55%
+    ),
+    radial-gradient(
+      700px 600px at 50% 120%,
+      rgba(244, 114, 182, 0.06),
+      transparent 60%
+    );
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: var(--radius-sm);
+}
+
+/* Scrollbar discrète */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
