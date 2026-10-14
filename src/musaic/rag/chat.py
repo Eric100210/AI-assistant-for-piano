@@ -1,17 +1,18 @@
-from retrieval_pipeline import retrieve_documents, generate_response
-from langchain_ollama import OllamaLLM
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+"""Conversational RAG: chat history and standalone-question reformulation.
 
-from config import LLM_MODEL, OLLAMA_BASE_URL
+The interactive loop is kept here for convenience; ``musaic.cli`` drives it.
+"""
+
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+
+from musaic.rag.llm import get_llm
+from musaic.rag.retrieval import generate_response, retrieve_documents
 
 TEST_QUERY = """
 J’ai joué une progression I - VIm - IV : 
 On me conseille de jouer maintenant un accord parmi les suivants : V - I. 
 Explique l’effet créé par ces progressions possibles et propose des variantes pertinentes avec le style de musique qui leur est souvent associé.
 """
-
-
-llm = OllamaLLM(model=LLM_MODEL, base_url=OLLAMA_BASE_URL)
 
 
 class LLMChat:
@@ -28,7 +29,7 @@ class LLMChat:
                 *self.chat_history,
                 HumanMessage(content=f"Nouvelle question : {query}"),
             )
-            result = llm.invoke(messages)
+            result = get_llm().invoke(messages)
             standalone_query = result.strip()
         else:
             standalone_query = query
@@ -45,7 +46,6 @@ class LLMChat:
                 if user_input.lower() in ["exit", "quit", "q"]:
                     print("À bientôt !")
                     break
-
             else:
                 user_input = initial_query
 

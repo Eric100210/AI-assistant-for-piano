@@ -1,13 +1,9 @@
 import json
-import sys
-from pathlib import Path
+from functools import lru_cache
 
 import numpy as np
 
-# Allow running this file directly (python musical_engine/musical_engine.py)
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from config import PROGRESSIONS_JSON, SEMIS
+from musaic.config import PROGRESSIONS_JSON, SEMIS
 
 SPECIFICATIONS = [
     "m",
@@ -63,13 +59,15 @@ MINOR_PROFILE = np.array(
     [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17]
 )
 
-with open(PROGRESSIONS_JSON) as f:
-    content = json.load(f)
-    reference_prog = []
-    for record in content:
-        reference_prog.append(record["metadata"].get("degres", []))
+@lru_cache(maxsize=1)
+def load_reference_progressions():
+    """Load the reference progressions once (lazy: importing this module stays side-effect free)."""
+    with open(PROGRESSIONS_JSON) as f:
+        content = json.load(f)
 
-reference_prog_cut = [prog[:3] for prog in reference_prog]
+    reference_prog = [record["metadata"].get("degres", []) for record in content]
+    reference_prog_cut = [prog[:3] for prog in reference_prog]
+    return reference_prog, reference_prog_cut
 
 
 def detect_key_from_notes(midi_notes):
@@ -252,6 +250,8 @@ def suggest_next_chord(key, chords):
 
     # for now, suggestion when perfect match, otherwise None
     # TODO : implement a more flexible suggestion system, e.g., using Levenshtein distance ?
+    reference_prog, reference_prog_cut = load_reference_progressions()
+
     if last_three_degrees in reference_prog_cut:
         index = reference_prog_cut.index(last_three_degrees)
         next_prog = reference_prog[index]
@@ -262,7 +262,8 @@ def suggest_next_chord(key, chords):
 
 
 if __name__ == "__main__":
+    _, reference_prog_cut = load_reference_progressions()
     print(reference_prog_cut)
-    test_progression = ["Cm", "Gm", "Bm"]
+    test_progression = [{"chord": "Cm"}, {"chord": "Gm"}, {"chord": "Bm"}]
     degree_progression, next_chord = suggest_next_chord("Cm", test_progression)
     print(f"Next chord suggestion for {test_progression}: {next_chord}")

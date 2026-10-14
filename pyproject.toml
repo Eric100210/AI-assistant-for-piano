@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "musaic"
+version = "0.1.0"
+description = "AI assistant for piano improvisation and composition (RAG + audio analysis)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "langchain-chroma>=0.2.0",
+    "langchain-community>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-ollama>=0.2.0",
+    "langchain-text-splitters>=0.3.0",
+    "PyYAML>=6.0",
+    "basic-pitch>=0.4.0",
+    "pretty-midi>=0.2.0",
+    "numpy",
+    "pychord",
+]
+
+[project.scripts]
+musaic = "musaic.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+musaic = ["engine/progressions.json"]

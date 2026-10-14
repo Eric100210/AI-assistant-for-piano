@@ -1,4 +1,13 @@
 .vscode/
 __pycache__/
+*.py[cod]
+
+# Packaging artifacts
+build/
+dist/
+*.egg-info/
+
+# Generated/persisted data
+db/
 
 .DS_Store

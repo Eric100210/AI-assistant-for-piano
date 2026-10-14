@@ -1,14 +1,17 @@
+"""Knowledge-base ingestion: load markdown, chunk it and persist embeddings."""
+
+import json
 import os
-from langchain_community.document_loaders import TextLoader, DirectoryLoader
+import re
+
+import yaml
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_core.documents import Document
 from langchain_text_splitters import CharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings
-from langchain_chroma import Chroma
-import re
-import json
-import sys
-from pathlib import Path
-import yaml
+
+from musaic.config import CHUNK_SIZE, PERSIST_DIRECTORY, RAG_KNOWLEDGE_DIR
+from musaic.rag.embeddings import get_embedding_model
 
 CHUNK_SECTIONS = {
     "structure": [
@@ -21,17 +24,6 @@ CHUNK_SECTIONS = {
         "Utilisation",
     ],
 }
-
-# Allow running this script directly (python oneshot/ingestion_pipeline.py)
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from config import (
-    CHUNK_SIZE,
-    EMBEDDING_MODEL,
-    OLLAMA_BASE_URL,
-    PERSIST_DIRECTORY,
-    RAG_KNOWLEDGE_DIR,
-)
 
 
 def load_documents_from_directory(directory_path):
@@ -145,11 +137,10 @@ def create_chunks(documents):
     return all_chunks
 
 
-def create_embeddings(chunks, model):
-    embeddings = OllamaEmbeddings(model=model, base_url=OLLAMA_BASE_URL)
+def create_embeddings(chunks):
     vector_store = Chroma.from_documents(
         chunks,
-        embeddings,
+        get_embedding_model(),
         persist_directory=str(PERSIST_DIRECTORY),
         collection_metadata={"hnsw:space": "cosine"},
     )
@@ -166,7 +157,8 @@ def main():
         print(f"Content:\n{chunk.page_content[:200]}...\n")
         print("-" * 80)
 
-    vector_store = create_embeddings(chunks, model=EMBEDDING_MODEL)
+    vector_store = create_embeddings(chunks)
+    return vector_store
 
 
 if __name__ == "__main__":

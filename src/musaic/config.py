@@ -1,19 +1,28 @@
 """Single source of truth for project configuration.
 
-All paths are absolute and derived from the location of this file, so they
-work regardless of the current working directory. Models and RAG parameters
-are defined once here and imported everywhere else.
+Models, RAG parameters and paths are defined once here and imported
+everywhere else. All paths are absolute, so they work regardless of the
+current working directory.
+
+``PROJECT_ROOT`` is the repository root (where ``RAG_knowledge/``,
+``test_data/`` and ``db/`` live). It can be overridden with the ``MUSAIC_ROOT``
+environment variable when the package is not used from a checkout.
 """
 
+import os
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+# Package directory (.../src/musaic) and repository root (.../)
+PACKAGE_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(os.getenv("MUSAIC_ROOT", PACKAGE_ROOT.parents[1])).resolve()
 
-# --- Data directories ---
+# --- Knowledge base directories ---
 RAG_KNOWLEDGE_DIR = PROJECT_ROOT / "RAG_knowledge"
 PROGRESSIONS_DIR = RAG_KNOWLEDGE_DIR / "progressions"
 THEORY_DIR = RAG_KNOWLEDGE_DIR / "theory"
-PROGRESSIONS_JSON = PROJECT_ROOT / "musical_engine" / "progressions.json"
+
+# Generated musical-engine data (shipped as package data)
+PROGRESSIONS_JSON = PACKAGE_ROOT / "engine" / "progressions.json"
 
 # Persisted vector store (generated artifact, not versioned)
 DB_DIR = PROJECT_ROOT / "db"

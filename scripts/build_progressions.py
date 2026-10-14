@@ -1,14 +1,9 @@
 import json
 import re
-import sys
-from pathlib import Path
 
 import yaml
 
-# Allow running this script directly (python oneshot/get_all_progressions.py)
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-from config import PROGRESSIONS_DIR, PROGRESSIONS_JSON
+from musaic.config import PROGRESSIONS_DIR, PROGRESSIONS_JSON
 
 
 def load_progression(file_path):

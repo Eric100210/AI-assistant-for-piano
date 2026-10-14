@@ -1,8 +1,8 @@
 import numpy as np
 from pychord import find_chords_from_notes
 
-from audio_transcriber import transcribe_audio
-from config import SEMIS, TEST_AUDIO_LONGER_PATH
+from musaic.audio.transcriber import transcribe_audio
+from musaic.config import SEMIS, TEST_AUDIO_LONGER_PATH
 
 NOTE_THRESHOLD = 0.4  # threshold for considering a note as present in the window
 CHORD_TEMPLATES = {

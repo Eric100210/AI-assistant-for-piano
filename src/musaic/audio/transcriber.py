@@ -1,6 +1,6 @@
 from basic_pitch.inference import predict
 
-from config import TEST_AUDIO_PATH
+from musaic.config import TEST_AUDIO_PATH
 
 
 def transcribe_audio(audio_path):

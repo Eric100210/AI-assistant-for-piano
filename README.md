@@ -28,3 +28,42 @@ Then two options :
 
 
 MIDI : Musical Instrument Digital Interface. It is structured data containing the note and with what velocity we played it.
+
+
+## Project structure
+
+```
+AI-assistant-for-piano/
+├── pyproject.toml              # dependencies and packaging
+├── src/musaic/                 # installable package
+│   ├── config.py               # single source of truth (paths, models, params)
+│   ├── pipeline.py             # audio -> chord suggestion orchestration
+│   ├── cli.py                  # command-line entry point
+│   ├── audio/                  # transcription + chord detection
+│   ├── engine/                 # key detection, degrees, chord suggestion
+│   └── rag/                    # ingestion, retrieval, chat
+├── scripts/                    # one-shot maintenance scripts
+├── RAG_knowledge/              # markdown knowledge base (progressions, theory)
+├── test_data/                  # sample audio
+└── db/                         # persisted Chroma vector store (generated)
+```
+
+## Getting started
+
+Requires [Ollama](https://ollama.com) running locally with the `llama3.2:3b` (LLM)
+and `nomic-embed-text` (embeddings) models pulled.
+
+```bash
+pip install -e .          # install the package in editable mode
+
+# analyse an audio file and get chord suggestions (defaults to the test audio)
+musaic                    # or: python -m musaic
+musaic path/to/audio.mp3
+```
+
+Knowledge-base maintenance:
+
+```bash
+python scripts/build_progressions.py     # regenerate src/musaic/engine/progressions.json
+python -m musaic.rag.ingestion           # rebuild the Chroma vector store
+```
