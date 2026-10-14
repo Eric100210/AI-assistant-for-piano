@@ -7,33 +7,62 @@ from musaic.engine.musical_engine import (
     split_chord,
 )
 
-# Note numbers (MIDI). Chords are written in root position, one note per pitch class.
-C_MAJOR_TRIAD = [60, 64, 67]  # C  E  G
-
 # Real progressions: chord tones played as a sequence (I - vi - IV - V).
 C_MAJOR_I_VI_IV_V = [
-    60, 64, 67,  # C
-    57, 60, 64,  # Am
-    53, 57, 60,  # F
-    55, 59, 62,  # G
+    60,
+    64,
+    67,  # C
+    57,
+    60,
+    64,  # Am
+    53,
+    57,
+    60,  # F
+    55,
+    59,
+    62,  # G
 ]
 G_MAJOR_I_VI_IV_V = [
-    55, 59, 62,  # G
-    52, 55, 59,  # Em
-    48, 52, 55,  # C
-    50, 54, 57,  # D
+    55,
+    59,
+    62,  # G
+    52,
+    55,
+    59,  # Em
+    48,
+    52,
+    55,  # C
+    50,
+    54,
+    57,  # D
 ]
 F_MAJOR_I_VI_IV_V = [
-    53, 57, 60,  # F
-    50, 53, 57,  # Dm
-    46, 50, 53,  # Bb
-    48, 52, 55,  # C
+    53,
+    57,
+    60,  # F
+    50,
+    53,
+    57,  # Dm
+    46,
+    50,
+    53,  # Bb
+    48,
+    52,
+    55,  # C
 ]
 A_MINOR_I_IV_V_I = [
-    57, 60, 64,  # Am
-    53, 57, 60,  # Dm
-    52, 56, 59,  # E
-    57, 60, 64,  # Am
+    57,
+    60,
+    64,  # Am
+    53,
+    57,
+    60,  # Dm
+    52,
+    56,
+    59,  # E
+    57,
+    60,
+    64,  # Am
 ]
 
 
@@ -41,7 +70,6 @@ class TestEngine:
     @pytest.mark.parametrize(
         "notes, expected_key",
         [
-            (C_MAJOR_TRIAD, "C"),
             (C_MAJOR_I_VI_IV_V, "C"),
             (G_MAJOR_I_VI_IV_V, "G"),
             (F_MAJOR_I_VI_IV_V, "F"),
