@@ -29,3 +29,6 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 musaic = ["engine/progressions.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

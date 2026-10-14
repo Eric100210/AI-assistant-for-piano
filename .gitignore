@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# Tests
+.pytest_cache/
+
 # Packaging artifacts
 build/
 dist/
