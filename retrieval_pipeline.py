@@ -2,14 +2,13 @@ from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
 from langchain_core.messages import SystemMessage, HumanMessage
 
-# Parameters
-EMBEDDING_MODEL = "nomic-embed-text"
-PERSIST_DIRECTORY = "db/chroma_db"
-NB_RESULTS_RAG = 4
-
-LLM_MODEL = "llama3.2:3b"
-# 3 billion parameters here, try "llama3.2:7b" for a larger model
-
+from config import (
+    EMBEDDING_MODEL,
+    LLM_MODEL,
+    NB_RESULTS_RAG,
+    OLLAMA_BASE_URL,
+    PERSIST_DIRECTORY,
+)
 
 # Test parameters
 TEST_QUERY = """
@@ -19,12 +18,10 @@ Explique l’effet créé par ces progressions possibles et propose des variante
 """
 show_retrieved_docs = False
 
-embedding_model = OllamaEmbeddings(
-    model=EMBEDDING_MODEL, base_url="http://localhost:11434"
-)
+embedding_model = OllamaEmbeddings(model=EMBEDDING_MODEL, base_url=OLLAMA_BASE_URL)
 
 db = Chroma(
-    persist_directory=PERSIST_DIRECTORY,
+    persist_directory=str(PERSIST_DIRECTORY),
     embedding_function=embedding_model,
     collection_metadata={"hnsw:space": "cosine"},
 )
@@ -47,7 +44,7 @@ def generate_response(query, documents):
     )
 
     messages = [system_message, human_message]
-    llm = OllamaLLM(model=LLM_MODEL, base_url="http://localhost:11434")
+    llm = OllamaLLM(model=LLM_MODEL, base_url=OLLAMA_BASE_URL)
     response = llm.invoke(messages)
     return response
 

@@ -6,6 +6,8 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
 import re
 import json
+import sys
+from pathlib import Path
 import yaml
 
 CHUNK_SECTIONS = {
@@ -20,13 +22,16 @@ CHUNK_SECTIONS = {
     ],
 }
 
-EMBEDDING_MODEL = "nomic-embed-text"
-PERSIST_DIRECTORY = "db/chroma_db"
+# Allow running this script directly (python oneshot/ingestion_pipeline.py)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-
-# For chunking version with fixed size
-RAG_DIRECTORY = "RAG_knowledge"
-CHUNK_SIZE = 1000
+from config import (
+    CHUNK_SIZE,
+    EMBEDDING_MODEL,
+    OLLAMA_BASE_URL,
+    PERSIST_DIRECTORY,
+    RAG_KNOWLEDGE_DIR,
+)
 
 
 def load_documents_from_directory(directory_path):
@@ -141,18 +146,18 @@ def create_chunks(documents):
 
 
 def create_embeddings(chunks, model):
-    embeddings = OllamaEmbeddings(model=model, base_url="http://localhost:11434")
+    embeddings = OllamaEmbeddings(model=model, base_url=OLLAMA_BASE_URL)
     vector_store = Chroma.from_documents(
         chunks,
         embeddings,
-        persist_directory=PERSIST_DIRECTORY,
+        persist_directory=str(PERSIST_DIRECTORY),
         collection_metadata={"hnsw:space": "cosine"},
     )
     return vector_store
 
 
 def main():
-    documents = load_documents_from_directory(RAG_DIRECTORY)
+    documents = load_documents_from_directory(str(RAG_KNOWLEDGE_DIR))
     chunks = create_chunks(documents)
     for chunk in chunks:
         print(f"Chunk ID: {chunk.metadata.get('chunk_id')}")

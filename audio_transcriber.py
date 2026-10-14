@@ -1,10 +1,6 @@
 from basic_pitch.inference import predict
-import os
 
-
-ROOT = os.path.dirname(os.path.abspath(__file__))
-TEST_FOLDER = os.path.join(ROOT, "test_data")
-TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio.mp3")
+from config import TEST_AUDIO_PATH
 
 
 def transcribe_audio(audio_path):

@@ -1,17 +1,9 @@
 # File with the main functions for the final application
-import os
-
 from audio_transcriber import transcribe_audio
-from chord_detector import (
-    detect_chords,
-)
+from chord_detector import detect_chords
 from musical_engine.musical_engine import detect_key_from_notes, suggest_next_chord
 from llm_chat import LLMChat
-
-# Test data
-ROOT = os.path.dirname(os.path.abspath(__file__))
-TEST_FOLDER = os.path.join(ROOT, "test_data")
-TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio_longer.mp3")
+from config import TEST_AUDIO_LONGER_PATH
 
 
 def suggest_next_chord_from_audio(audio_path):
@@ -44,7 +36,7 @@ def asking_rag(key, progression_degrees, next_chord):
 
 if __name__ == "__main__":
     key, progression_degrees, next_chord = suggest_next_chord_from_audio(
-        TEST_AUDIO_PATH
+        TEST_AUDIO_LONGER_PATH
     )
     print("Progression degrees: ", progression_degrees)
     asking_rag(key, progression_degrees, next_chord)

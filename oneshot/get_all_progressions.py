@@ -1,15 +1,14 @@
 import json
 import re
+import sys
 from pathlib import Path
 
 import yaml
 
+# Allow running this script directly (python oneshot/get_all_progressions.py)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-SCRIPT_DIRECTORY = Path(__file__).resolve().parent
-PROJECT_DIRECTORY = SCRIPT_DIRECTORY.parent
-PROGRESSIONS_DIRECTORY = PROJECT_DIRECTORY / "RAG_knowledge" / "progressions"
-MUSICAL_ENGINE = PROJECT_DIRECTORY / "musical_engine"
-OUTPUT_FILE = MUSICAL_ENGINE / "progressions.json"
+from config import PROGRESSIONS_DIR, PROGRESSIONS_JSON
 
 
 def load_progression(file_path):
@@ -30,7 +29,7 @@ def load_progression(file_path):
     }
 
 
-def get_all_progressions(directory=PROGRESSIONS_DIRECTORY):
+def get_all_progressions(directory=PROGRESSIONS_DIR):
     if not directory.exists():
         raise FileNotFoundError(f"Le dossier '{directory}' est introuvable.")
 
@@ -41,7 +40,7 @@ def get_all_progressions(directory=PROGRESSIONS_DIRECTORY):
     return [load_progression(file_path) for file_path in files]
 
 
-def main(output_file=OUTPUT_FILE):
+def main(output_file=PROGRESSIONS_JSON):
     progressions = get_all_progressions()
     output_file.write_text(
         json.dumps(progressions, ensure_ascii=False, indent=2) + "\n",

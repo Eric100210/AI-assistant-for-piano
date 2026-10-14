@@ -1,8 +1,14 @@
 import json
-import os
+import sys
+from pathlib import Path
+
 import numpy as np
 
-SEMIS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+# Allow running this file directly (python musical_engine/musical_engine.py)
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from config import PROGRESSIONS_JSON, SEMIS
+
 SPECIFICATIONS = [
     "m",
     "maj",
@@ -57,9 +63,7 @@ MINOR_PROFILE = np.array(
     [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17]
 )
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
-
-with open(os.path.join(ROOT, "progressions.json")) as f:
+with open(PROGRESSIONS_JSON) as f:
     content = json.load(f)
     reference_prog = []
     for record in content:

@@ -2,7 +2,7 @@ from retrieval_pipeline import retrieve_documents, generate_response
 from langchain_ollama import OllamaLLM
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
-LLM_MODEL = "llama3.2:3b"
+from config import LLM_MODEL, OLLAMA_BASE_URL
 
 TEST_QUERY = """
 J’ai joué une progression I - VIm - IV : 
@@ -11,7 +11,7 @@ Explique l’effet créé par ces progressions possibles et propose des variante
 """
 
 
-llm = OllamaLLM(model=LLM_MODEL, base_url="http://localhost:11434")
+llm = OllamaLLM(model=LLM_MODEL, base_url=OLLAMA_BASE_URL)
 
 
 class LLMChat:

@@ -1,17 +1,10 @@
-import os
 import numpy as np
 from pychord import find_chords_from_notes
 
 from audio_transcriber import transcribe_audio
-
-ROOT = os.path.dirname(os.path.abspath(__file__))
-TEST_FOLDER = os.path.join(ROOT, "test_data")
-TEST_AUDIO_PATH = os.path.join(TEST_FOLDER, "test_audio_longer.mp3")
+from config import SEMIS, TEST_AUDIO_LONGER_PATH
 
 NOTE_THRESHOLD = 0.4  # threshold for considering a note as present in the window
-
-
-SEMIS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 CHORD_TEMPLATES = {
     "major": (0, 4, 7),
     "minor": (0, 3, 7),
@@ -152,7 +145,7 @@ def _manual_detect_chords(notes_list: list[dict]):
 
 
 if __name__ == "__main__":
-    notes = transcribe_audio(TEST_AUDIO_PATH)
+    notes = transcribe_audio(TEST_AUDIO_LONGER_PATH)
 
     print("\nNotes détectées :")
     for note in notes:
