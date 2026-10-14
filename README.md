@@ -43,8 +43,9 @@ AI-assistant-for-piano/
 │   ├── engine/                 # key detection, degrees, chord suggestion
 │   └── rag/                    # ingestion, retrieval, chat
 ├── scripts/                    # one-shot maintenance scripts
-├── RAG_knowledge/              # markdown knowledge base (progressions, theory)
-├── test_data/                  # sample audio
+├── data/
+│   ├── rag_knowledge/          # markdown knowledge base (progressions, theory)
+│   └── test_audio/             # sample audio
 └── db/                         # persisted Chroma vector store (generated)
 ```
 
