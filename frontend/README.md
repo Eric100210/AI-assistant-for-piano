@@ -2,9 +2,10 @@
 
 Interface web de **MusAIc**, l'assistant d'improvisation et de composition au piano.
 
-> ⚠️ **État actuel : aperçu statique.** L'interface est complète mais **aucune
-> interaction n'est branchée** : les données affichées viennent de
-> `src/data/sample.ts`. C'est volontaire — le back-end FastAPI sera câblé ensuite.
+> **État actuel : démo locale.** Le parcours complet est navigable
+> (upload → analyse → chat), mais les appels réseau sont **simulés** dans
+> `src/api/client.ts`. Il suffit d'y remplacer deux fonctions par de vrais
+> `fetch` pour brancher l'API FastAPI (rien d'autre à toucher).
 
 ## Stack
 
@@ -31,6 +32,15 @@ npm run preview    # prévisualiser le build
 npm run typecheck  # vérification des types uniquement
 ```
 
+## Parcours utilisateur
+
+1. **Au départ** : seuls le hero et la zone d'import sont affichés.
+2. **Au dépôt d'un fichier** : un panneau « Analyse en cours » apparaît, puis les
+   panneaux **Analyse** (tonalité, accords, suggestion) et **Assistant MusAIc**
+   (chat) se révèlent.
+3. **Chat** : posez une question (Entrée pour envoyer). Les réponses sont
+   simulées tant que l'API n'est pas branchée.
+
 ## Structure
 
 ```
@@ -39,49 +49,35 @@ frontend/
 ├── vite.config.ts            # build + proxy API (à décommenter)
 ├── src/
 │   ├── main.tsx              # point d'entrée React
-│   ├── App.tsx               # composition de la page
+│   ├── App.tsx               # état global + composition de la page
 │   ├── types.ts              # types du domaine (contrat de données)
+│   ├── api/client.ts         # ⭐ appels API (actuellement simulés)
 │   ├── data/sample.ts        # données factices (à supprimer)
 │   ├── styles/globals.css    # design tokens + reset
 │   └── components/
-│       ├── AppHeader.tsx     # en-tête / marque
-│       ├── Panel.tsx         # carte de section réutilisable
-│       ├── UploadPanel.tsx   # étape 1 — import audio
-│       ├── AnalysisPanel.tsx # étape 2 — tonalité, accords, suggestion
-│       ├── ChatPanel.tsx     # étape 3 — conversation RAG
-│       └── Icons.tsx         # icônes SVG
+│       ├── AppHeader.tsx        # en-tête / marque
+│       ├── Panel.tsx            # carte de section réutilisable
+│       ├── UploadPanel.tsx      # étape 1 — import audio (drag & drop)
+│       ├── AnalyzingPanel.tsx   # état de chargement
+│       ├── AnalysisPanel.tsx    # étape 2 — tonalité, accords, suggestion
+│       ├── ChatPanel.tsx        # étape 3 — conversation RAG
+│       └── Icons.tsx            # icônes SVG
 ```
 
 ## Brancher le back-end FastAPI
 
-Le front est prêt à recevoir des données ; il faut seulement les fournir.
+Tout se passe dans **`src/api/client.ts`**. Remplace le corps des deux fonctions
+par les appels réels (le code `fetch` exact est fourni, en commentaire, juste
+au-dessus de chaque `return`) :
 
-1. **Types = contrat.** Les interfaces de `src/types.ts` décrivent exactement ce
-   que l'API doit renvoyer :
-   - `Analysis` → réponse de `POST /analyze`
-   - `ChatMessage` → messages de la conversation
+- `analyzeAudio(file)` → `POST /api/analyze` (multipart)
+- `sendMessage(query, history)` → `POST /api/chat`
 
-2. **Étape 1 — import audio.** Dans `UploadPanel.tsx`, remplacer la zone
-   décorative par un `<input type="file">` (ou un vrai drag & drop) puis un :
+Les types de `src/types.ts` décrivent exactement les réponses attendues
+(ils correspondent aux schémas Pydantic de `src/musaic/api/schemas.py`).
 
-   ```ts
-   const form = new FormData();
-   form.append("file", file);
-   const res = await fetch("/api/analyze", { method: "POST", body: form });
-   const analysis: Analysis = await res.json();
-   ```
-
-3. **Étape 2 — analyse.** Remonter l'`Analysis` dans `App.tsx` (état local) et la
-   passer à `<AnalysisPanel analysis={...} />`. Le composant est déjà pilote par
-   ses props.
-
-4. **Étape 3 — chat.** Dans `ChatPanel.tsx`, activer le `<textarea>` et envoyer
-   `POST /chat`. Pour l'effet « réponse qui s'écrit », utilise un flux SSE
-   (`EventSource` ou `fetch` + `ReadableStream`).
-
-5. **CORS / proxy.** En développement, décommenter le bloc `server.proxy` dans
-   `vite.config.ts` pour rediriger `/api` vers `http://localhost:8000` et éviter
-   les soucis de CORS.
+Enfin, dans `vite.config.ts`, décommente le bloc `server.proxy` pour rediriger
+`/api` vers `http://localhost:8000` et éviter tout souci de CORS.
 
 ## Design
 

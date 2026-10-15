@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 import { Activity, Music, UploadCloud, Wand } from "./Icons";
 import { Panel } from "./Panel";
 import styles from "./UploadPanel.module.css";
@@ -20,14 +22,43 @@ const PIPELINE = [
   },
 ];
 
-/**
- * Étape 1 — dépôt du fichier audio.
- *
- * ⚠️ STATIQUE : la zone de dépôt est purement décorative pour l'instant.
- * Pour la rendre fonctionnelle, tu brancheras un `<input type="file">` et un
- * appel `POST /analyze` (multipart/form-data) vers FastAPI.
- */
-export function UploadPanel() {
+const ACCEPTED_FORMATS = ".mp3,.wav,.m4a,.flac,.ogg,audio/*";
+
+interface UploadPanelProps {
+  /** Appelé quand l'utilisateur dépose ou sélectionne un fichier. */
+  onFileSelected: (file: File) => void;
+  /** Nom du fichier actuellement analysé (ou `null`). */
+  selectedFileName: string | null;
+  /** Vrai pendant l'analyse (désactive la zone). */
+  isAnalyzing: boolean;
+  /** Réinitialise l'écran pour repartir de zéro. */
+  onReset: () => void;
+}
+
+/** Étape 1 — dépôt / sélection du fichier audio. */
+export function UploadPanel({
+  onFileSelected,
+  selectedFileName,
+  isAnalyzing,
+  onReset,
+}: UploadPanelProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  function openPicker() {
+    if (!isAnalyzing) inputRef.current?.click();
+  }
+
+  function accept(file: File | null | undefined) {
+    if (file && !isAnalyzing) onFileSelected(file);
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    setIsDragging(false);
+    accept(event.dataTransfer.files?.[0]);
+  }
+
   return (
     <Panel
       step="1"
@@ -37,19 +68,80 @@ export function UploadPanel() {
       action={<span className={styles.formatBadge}>.mp3 · .wav · .m4a</span>}
     >
       <div className={styles.layout}>
-        <div className={styles.dropzone} role="group" aria-label="Zone de dépôt audio">
-          <span className={styles.dropIcon}>
-            <UploadCloud width={24} height={24} />
-          </span>
-          <p className={styles.dropTitle}>
-            Glissez votre fichier audio ici
-          </p>
-          <p className={styles.dropHint}>
-            ou <span className={styles.fakeLink}>parcourez vos fichiers</span> — 25 Mo max.
-          </p>
-          <button type="button" className={styles.browseButton} disabled>
-            Choisir un fichier
-          </button>
+        <div
+          className={`${styles.dropzone} ${isDragging ? styles.dragging : ""} ${
+            isAnalyzing ? styles.disabled : ""
+          }`}
+          role="button"
+          tabIndex={0}
+          aria-label="Déposer ou choisir un fichier audio"
+          onClick={openPicker}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openPicker();
+            }
+          }}
+          onDragOver={(event) => {
+            event.preventDefault();
+            if (!isAnalyzing) setIsDragging(true);
+          }}
+          onDragLeave={() => setIsDragging(false)}
+          onDrop={handleDrop}
+        >
+          <input
+            ref={inputRef}
+            type="file"
+            accept={ACCEPTED_FORMATS}
+            hidden
+            onChange={(event) => {
+              accept(event.target.files?.[0]);
+              event.target.value = ""; // permet de re-sélectionner le même fichier
+            }}
+          />
+
+          {selectedFileName ? (
+            <>
+              <span className={styles.fileIcon}>
+                <Music width={24} height={24} />
+              </span>
+              <p className={styles.dropTitle}>{selectedFileName}</p>
+              <p className={styles.dropHint}>
+                {isAnalyzing ? "Analyse en cours…" : "Cliquez pour choisir un autre fichier."}
+              </p>
+              <button
+                type="button"
+                className={styles.browseButton}
+                disabled={isAnalyzing}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onReset();
+                }}
+              >
+                Réinitialiser
+              </button>
+            </>
+          ) : (
+            <>
+              <span className={styles.dropIcon}>
+                <UploadCloud width={24} height={24} />
+              </span>
+              <p className={styles.dropTitle}>Glissez votre fichier audio ici</p>
+              <p className={styles.dropHint}>
+                ou <span className={styles.fakeLink}>parcourez vos fichiers</span> — 25 Mo max.
+              </p>
+              <button
+                type="button"
+                className={styles.browseButton}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  openPicker();
+                }}
+              >
+                Choisir un fichier
+              </button>
+            </>
+          )}
         </div>
 
         <ol className={styles.pipeline}>

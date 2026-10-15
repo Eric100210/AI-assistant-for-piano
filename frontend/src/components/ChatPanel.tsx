@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+
 import type { ChatMessage } from "../types";
 import { Book, Send, Sparkles } from "./Icons";
 import { Panel } from "./Panel";
@@ -5,23 +7,35 @@ import styles from "./ChatPanel.module.css";
 
 interface ChatPanelProps {
   messages: ChatMessage[];
+  /** Appelé à l'envoi d'une question (l'API est simulée dans src/api/client.ts). */
+  onSend: (query: string) => void;
+  /** Vrai pendant que l'assistant « réfléchit ». */
+  isThinking: boolean;
 }
 
-/**
- * Étape 3 — conversation avec l'assistant théorique (RAG).
- *
- * ⚠️ STATIQUE : les messages viennent de `sample.ts` et l'envoi est désactivé.
- * Pour brancher : POST /chat avec { query, history } et afficher la réponse
- * (idéalement en streaming via SSE pour l'effet « réponse qui s'écrit »).
- */
-export function ChatPanel({ messages }: ChatPanelProps) {
+/** Étape 3 — conversation avec l'assistant musical (RAG). */
+export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
+  const [value, setValue] = useState("");
+  const endRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, isThinking]);
+
+  function submit() {
+    const query = value.trim();
+    if (!query || isThinking) return;
+    onSend(query);
+    setValue("");
+  }
+
   return (
     <Panel
       className={styles.chatPanel}
       step="3"
       icon={<Book width={19} height={19} />}
-      title="Assistant théorie"
-      subtitle="Explications appuyées sur tes cours"
+      title="Assistant MusAIc"
+      subtitle="Explications appuyées sur vos cours"
       action={<span className={styles.ragBadge}>RAG</span>}
     >
       <div className={styles.chat}>
@@ -45,22 +59,55 @@ export function ChatPanel({ messages }: ChatPanelProps) {
               </div>
             </div>
           ))}
+
+          {isThinking ? (
+            <div className={`${styles.message} ${styles.assistant}`}>
+              <span className={styles.avatar}>
+                <Sparkles width={15} height={15} />
+              </span>
+              <div className={`${styles.bubble} ${styles.typingBubble}`}>
+                <span className={styles.typingDot} />
+                <span className={styles.typingDot} />
+                <span className={styles.typingDot} />
+              </div>
+            </div>
+          ) : null}
+
+          <div ref={endRef} />
         </div>
 
-        <form className={styles.composer} onSubmit={(event) => event.preventDefault()}>
+        <form
+          className={styles.composer}
+          onSubmit={(event) => {
+            event.preventDefault();
+            submit();
+          }}
+        >
           <textarea
             className={styles.input}
             rows={1}
             placeholder="Posez une question sur la progression…"
-            disabled
             aria-label="Votre question"
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                submit();
+              }
+            }}
           />
-          <button type="submit" className={styles.send} disabled aria-label="Envoyer">
+          <button
+            type="submit"
+            className={styles.send}
+            disabled={isThinking || value.trim().length === 0}
+            aria-label="Envoyer"
+          >
             <Send width={17} height={17} />
           </button>
         </form>
         <p className={styles.note}>
-          Sera branché sur <code>POST /chat</code> (réponse en streaming).
+          Réponses simulées (mock) — à brancher sur <code>POST /chat</code>.
         </p>
       </div>
     </Panel>
