@@ -1,38 +1,51 @@
 import type { Analysis, ChatMessage } from "../types";
-import { sampleAnalysis, sampleExplanation } from "../data/sample";
 
 // =============================================================================
 // Client API
 // -----------------------------------------------------------------------------
-// ⚠️ ÉTAT ACTUEL : MOCK.
-// Ces deux fonctions simulent le back-end pour que le front soit entièrement
-// navigable (upload → analyse → chat). Le jour où ton API FastAPI tourne,
-// remplace UNIQUEMENT le corps de chaque fonction par le vrai appel `fetch`
-// (fourni en commentaire). Les signatures ne changent pas : aucun composant
-// n'a besoin d'être modifié.
+// Appels réels au back-end FastAPI (`src/musaic/api`).
+//
+// En développement, le serveur Vite proxyfie `/api` vers http://localhost:8000
+// (voir `vite.config.ts`). Il faut donc lancer l'API en parallèle du front :
+//
+//     musaic-api        # ou : uvicorn musaic.api.main:app --reload --port 8000
+//     npm run dev       # dans frontend/
+//
+// ⚠️ `POST /api/chat` a besoin qu'Ollama tourne et que la base Chroma soit
+// construite (`python -m musaic.rag.ingestion`) ; sinon l'assistant répondra
+// par le message d'erreur de repli.
 // =============================================================================
 
 /** Préfixe de l'API (le dev server Vite proxyfie `/api` vers FastAPI). */
 export const API_BASE = "/api";
-const MOCK_DELAY_MS = 900;
 
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+/** Récupère un message d'erreur lisible depuis une réponse non-OK (FastAPI). */
+async function errorMessage(res: Response): Promise<string> {
+  try {
+    const payload = (await res.json()) as { detail?: unknown };
+    if (typeof payload.detail === "string") return payload.detail;
+  } catch {
+    // réponse non-JSON : on retombe sur le code HTTP
+  }
+  return `Erreur ${res.status}`;
 }
 
 /** Analyse un fichier audio et renvoie le résultat (tonalité, accords, suite). */
 export async function analyzeAudio(file: File): Promise<Analysis> {
-  // ---------------------------------------------------------------------------
-  // TODO (toi) — remplace le mock ci-dessous par l'appel réel :
-  //
-  //   const form = new FormData();
-  //   form.append("file", file);
-  //   const res = await fetch(`${API_BASE}/analyze`, { method: "POST", body: form });
-  //   if (!res.ok) throw new Error(`Analyse échouée (${res.status})`);
-  //   return (await res.json()) as Analysis;
-  // ---------------------------------------------------------------------------
-  await delay(MOCK_DELAY_MS);
-  return { ...sampleAnalysis, fileName: file.name };
+  const form = new FormData();
+  form.append("file", file);
+
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/analyze`, { method: "POST", body: form });
+  } catch {
+    throw new Error(
+      "Serveur d'analyse injoignable. Lancez l'API MusAIc sur le port 8000.",
+    );
+  }
+
+  if (!res.ok) throw new Error(await errorMessage(res));
+  return (await res.json()) as Analysis;
 }
 
 /** Envoie une question à l'assistant et renvoie sa réponse. */
@@ -40,19 +53,19 @@ export async function sendMessage(
   query: string,
   history: ChatMessage[],
 ): Promise<string> {
-  // ---------------------------------------------------------------------------
-  // TODO (toi) — remplace le mock ci-dessous par l'appel réel :
-  //
-  //   const res = await fetch(`${API_BASE}/chat`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ query, history }),
-  //   });
-  //   if (!res.ok) throw new Error(`Chat échoué (${res.status})`);
-  //   return ((await res.json()) as { response: string }).response;
-  // ---------------------------------------------------------------------------
-  void query;
-  void history;
-  await delay(MOCK_DELAY_MS);
-  return sampleExplanation;
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query, history }),
+    });
+  } catch {
+    throw new Error(
+      "Assistant injoignable. Vérifiez que l'API et Ollama sont lancés.",
+    );
+  }
+
+  if (!res.ok) throw new Error(await errorMessage(res));
+  return ((await res.json()) as { response: string }).response;
 }

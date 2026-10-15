@@ -90,5 +90,25 @@ Then open <http://localhost:8000/docs> for the interactive API documentation.
 | `POST /api/analyze` | upload an audio file → `Analysis` (key, chords, suggestion) |
 | `POST /api/chat`    | ask a theory question (RAG), stateless: the front sends the history |
 
-> Some business logic in `src/musaic/api/services.py` is left as `TODO` on
-> purpose (marked in the code) so it can be filled in progressively.
+### Run the app locally 
+
+In terminal 1: (launch fastAPI server with uvicorn)
+```bash
+musaic-api
+```
+
+In terminal 2:
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173
+```
+
+The dev server proxies `/api` to `http://localhost:8000` (see
+`frontend/vite.config.ts`), so start the API first. `POST /api/chat` also needs
+Ollama running and the Chroma store built (`python -m musaic.rag.ingestion`).
+
+> Some business logic is intentionally left as `TODO` (marked in the code) so it
+> can be filled in progressively — e.g. the confidence score in
+> `src/musaic/api/services.py` and the richer chord-**sequence** suggestion in
+> `src/musaic/engine/musical_engine.py`.

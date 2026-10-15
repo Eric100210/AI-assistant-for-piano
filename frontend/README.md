@@ -2,10 +2,10 @@
 
 Interface web de **MusAIc**, l'assistant d'improvisation et de composition au piano.
 
-> **État actuel : démo locale.** Le parcours complet est navigable
-> (upload → analyse → chat), mais les appels réseau sont **simulés** dans
-> `src/api/client.ts`. Il suffit d'y remplacer deux fonctions par de vrais
-> `fetch` pour brancher l'API FastAPI (rien d'autre à toucher).
+> **État actuel : connecté au back-end FastAPI.** Le parcours complet est
+> fonctionnel (upload → analyse → chat). Les appels réseau vivent dans
+> `src/api/client.ts` et passent par `/api`, proxyfié par Vite vers
+> `http://localhost:8000`.
 
 ## Stack
 
@@ -16,13 +16,18 @@ Interface web de **MusAIc**, l'assistant d'improvisation et de composition au pi
 
 ## Démarrer
 
+Le front a besoin de l'API MusAIc (voir le README racine). Dans deux terminaux :
+
 ```bash
+# 1) back-end, à la racine du dépôt
+pip install -e ".[api]"
+musaic-api                 # http://localhost:8000
+
+# 2) front-end
 cd frontend
 npm install
-npm run dev
+npm run dev                # http://localhost:5173
 ```
-
-Le site est servi sur <http://localhost:5173>.
 
 Autres commandes :
 
@@ -32,27 +37,30 @@ npm run preview    # prévisualiser le build
 npm run typecheck  # vérification des types uniquement
 ```
 
+> `POST /api/chat` a besoin qu'Ollama tourne (`llama3.2:3b`, `nomic-embed-text`)
+> et que la base Chroma soit construite (`python -m musaic.rag.ingestion`). Sans
+> ça, l'analyse audio fonctionne mais l'assistant répond par un message de repli.
+
 ## Parcours utilisateur
 
 1. **Au départ** : seuls le hero et la zone d'import sont affichés.
 2. **Au dépôt d'un fichier** : un panneau « Analyse en cours » apparaît, puis les
    panneaux **Analyse** (tonalité, accords, suggestion) et **Assistant MusAIc**
    (chat) se révèlent.
-3. **Chat** : posez une question (Entrée pour envoyer). Les réponses sont
-   simulées tant que l'API n'est pas branchée.
+3. **Chat** : posez une question (Entrée pour envoyer). Les réponses viennent du
+   RAG local via `POST /api/chat`.
 
 ## Structure
 
 ```
 frontend/
 ├── index.html
-├── vite.config.ts            # build + proxy API (à décommenter)
+├── vite.config.ts            # build + proxy `/api` -> localhost:8000
 ├── src/
 │   ├── main.tsx              # point d'entrée React
 │   ├── App.tsx               # état global + composition de la page
-│   ├── types.ts              # types du domaine (contrat de données)
-│   ├── api/client.ts         # ⭐ appels API (actuellement simulés)
-│   ├── data/sample.ts        # données factices (à supprimer)
+│   ├── types.ts              # types du domaine (miroir de src/musaic/api/schemas.py)
+│   ├── api/client.ts         # appels `fetch` à l'API FastAPI
 │   ├── styles/globals.css    # design tokens + reset
 │   └── components/
 │       ├── AppHeader.tsx        # en-tête / marque
@@ -64,20 +72,17 @@ frontend/
 │       └── Icons.tsx            # icônes SVG
 ```
 
-## Brancher le back-end FastAPI
+## Contrat d'API
 
-Tout se passe dans **`src/api/client.ts`**. Remplace le corps des deux fonctions
-par les appels réels (le code `fetch` exact est fourni, en commentaire, juste
-au-dessus de chaque `return`) :
+Le front consomme deux endpoints, servis par `src/musaic/api/` :
 
-- `analyzeAudio(file)` → `POST /api/analyze` (multipart)
-- `sendMessage(query, history)` → `POST /api/chat`
+| Fonction (`src/api/client.ts`) | Endpoint | Corps / réponse |
+| --- | --- | --- |
+| `analyzeAudio(file)` | `POST /api/analyze` | multipart `file` → `Analysis` |
+| `sendMessage(query, history)` | `POST /api/chat` | `{ query, history }` → `{ response }` |
 
-Les types de `src/types.ts` décrivent exactement les réponses attendues
-(ils correspondent aux schémas Pydantic de `src/musaic/api/schemas.py`).
-
-Enfin, dans `vite.config.ts`, décommente le bloc `server.proxy` pour rediriger
-`/api` vers `http://localhost:8000` et éviter tout souci de CORS.
+Les types de `src/types.ts` décrivent exactement ces réponses (ils sont le miroir
+des schémas Pydantic de `src/musaic/api/schemas.py`).
 
 ## Design
 

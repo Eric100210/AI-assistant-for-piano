@@ -190,7 +190,9 @@ def chords_to_degree_events(key, chords):
     events = []
 
     for chord_info in chords:
-        chord = chord_info["chord"]
+        # ``detect_chords`` renvoie des objets ``pychord.Chord`` : on fige le nom
+        # en chaîne pour que tout le reste (et l'API) manipule du texte.
+        chord = str(chord_info["chord"])
         root, specification = split_chord(chord)
         root = enharmonic_to_sharp(root)
 

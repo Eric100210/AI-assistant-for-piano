@@ -1,9 +1,8 @@
 // =============================================================================
 // Types du domaine MusAIc
 // -----------------------------------------------------------------------------
-// Ces types décrivent les données que le back-end FastAPI devra renvoyer.
-// Quand tu brancheras l'API, fais en sorte que les réponses JSON correspondent
-// à ces interfaces (ou adapte les composants).
+// Ces types décrivent les données renvoyées par le back-end FastAPI. Ils sont
+// le miroir de `src/musaic/api/schemas.py` : si tu changes l'un, change l'autre.
 // =============================================================================
 
 /** Un accord détecté, exprimé à la fois en degré et en nom d'accord. */
@@ -30,7 +29,7 @@ export interface Analysis {
   progression: ChordEvent[];
   /** Suggestion du moteur musical pour la suite. */
   suggestion: {
-    /** Accords candidats proposés, du plus probable au moins probable. */
+    /** Accords proposés pour la suite de la progression, dans l'ordre. */
     candidates: ChordEvent[];
     /** Explication courte de la provenance de la suggestion. */
     rationale: string;

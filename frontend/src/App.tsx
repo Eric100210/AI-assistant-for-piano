@@ -30,8 +30,8 @@ function welcomeMessage(analysis: Analysis): ChatMessage {
  * d'import sont affichés. Dès qu'un audio est choisi, on lance l'analyse puis
  * on révèle les panneaux « Analyse » et « Assistant MusAIc ».
  *
- * ⚠️ Les appels réseau sont simulés dans `src/api/client.ts` (mock). Remplace
- * les deux fonctions de ce fichier par de vrais `fetch` pour brancher l'API.
+ * Les appels réseau passent par `src/api/client.ts` (API FastAPI, proxyfée par
+ * le serveur de dev Vite sur `/api`).
  */
 export default function App() {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
@@ -111,7 +111,7 @@ export default function App() {
           </h1>
           <p className={styles.subtitle}>
             Déposez un enregistrement de votre jeu : MusAIc identifie la tonalité et les
-            accords, propose la suite la plus naturelle, puis vous explique la théorie
+            accords, propose la suite la plus naturelle et des variantes possibles, puis vous explique la théorie
             derrière chaque choix.
           </p>
 
@@ -143,9 +143,9 @@ export default function App() {
       </main>
 
       <footer className={styles.footer}>
-        <span>MusAIc — analyse audio &amp; RAG de théorie musicale</span>
+        <span>MusAIc</span>
         <span className={styles.footerDot} />
-        <span>Démo locale · API à brancher</span>
+        <span>analyse audio &amp; RAG de théorie musicale</span>
       </footer>
     </div>
   );

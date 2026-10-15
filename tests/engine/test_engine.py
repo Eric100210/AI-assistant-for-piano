@@ -107,6 +107,14 @@ class TestEngine:
         chords = [{"chord": "C"}, {"chord": "Xyz"}, {"chord": "F"}]
         assert chords_to_degree_events("C", chords) == [("I", "C"), ("IV", "F")]
 
+    def test_chords_to_degree_events_accepts_chord_objects(self):
+        # detect_chords renvoie des objets pychord.Chord : le moteur doit les
+        # ramener à des chaînes (sinon l'API échoue à sérialiser).
+        from pychord import Chord
+
+        chords = [{"chord": Chord("Cm")}, {"chord": Chord("F")}]
+        assert chords_to_degree_events("C", chords) == [("Im", "Cm"), ("IV", "F")]
+
     def test_degrees_to_chords(self):
         degrees = ["I", "vi", "IV", "V"]
         assert degrees_to_chords("C", degrees) == ["C", "Am", "F", "G"]

@@ -6,14 +6,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    // TODO (toi) : quand le back-end FastAPI tournera, tu pourras proxyfier
-    // les appels API pour éviter les soucis de CORS en développement :
-    //
-    // proxy: {
-    //   "/api": {
-    //     target: "http://localhost:8000",
-    //     changeOrigin: true,
-    //   },
-    // },
+    // Le back-end FastAPI tourne sur le port 8000 : on proxyfie `/api` pour
+    // éviter tout souci de CORS en développement.
+    proxy: {
+      "/api": {
+        target: "http://localhost:8000",
+        changeOrigin: true,
+      },
+    },
   },
 });

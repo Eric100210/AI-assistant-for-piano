@@ -7,7 +7,7 @@ import styles from "./ChatPanel.module.css";
 
 interface ChatPanelProps {
   messages: ChatMessage[];
-  /** Appelé à l'envoi d'une question (l'API est simulée dans src/api/client.ts). */
+  /** Appelé à l'envoi d'une question à l'assistant RAG (`POST /api/chat`). */
   onSend: (query: string) => void;
   /** Vrai pendant que l'assistant « réfléchit ». */
   isThinking: boolean;
@@ -107,7 +107,7 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
           </button>
         </form>
         <p className={styles.note}>
-          Réponses simulées (mock) — à brancher sur <code>POST /chat</code>.
+          Réponses générées par le RAG local (Ollama).
         </p>
       </div>
     </Panel>

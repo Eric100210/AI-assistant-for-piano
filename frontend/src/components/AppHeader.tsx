@@ -19,7 +19,7 @@ export function AppHeader() {
         <div className={styles.meta}>
           <span className={`${styles.badge} ${styles.badgeLocal}`}>
             <span className={styles.dot} />
-            Démo
+            Local
           </span>
           <span className={styles.badge}>llama3.2:3b · Ollama</span>
         </div>
