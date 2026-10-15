@@ -7,10 +7,10 @@ from musaic.pipeline import suggest_next_chord_from_audio
 from musaic.rag.chat import LLMChat
 
 
-def asking_rag(key, progression_degrees, next_chord):
-    if next_chord:
+def asking_rag(key, progression_degrees, next_degrees):
+    if next_degrees:
         query = f"""J’ai joué une progression {", ".join(progression_degrees)} en tonalité de {key}. 
-        En regardant globalement la progression, on me conseille de continuer avec un accord parmi les suivants : {next_chord}. 
+        En regardant globalement la progression, on me conseille de continuer avec un accord parmi les suivants : {", ".join(next_degrees)}. 
         Explique l’effet créé par ces progressions possibles et propose des variantes pertinentes connaissant la vraie progression et ses spécifications.
         """
     else:
@@ -35,9 +35,9 @@ def main(argv=None):
     )
     args = parser.parse_args(argv)
 
-    key, progression_degrees, next_chord = suggest_next_chord_from_audio(args.audio)
+    key, progression_degrees, next_degrees = suggest_next_chord_from_audio(args.audio)
     print("Progression degrees: ", progression_degrees)
-    asking_rag(key, progression_degrees, next_chord)
+    asking_rag(key, progression_degrees, next_degrees)
 
 
 if __name__ == "__main__":

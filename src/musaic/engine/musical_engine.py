@@ -50,6 +50,29 @@ CHROMATIC_DEGREES_MINOR = [
     "#VII",
 ]
 
+# Qualité « naturelle » de chaque degré selon le mode. C'est elle qui permet
+# l'aller-retour degré <-> accord : un degré sans spécification (ex. "vi") doit
+# se reconstruire avec sa qualité naturelle (ex. "Am", et non "A").
+NATURAL_SPECIFICATIONS_MAJOR = {
+    0: "",  # I
+    2: "m",  # ii
+    4: "m",  # iii
+    5: "",  # IV
+    7: "",  # V
+    9: "m",  # vi
+    11: "dim",  # vii°
+}
+
+NATURAL_SPECIFICATIONS_MINOR = {
+    0: "m",  # i
+    2: "dim",  # ii°
+    3: "",  # III
+    5: "m",  # iv
+    7: "m",  # v
+    8: "",  # VI
+    10: "",  # VII
+}
+
 # Krumhansl-Kessler profiles
 MAJOR_PROFILE = np.array(
     [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88]
@@ -58,6 +81,7 @@ MAJOR_PROFILE = np.array(
 MINOR_PROFILE = np.array(
     [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17]
 )
+
 
 @lru_cache(maxsize=1)
 def load_reference_progressions():
@@ -70,13 +94,13 @@ def load_reference_progressions():
     return reference_prog, reference_prog_cut
 
 
-def detect_key_from_notes(midi_notes):
+def detect_key_from_notes(pitches):
     """
     Krumhansl-Schmuckler algorithm to determine the key and the mode
-    Returns the key (C), the mode (major/minor), and the correlation score
+    Returns the key (C) with the mode, and the correlation score
     """
 
-    pitch_classes = [note % 12 for note in midi_notes]
+    pitch_classes = [note % 12 for note in pitches]
     note_profile = np.zeros(12)
 
     for pitch_class in pitch_classes:
@@ -145,37 +169,25 @@ def split_chord(chord):
     return root, specification
 
 
-def chords_to_degrees(key, chords):
+def chords_to_degree_events(key, chords):
+    """Associe chaque accord reconnu à son degré : ``[(degree, chord), ...]``.
 
+    Les accords non reconnus sont **ignorés**. On renvoie donc chaque degré collé
+    à SON accord d'origine : indispensable pour afficher une progression
+    « degré + accord » sans risque de décalage.
+    """
     key = enharmonic_to_sharp(key)
     key_root, key_spec = split_chord(key)
     key_index = SEMIS.index(key_root)
 
     if key_spec == "m":
         chromatic_degrees = CHROMATIC_DEGREES_MINOR
-        natural_specifications = {
-            0: "m",  # i
-            2: "dim",  # ii°
-            3: "",  # III
-            5: "m",  # iv
-            7: "m",  # v
-            8: "",  # VI
-            10: "",  # VII
-        }
-
+        natural_specifications = NATURAL_SPECIFICATIONS_MINOR
     else:
         chromatic_degrees = CHROMATIC_DEGREES_MAJOR
-        natural_specifications = {
-            0: "",  # I
-            2: "m",  # ii
-            4: "m",  # iii
-            5: "",  # IV
-            7: "",  # V
-            9: "m",  # vi
-            11: "dim",  # vii°
-        }
+        natural_specifications = NATURAL_SPECIFICATIONS_MAJOR
 
-    degrees = []
+    events = []
 
     for chord_info in chords:
         chord = chord_info["chord"]
@@ -204,9 +216,60 @@ def chords_to_degrees(key, chords):
             if specification:
                 degree += specification
 
-        degrees.append(degree)
+        events.append((degree, chord))
 
-    return degrees
+    return events
+
+
+def chords_to_degrees(key, chords):
+    """Degrés seuls (sans les accords). Voir ``chords_to_degree_events``."""
+    return [degree for degree, _ in chords_to_degree_events(key, chords)]
+
+
+def degrees_to_chords(key, degrees):
+    """Inverse de ``chords_to_degrees`` : transforme des degrés en noms d'accords.
+
+    Un degré est un degré chromatique éventuellement suivi de spécifications
+    (ex. ``"vi"``, ``"Imaj7"``, ``"vii°"``, ``"Vadd4"``). S'il n'y a pas de
+    spécification explicite, on rétablit la qualité **naturelle** du degré dans
+    la tonalité (``"vi"`` en Do majeur -> ``"Am"``, et non ``"A"``).
+    """
+    if not degrees:
+        return []
+
+    key = enharmonic_to_sharp(key)
+    key_root, key_spec = split_chord(key)
+    key_index = SEMIS.index(key_root)
+
+    if key_spec == "m":
+        chromatic_degrees = CHROMATIC_DEGREES_MINOR
+        natural_specifications = NATURAL_SPECIFICATIONS_MINOR
+    else:
+        chromatic_degrees = CHROMATIC_DEGREES_MAJOR
+        natural_specifications = NATURAL_SPECIFICATIONS_MAJOR
+
+    # On teste les degrés du plus long au plus court pour que "#IV" soit reconnu
+    # avant "I", et "vii°" avant "vi" (sinon le "°" serait pris pour une spec).
+    degrees_by_length = sorted(chromatic_degrees, key=len, reverse=True)
+
+    chords = []
+    for degree in degrees:
+        base = next((d for d in degrees_by_length if degree.startswith(d)), None)
+        if base is None:
+            print(f"Unknown degree : {degree}")
+            continue
+
+        specification = degree[len(base) :]
+        interval = chromatic_degrees.index(base)
+
+        # pas de spécification explicite -> on remet la qualité naturelle du degré
+        if not specification:
+            specification = natural_specifications.get(interval, "")
+
+        root = SEMIS[(key_index + interval) % 12]
+        chords.append(root + specification)
+
+    return chords
 
 
 def progression_simplification(progression):
@@ -248,22 +311,26 @@ def suggest_next_chord(key, chords):
         else simplified_progression
     )
 
-    # for now, suggestion when perfect match, otherwise None
-    # TODO : implement a more flexible suggestion system, e.g., using Levenshtein distance ?
+    # for now, suggestion when perfect match, otherwise an empty list
+    # TODO (toi) : implémenter un système de suggestion plus souple (ex. distance
+    # de Levenshtein) et capable de proposer une vraie **suite** de plusieurs
+    # accords. L'interface renvoie déjà une liste : elle est prête pour ça.
     reference_prog, reference_prog_cut = load_reference_progressions()
 
     if last_three_degrees in reference_prog_cut:
         index = reference_prog_cut.index(last_three_degrees)
         next_prog = reference_prog[index]
-        if len(next_prog) > 3:
-            next_chord = next_prog[3]
-            return degree_progression, next_chord
-    return degree_progression, None
+        # tout ce qui suit les 3 degrés reconnus (aujourd'hui un seul accord,
+        # car les progressions de référence font 4 degrés, mais une liste déjà)
+        return degree_progression, next_prog[3:]
+    return degree_progression, []
 
 
 if __name__ == "__main__":
     _, reference_prog_cut = load_reference_progressions()
     print(reference_prog_cut)
-    test_progression = [{"chord": "Cm"}, {"chord": "Gm"}, {"chord": "Bm"}]
-    degree_progression, next_chord = suggest_next_chord("Cm", test_progression)
-    print(f"Next chord suggestion for {test_progression}: {next_chord}")
+    test_progression = [{"chord": "C"}, {"chord": "G"}, {"chord": "F"}]
+    degree_progression, next_degrees = suggest_next_chord("C", test_progression)
+    print(
+        f"Next chord suggestion for {test_progression}: {next_degrees}, knowing {degree_progression}"
+    )

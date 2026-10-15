@@ -10,5 +10,5 @@ def suggest_next_chord_from_audio(audio_path):
     notes = [note["pitch"] for note in midi_notes]
     key = detect_key_from_notes(notes)  # str with key + mode
     chords = detect_chords(midi_notes)  # list[dict{chord, start, end}]
-    progression_degrees, next_chord = suggest_next_chord(key, chords)
-    return key, progression_degrees, next_chord  # for the RAG query
+    progression_degrees, next_degrees = suggest_next_chord(key, chords)
+    return key, progression_degrees, next_degrees  # for the RAG query

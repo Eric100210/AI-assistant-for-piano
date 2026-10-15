@@ -36,6 +36,18 @@ def retrieve_documents(query):
     return get_retriever().invoke(query)
 
 
+def make_standalone_query(query, history):
+    messages = (
+        SystemMessage(
+            content="Etant donné l'historique du chat, reformule la nouvelle question pour qu'elle soit autonome et compréhensible sans contexte :"
+        ),
+        *history,
+        HumanMessage(content=f"Nouvelle question : {query}"),
+    )
+    result = get_llm().invoke(messages)
+    return result.strip()
+
+
 def generate_response(query, documents):
     system_message = SystemMessage(
         content="Tu es un assistant musical qui fournit des explications et des suggestions basées sur les progressions musicales fournies."

@@ -2,23 +2,28 @@
 
 Les routes HTTP ne contiennent **aucune** logique métier : elles délèguent ici.
 C'est le seul module qui connaît à la fois ``musaic`` et l'API.
-
-👉 Trois fonctions contiennent un ``TODO (toi)`` : ``parse_key``,
-``build_progression`` et ``make_standalone_query``. Les fonctions qui les
-utilisent sont déjà branchées : dès que tu les implémentes, l'endpoint marche.
 """
 
 import logging
 from pathlib import Path
 from typing import Literal
 
-from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 
 from musaic.api.schemas import Analysis, ChatMessage, ChordEvent, Suggestion
 from musaic.audio.chord_detector import detect_chords
 from musaic.audio.transcriber import transcribe_audio
-from musaic.engine.musical_engine import detect_key_from_notes, suggest_next_chord
-from musaic.rag.retrieval import generate_response, retrieve_documents
+from musaic.engine.musical_engine import (
+    chords_to_degree_events,
+    degrees_to_chords,
+    detect_key_from_notes,
+    suggest_next_chord,
+)
+from musaic.rag.retrieval import (
+    generate_response,
+    retrieve_documents,
+    make_standalone_query,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -40,47 +45,25 @@ def parse_key(key: str) -> tuple[str, Literal["majeur", "mineur"]]:
         "Am" -> ("A",  "mineur")
         "Cm" -> ("C",  "mineur")
     """
-    # -------------------------------------------------------------------------
-    # TODO (toi) — implémente cette fonction.
-    #
-    # Indices :
-    #   * une tonalité mineure se termine par le caractère "m"
-    #   * sinon, elle est majeure
-    #   * la racine est la tonalité sans le "m" final
-    #   * renvoie un tuple : (racine, "majeur" ou "mineur")
-    #
-    # N'oublie pas de remplacer le `raise` ci-dessous par ton `return`.
-    # -------------------------------------------------------------------------
-    raise NotImplementedError("TODO: implémente parse_key() dans services.py")
+    if key.endswith("m"):
+        return key[:-1], "mineur"
+    return key, "majeur"
 
 
-def build_progression(degrees: list[str], chords: list[dict]) -> list[ChordEvent]:
-    """Associe chaque degré à son nom d'accord.
+def build_progression(events: list[tuple[str, str]]) -> list[ChordEvent]:
+    """Convertit des paires ``(degré, accord)`` du moteur en ``ChordEvent``.
 
-    ``degrees`` provient de ``suggest_next_chord`` (ex. ``["I", "vi", "IV"]``) et
-    ``chords`` de ``detect_chords`` (ex. ``[{"chord": "C"}, {"chord": "Am"}, ...]``).
-    Les deux décrivent la même progression, dans le même ordre.
+    ``events`` provient de ``chords_to_degree_events`` : chaque degré y est déjà
+    associé à SON accord d'origine (les accords non reconnus ont été retirés à la
+    source), donc aucun risque de décalage.
 
-    Résultat attendu :
-        [ChordEvent(degree="I",  chord="C"),
-         ChordEvent(degree="vi", chord="Am"),
-         ChordEvent(degree="IV", chord="F")]
+    Exemple :
+        [("I", "C"), ("vi", "Am"), ("IV", "F")]
+        -> [ChordEvent(degree="I",  chord="C"),
+            ChordEvent(degree="vi", chord="Am"),
+            ChordEvent(degree="IV", chord="F")]
     """
-    # -------------------------------------------------------------------------
-    # TODO (toi) — implémente cette fonction.
-    #
-    # Indices :
-    #   * parcours les degrés avec leur index : `for i, degree in enumerate(degrees)`
-    #   * le nom d'accord correspondant est dans `chords[i]["chord"]`
-    #   * construis un ChordEvent(degree=..., chord=...)
-    #   * renvoie la liste des ChordEvent
-    #
-    # Attention : `degrees` peut être légèrement plus courte que `chords`
-    # (le moteur ignore les accords qu'il ne sait pas convertir en degré).
-    # Utilise la liste la plus courte pour éviter un IndexError, ou prévois
-    # une corde de secours : `chords[i]["chord"] if i < len(chords) else ""`.
-    # -------------------------------------------------------------------------
-    raise NotImplementedError("TODO: implémente build_progression() dans services.py")
+    return [ChordEvent(degree=degree, chord=chord) for degree, chord in events]
 
 
 def estimate_confidence(key: str, degrees: list[str]) -> float:
@@ -110,18 +93,27 @@ def analyze_audio(
     """
     logger.info("Analyse audio de %s", audio_path)
 
-    midi_notes = transcribe_audio(str(audio_path))
-    pitches = [note["pitch"] for note in midi_notes]
+    midi_notes = transcribe_audio(str(audio_path))  # list[dict]
+    pitches = [note["pitch"] for note in midi_notes]  # list[int]
 
     key = detect_key_from_notes(pitches)
-    chords = detect_chords(midi_notes)
-    degrees, next_chord = suggest_next_chord(key, chords)
+    chords = detect_chords(midi_notes)  # list[dict{chord, start, end}]
+    progression = build_progression(chords_to_degree_events(key, chords))
+
+    # vraie progression en degrés + suite de degrés suggérée par le moteur
+    degrees, next_degrees = suggest_next_chord(key, chords)
 
     key_root, key_mode = parse_key(key)
-    progression = build_progression(degrees, chords)
-    confidence = estimate_confidence(key, degrees)
 
-    candidates = [ChordEvent(degree=next_chord, chord="")] if next_chord else []
+    # le moteur raisonne en degrés : on les retransforme en vrais noms d'accords
+    next_chords = degrees_to_chords(key, next_degrees)
+    candidates = [
+        ChordEvent(degree=degree, chord=chord)
+        for degree, chord in zip(next_degrees, next_chords)
+    ]
+
+    # plutôt passer le score de corrélation de detect_key_from_notes(), potentiellement aussi un indicateur qui vient du suggest_next_chord amélioré
+    confidence = estimate_confidence(key, degrees)
 
     return Analysis(
         fileName=file_name,
@@ -154,25 +146,6 @@ def build_history_messages(history: list[ChatMessage]) -> list[BaseMessage]:
         else:
             messages.append(AIMessage(content=message.content))
     return messages
-
-
-def make_standalone_query(query: str, history: list[BaseMessage]) -> str:
-    """Reformule la question pour qu'elle soit compréhensible sans contexte."""
-    # -------------------------------------------------------------------------
-    # TODO (toi) — rends la question autonome quand il y a un historique.
-    #
-    # Inspecte ``musaic/rag/chat.py`` : la classe ``LLMChat`` fait déjà cela
-    # dans sa méthode ``ask_question`` (elle demande au LLM de reformuler).
-    # Reproduis la même idée ici, SANS la boucle interactive :
-    #   * si ``history`` est vide  -> renvoie ``query`` tel quel
-    #   * sinon -> construis une liste de messages (un SystemMessage qui
-    #     demande de reformuler + l'historique + un HumanMessage avec la
-    #     nouvelle question), appelle ``get_llm().invoke(...)`` et renvoie
-    #     le texte obtenu
-    #
-    # En attendant, renvoyer la question brute fonctionne (sans reformulation).
-    # -------------------------------------------------------------------------
-    return query
 
 
 def answer_question(query: str, history: list[BaseMessage]) -> str:

@@ -6,7 +6,11 @@ The interactive loop is kept here for convenience; ``musaic.cli`` drives it.
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 from musaic.rag.llm import get_llm
-from musaic.rag.retrieval import generate_response, retrieve_documents
+from musaic.rag.retrieval import (
+    generate_response,
+    retrieve_documents,
+    make_standalone_query,
+)
 
 TEST_QUERY = """
 J’ai joué une progression I - VIm - IV : 
@@ -22,15 +26,7 @@ class LLMChat:
     def ask_question(self, query):
         if self.chat_history:
             # Ask AI to make the question standalone
-            messages = (
-                SystemMessage(
-                    content="Etant donné l'historique du chat, reformule la nouvelle question pour qu'elle soit autonome et compréhensible sans contexte :"
-                ),
-                *self.chat_history,
-                HumanMessage(content=f"Nouvelle question : {query}"),
-            )
-            result = get_llm().invoke(messages)
-            standalone_query = result.strip()
+            standalone_query = make_standalone_query(query, self.chat_history)
         else:
             standalone_query = query
         return standalone_query
