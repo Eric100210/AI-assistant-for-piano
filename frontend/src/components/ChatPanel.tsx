@@ -35,7 +35,7 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
       step="3"
       icon={<Book width={19} height={19} />}
       title="Assistant MusAIc"
-      subtitle="Explications appuyées sur vos cours"
+      subtitle="Explications appuyées sur la théorie musicale"
       action={<span className={styles.ragBadge}>RAG</span>}
     >
       <div className={styles.chat}>

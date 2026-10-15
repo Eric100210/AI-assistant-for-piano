@@ -18,7 +18,7 @@ const PIPELINE = [
   {
     icon: <Wand width={16} height={16} />,
     title: "Suggestion & théorie",
-    text: "Le moteur propose la suite, le RAG explique le pourquoi.",
+    text: "Le moteur propose la suite, l'assistant peut vous expliquer le pourquoi.",
   },
 ];
 

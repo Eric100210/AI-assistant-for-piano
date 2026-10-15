@@ -108,7 +108,11 @@ The dev server proxies `/api` to `http://localhost:8000` (see
 `frontend/vite.config.ts`), so start the API first. `POST /api/chat` also needs
 Ollama running and the Chroma store built (`python -m musaic.rag.ingestion`).
 
+## To do
+
 > Some business logic is intentionally left as `TODO` (marked in the code) so it
 > can be filled in progressively — e.g. the confidence score in
 > `src/musaic/api/services.py` and the richer chord-**sequence** suggestion in
 > `src/musaic/engine/musical_engine.py`.
+
+It is also necessary to improve the RAG and the assistant, because for now it hallucinates a lot and does not always retrieve the most relevant documents. It will greatly improve the whole application.
