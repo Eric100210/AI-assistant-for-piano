@@ -39,9 +39,11 @@ AI-assistant-for-piano/
 │   ├── config.py               # single source of truth (paths, models, params)
 │   ├── pipeline.py             # audio -> chord suggestion orchestration
 │   ├── cli.py                  # command-line entry point
+│   ├── api/                    # FastAPI app (HTTP layer, used by the front)
 │   ├── audio/                  # transcription + chord detection
 │   ├── engine/                 # key detection, degrees, chord suggestion
 │   └── rag/                    # ingestion, retrieval, chat
+├── frontend/                   # React + Vite web interface
 ├── scripts/                    # one-shot maintenance scripts
 ├── data/
 │   ├── rag_knowledge/          # markdown knowledge base (progressions, theory)
@@ -68,3 +70,25 @@ Knowledge-base maintenance:
 python scripts/build_progressions.py     # regenerate src/musaic/engine/progressions.json
 python -m musaic.rag.ingestion           # rebuild the Chroma vector store
 ```
+
+## API (FastAPI)
+
+The HTTP layer that powers the web front lives in `src/musaic/api/`.
+
+```bash
+pip install -e ".[api]"                  # installs fastapi, uvicorn, python-multipart
+uvicorn musaic.api.main:app --reload --port 8000
+# or, once installed:
+musaic-api
+```
+
+Then open <http://localhost:8000/docs> for the interactive API documentation.
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET  /api/health`  | health check |
+| `POST /api/analyze` | upload an audio file → `Analysis` (key, chords, suggestion) |
+| `POST /api/chat`    | ask a theory question (RAG), stateless: the front sends the history |
+
+> Some business logic in `src/musaic/api/services.py` is left as `TODO` on
+> purpose (marked in the code) so it can be filled in progressively.

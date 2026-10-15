@@ -23,6 +23,14 @@ dependencies = [
 
 [project.scripts]
 musaic = "musaic.cli:main"
+musaic-api = "musaic.api.main:run"
+
+[project.optional-dependencies]
+api = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-multipart>=0.0.9",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
