@@ -13,27 +13,19 @@
   justify-content: center;
   gap: 6px;
   text-align: center;
-  padding: 30px 24px;
+  padding: 32px 24px;
   border-radius: var(--radius);
-  border: 1.5px dashed var(--border-strong);
-  background:
-    radial-gradient(120% 100% at 50% 0%, rgba(167, 139, 250, 0.07), transparent 70%),
-    rgba(255, 255, 255, 0.012);
-  transition: border-color 0.18s ease, background 0.18s ease;
+  border: 1px dashed var(--border);
+  background: transparent;
+  transition: border-color 0.18s ease;
 }
 
 .dropzone:hover {
-  border-color: rgba(167, 139, 250, 0.5);
-  background:
-    radial-gradient(120% 100% at 50% 0%, rgba(167, 139, 250, 0.12), transparent 70%),
-    rgba(255, 255, 255, 0.02);
+  border-color: var(--border-strong);
 }
 
 .dropzone.dragging {
-  border-color: rgba(34, 211, 238, 0.7);
-  background:
-    radial-gradient(120% 100% at 50% 0%, rgba(34, 211, 238, 0.16), transparent 70%),
-    rgba(255, 255, 255, 0.03);
+  border-color: var(--clay);
 }
 
 .dropzone.disabled {
@@ -46,11 +38,11 @@
   place-items: center;
   width: 52px;
   height: 52px;
-  border-radius: 15px;
+  border-radius: 12px;
   margin-bottom: 6px;
-  color: var(--cyan);
-  background: rgba(34, 211, 238, 0.12);
-  border: 1px solid rgba(34, 211, 238, 0.28);
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
 }
 
 .dropIcon {
@@ -58,17 +50,17 @@
   place-items: center;
   width: 52px;
   height: 52px;
-  border-radius: 15px;
+  border-radius: 12px;
   margin-bottom: 6px;
-  color: var(--violet);
-  background: var(--accent-grad-soft);
-  border: 1px solid rgba(167, 139, 250, 0.24);
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
 }
 
 .dropTitle {
   font-family: var(--font-display);
-  font-size: 15.5px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .dropHint {
@@ -77,23 +69,26 @@
 }
 
 .fakeLink {
-  color: var(--cyan);
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 3px;
 }
 
 .browseButton {
   margin-top: 14px;
   padding: 9px 18px;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 10px;
-  border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  background: transparent;
   color: var(--text);
-  transition: background 0.16s ease, border-color 0.16s ease;
+  transition: border-color 0.16s ease;
 }
 
 .browseButton:not(:disabled):hover {
-  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--border-strong);
 }
 
 .browseButton:disabled {
@@ -118,7 +113,7 @@
 }
 
 .pipelineItem:hover {
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(214, 192, 165, 0.025);
 }
 
 .pipelineIcon {
@@ -129,7 +124,7 @@
   flex-shrink: 0;
   border-radius: 9px;
   color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(214, 192, 165, 0.04);
   border: 1px solid var(--border);
 }
 
@@ -153,11 +148,11 @@
   place-items: center;
   width: 17px;
   height: 17px;
-  border-radius: 5px;
+  border-radius: 999px;
   font-size: 10.5px;
-  color: var(--cyan);
-  background: rgba(34, 211, 238, 0.12);
-  border: 1px solid rgba(34, 211, 238, 0.26);
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
 }
 
 .pipelineDesc {
@@ -170,10 +165,11 @@
   font-size: 11.5px;
   font-weight: 500;
   color: var(--text-dim);
-  padding: 5px 11px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.025);
+  padding: 4px 10px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
   font-family: var(--font-mono);
 }
 

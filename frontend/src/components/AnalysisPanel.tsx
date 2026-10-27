@@ -36,7 +36,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
       subtitle={`${analysis.fileName} · ${analysis.durationLabel}`}
       action={
         <span className={styles.confidenceBadge}>
-          confiance {confidencePct}%
+          {confidencePct}% de certitude
         </span>
       }
     >
@@ -125,7 +125,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
             ) : (
               <Copy width={15} height={15} />
             )}
-            {copied ? "Progression copiée !" : "Copier ma progression pour l'assistant"}
+            {copied ? "Copié" : "Copier la progression"}
           </button>
         </div>
       </div>

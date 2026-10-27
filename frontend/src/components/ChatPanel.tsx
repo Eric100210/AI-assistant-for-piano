@@ -34,9 +34,9 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
       className={styles.chatPanel}
       step="3"
       icon={<Book width={19} height={19} />}
-      title="Assistant MusAIc"
-      subtitle="Explications appuyées sur la théorie musicale"
-      action={<span className={styles.ragBadge}>RAG</span>}
+      title="Discussion"
+      subtitle="À propos de ta progression"
+      action={<span className={styles.ragBadge}>local</span>}
     >
       <div className={styles.chat}>
         <div className={styles.messages}>
@@ -86,8 +86,8 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
           <textarea
             className={styles.input}
             rows={1}
-            placeholder="Posez une question sur la progression…"
-            aria-label="Votre question"
+            placeholder="Pose une question…"
+            aria-label="Ta question"
             value={value}
             onChange={(event) => setValue(event.target.value)}
             onKeyDown={(event) => {
@@ -107,7 +107,7 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
           </button>
         </form>
         <p className={styles.note}>
-          Réponses générées par le RAG local (Ollama).
+          Réponses locales
         </p>
       </div>
     </Panel>

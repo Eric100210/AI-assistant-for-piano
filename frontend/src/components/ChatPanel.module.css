@@ -5,13 +5,13 @@
 
 .ragBadge {
   font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--cyan);
-  padding: 5px 11px;
-  border-radius: 999px;
-  border: 1px solid rgba(34, 211, 238, 0.3);
-  background: rgba(34, 211, 238, 0.1);
+  font-weight: 500;
+  color: var(--text-dim);
+  padding: 4px 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
 }
 
 .chat {
@@ -45,18 +45,18 @@
   width: 30px;
   height: 30px;
   flex-shrink: 0;
-  border-radius: 9px;
+  border-radius: 10px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-muted);
+  background: transparent;
+  color: var(--text-dim);
 }
 
 .assistant .avatar {
-  color: var(--violet);
-  background: var(--accent-grad-soft);
-  border-color: rgba(167, 139, 250, 0.28);
+  color: var(--text-muted);
+  background: transparent;
+  border-color: var(--border);
 }
 
 .bubble {
@@ -64,7 +64,7 @@
   padding: 11px 14px;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: var(--panel-2);
+  background: transparent;
 }
 
 .assistant .bubble {
@@ -73,12 +73,6 @@
 
 .user .bubble {
   border-top-right-radius: 4px;
-  border-color: rgba(167, 139, 250, 0.28);
-  background: linear-gradient(
-    135deg,
-    rgba(167, 139, 250, 0.16),
-    rgba(34, 211, 238, 0.1)
-  );
 }
 
 .text {
@@ -108,14 +102,13 @@
   color: var(--text);
   resize: none;
   border-radius: 11px;
-  border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.025);
-  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: border-color 0.16s ease;
 }
 
 .input:focus {
-  border-color: rgba(167, 139, 250, 0.5);
-  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.12);
+  border-color: var(--border-strong);
 }
 
 .input::placeholder {
@@ -128,22 +121,20 @@
   width: 42px;
   height: 42px;
   flex-shrink: 0;
-  border: none;
+  border: 1px solid var(--border);
   border-radius: 11px;
-  color: #0b0b12;
-  background: var(--accent-grad);
-  box-shadow: 0 8px 20px -8px rgba(167, 139, 250, 0.8);
-  transition: transform 0.14s ease, opacity 0.14s ease;
+  color: var(--text);
+  background: transparent;
+  transition: border-color 0.14s ease, opacity 0.14s ease;
 }
 
 .send:not(:disabled):hover {
-  transform: translateY(-1px);
+  border-color: var(--border-strong);
 }
 
 .send:disabled {
   cursor: not-allowed;
-  opacity: 0.45;
-  box-shadow: none;
+  opacity: 0.4;
 }
 
 /* ------------------------- Indicateur de frappe ------------------------- */
@@ -195,7 +186,7 @@
   color: var(--text-muted);
   padding: 1px 5px;
   border-radius: 5px;
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
   border: 1px solid var(--border);
 }
 

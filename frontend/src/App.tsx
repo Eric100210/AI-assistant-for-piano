@@ -19,7 +19,7 @@ function welcomeMessage(analysis: Analysis): ChatMessage {
   return {
     id: nextMessageId(),
     role: "assistant",
-    content: `J'ai analysé « ${analysis.fileName} » : tonalité ${analysis.keyRoot} ${analysis.keyMode}. Posez-moi vos questions sur la progression ou sur la suite suggérée.`,
+    content: `J'ai analysé « ${analysis.fileName} » : tonalité ${analysis.keyRoot} ${analysis.keyMode}. Dis-moi ce que tu veux savoir sur cette progression ou sur la suite.`,
   };
 }
 
@@ -83,7 +83,7 @@ export default function App() {
         {
           id: nextMessageId(),
           role: "assistant",
-          content: "Désolé, l'assistant est momentanément indisponible.",
+          content: "L'assistant est momentanément indisponible.",
         },
       ]);
     } finally {
@@ -105,21 +105,19 @@ export default function App() {
 
       <main className={styles.main}>
         <section className={styles.hero}>
-          <span className={styles.eyebrow}>Assistant d'improvisation &amp; de composition</span>
           <h1 className={styles.title}>
-            Votre oreille, <span className={styles.gradient}>augmentée</span>.
+            MusAIc : votre assistant pour improviser au piano
           </h1>
           <p className={styles.subtitle}>
-            Déposez un enregistrement de votre jeu : MusAIc identifie la tonalité et les
-            accords, propose la suite la plus naturelle et des variantes possibles, puis vous explique la théorie
-            derrière chaque choix.
+            Un extrait au piano suffit. MusAIc repère la tonalité et les accords, propose
+            la suite la plus naturelle et en discute avec toi.
           </p>
 
           <ul className={styles.features}>
-            <li className={styles.feature}>Détection de la tonalité</li>
-            <li className={styles.feature}>Reconnaissance des accords</li>
-            <li className={styles.feature}>Suggestion des prochains accords</li>
-            <li className={styles.feature}>Explications théoriques</li>
+            <li className={styles.feature}>Tonalité</li>
+            <li className={styles.feature}>Accords</li>
+            <li className={styles.feature}>Suite suggérée</li>
+            <li className={styles.feature}>Échange direct</li>
           </ul>
         </section>
 
@@ -145,7 +143,7 @@ export default function App() {
       <footer className={styles.footer}>
         <span>MusAIc</span>
         <span className={styles.footerDot} />
-        <span>analyse audio &amp; RAG de théorie musicale</span>
+        <span>ericdesaintchamas@gmail.com</span>
       </footer>
     </div>
   );
