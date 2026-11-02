@@ -27,7 +27,7 @@ async function errorMessage(res: Response): Promise<string> {
   } catch {
     // réponse non-JSON : on retombe sur le code HTTP
   }
-  return `Erreur ${res.status}`;
+  return `Error ${res.status}`;
 }
 
 /** Analyse un fichier audio et renvoie le résultat (tonalité, accords, suite). */
@@ -40,7 +40,7 @@ export async function analyzeAudio(file: File): Promise<Analysis> {
     res = await fetch(`${API_BASE}/analyze`, { method: "POST", body: form });
   } catch {
     throw new Error(
-      "Serveur d'analyse injoignable. Lancez l'API MusAIc sur le port 8000.",
+      "Analysis server unreachable. Start the MusAIc API on port 8000.",
     );
   }
 
@@ -62,7 +62,7 @@ export async function sendMessage(
     });
   } catch {
     throw new Error(
-      "Assistant injoignable. Vérifiez que l'API et Ollama sont lancés.",
+      "Assistant unreachable. Check that the API and Ollama are running.",
     );
   }
 

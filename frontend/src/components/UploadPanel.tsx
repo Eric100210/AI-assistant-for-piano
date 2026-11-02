@@ -7,18 +7,18 @@ import styles from "./UploadPanel.module.css";
 const PIPELINE = [
   {
     icon: <Music width={16} height={16} />,
-    title: "Transcription MIDI",
-    text: "Les notes jouées sont extraites de l'audio (modèle Basic Pitch).",
+    title: "MIDI transcription",
+    text: "Played notes are extracted from the audio (Basic Pitch model).",
   },
   {
     icon: <Activity width={16} height={16} />,
-    title: "Tonalité & accords",
-    text: "La tonalité est détectée, puis chaque accord est reconnu.",
+    title: "Key & chords",
+    text: "The key is detected, then each chord is recognized.",
   },
   {
     icon: <Wand width={16} height={16} />,
-    title: "Suggestion & théorie",
-    text: "Le moteur propose la suite, l'assistant peut vous expliquer le pourquoi.",
+    title: "Suggestion & theory",
+    text: "The engine suggests what comes next; the assistant can explain why.",
   },
 ];
 
@@ -63,8 +63,8 @@ export function UploadPanel({
     <Panel
       step="1"
       icon={<UploadCloud width={19} height={19} />}
-      title="Importer un enregistrement"
-      subtitle="Déposez un fichier audio pour lancer l'analyse."
+      title="Upload a recording"
+      subtitle="Drop an audio file to start the analysis."
       action={<span className={styles.formatBadge}>.mp3 · .wav · .m4a</span>}
     >
       <div className={styles.layout}>
@@ -74,7 +74,7 @@ export function UploadPanel({
           }`}
           role="button"
           tabIndex={0}
-          aria-label="Déposer ou choisir un fichier audio"
+          aria-label="Drop or choose an audio file"
           onClick={openPicker}
           onKeyDown={(event) => {
             if (event.key === "Enter" || event.key === " ") {
@@ -107,7 +107,7 @@ export function UploadPanel({
               </span>
               <p className={styles.dropTitle}>{selectedFileName}</p>
               <p className={styles.dropHint}>
-                {isAnalyzing ? "Analyse en cours…" : "Cliquez pour choisir un autre fichier."}
+                {isAnalyzing ? "Analyzing…" : "Click to choose another file."}
               </p>
               <button
                 type="button"
@@ -118,7 +118,7 @@ export function UploadPanel({
                   onReset();
                 }}
               >
-                Réinitialiser
+                Reset
               </button>
             </>
           ) : (
@@ -126,9 +126,9 @@ export function UploadPanel({
               <span className={styles.dropIcon}>
                 <UploadCloud width={24} height={24} />
               </span>
-              <p className={styles.dropTitle}>Glissez votre fichier audio ici</p>
+              <p className={styles.dropTitle}>Drag your audio file here</p>
               <p className={styles.dropHint}>
-                ou <span className={styles.fakeLink}>parcourez vos fichiers</span> — 25 Mo max.
+                or <span className={styles.fakeLink}>browse your files</span> — 25 MB max.
               </p>
               <button
                 type="button"
@@ -138,7 +138,7 @@ export function UploadPanel({
                   openPicker();
                 }}
               >
-                Choisir un fichier
+                Choose a file
               </button>
             </>
           )}

@@ -6,13 +6,13 @@ export function AppHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <a className={styles.brand} href="/" aria-label="Accueil MusAIc">
+        <a className={styles.brand} href="/" aria-label="MusAIc home">
           <span className={styles.logo}>
             <LogoMark width={22} height={22} />
           </span>
           <span className={styles.brandText}>
             <span className={styles.wordmark}>MusAIc</span>
-            <span className={styles.tagline}>Piano &amp; théorie assistés</span>
+            <span className={styles.tagline}>Piano improvisation &amp; theory</span>
           </span>
         </a>
 

@@ -39,10 +39,10 @@ def retrieve_documents(query):
 def make_standalone_query(query, history):
     messages = (
         SystemMessage(
-            content="Etant donné l'historique du chat, reformule la nouvelle question pour qu'elle soit autonome et compréhensible sans contexte :"
+            content="Given the chat history, rewrite the new question so that it is standalone and understandable without context:"
         ),
         *history,
-        HumanMessage(content=f"Nouvelle question : {query}"),
+        HumanMessage(content=f"New question: {query}"),
     )
     result = get_llm().invoke(messages)
     return result.strip()
@@ -50,10 +50,10 @@ def make_standalone_query(query, history):
 
 def generate_response(query, documents):
     system_message = SystemMessage(
-        content="Tu es un assistant musical qui fournit des explications et des suggestions basées sur les progressions musicales fournies."
+        content="You are a music assistant that provides explanations and suggestions based on the provided chord progressions. Answer in English unless the user explicitly asks for another language."
     )
     human_message = HumanMessage(
-        content=f"Demande: {query}\n\nFournis une réponse claire et aidante à partir des documents suivants (s'ils sont pertinents par rapport à la demande):\n{[doc.page_content for doc in documents]}"
+        content=f"Request: {query}\n\nProvide a clear and helpful answer using the following documents (if they are relevant to the request):\n{[doc.page_content for doc in documents]}"
     )
 
     messages = [system_message, human_message]
@@ -62,9 +62,9 @@ def generate_response(query, documents):
 
 if __name__ == "__main__":
     test_query = (
-        "J'ai joué une progression I - VIm - IV. On me conseille de jouer "
-        "maintenant un accord parmi V - I. Explique l'effet créé par ces "
-        "progressions possibles et propose des variantes pertinentes."
+        "I played a I - VIm - IV progression. I'm advised to play one of "
+        "V - I next. Explain the effect of these possible progressions and "
+        "suggest relevant variations."
     )
     relevant_docs = retrieve_documents(test_query)
     response = generate_response(test_query, relevant_docs)

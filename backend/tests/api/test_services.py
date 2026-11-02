@@ -8,10 +8,10 @@ from musaic.api.services import build_progression, parse_key
 
 
 def test_parse_key():
-    assert parse_key("C") == ("C", "majeur")
-    assert parse_key("F#") == ("F#", "majeur")
-    assert parse_key("Am") == ("A", "mineur")
-    assert parse_key("Cm") == ("C", "mineur")
+    assert parse_key("C") == ("C", "major")
+    assert parse_key("F#") == ("F#", "major")
+    assert parse_key("Am") == ("A", "minor")
+    assert parse_key("Cm") == ("C", "minor")
 
 
 def test_build_progression_converts_engine_events():

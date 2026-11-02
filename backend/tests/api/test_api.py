@@ -31,6 +31,7 @@ def test_chat_validates_request_body():
 def test_analyze_rejects_unknown_format():
     response = client.post(
         "/api/analyze",
-        files={"file": ("notes.txt", b"pas de la musique", "text/plain")},
+        files={"file": ("notes.txt", b"not music", "text/plain")},
     )
     assert response.status_code == 400
+    assert "Unsupported audio format" in response.json()["detail"]

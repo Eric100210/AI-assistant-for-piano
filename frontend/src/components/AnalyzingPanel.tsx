@@ -8,8 +8,8 @@ export function AnalyzingPanel() {
     <Panel
       step="2"
       icon={<Activity width={19} height={19} />}
-      title="Analyse en cours"
-      subtitle="Transcription, reconnaissance des accords, recherche de la suite…"
+      title="Analyzing"
+      subtitle="Transcribing, recognizing chords, finding what comes next…"
     >
       <div className={styles.loading}>
         <span className={styles.spinner} aria-hidden />

@@ -147,23 +147,23 @@ def _manual_detect_chords(notes_list: list[dict]):
 if __name__ == "__main__":
     notes = transcribe_audio(TEST_AUDIO_LONGER_PATH)
 
-    print("\nNotes détectées :")
+    print("\nDetected notes:")
     for note in notes:
         print(
             f"Note {SEMIS[note['pitch'] % 12]} {note['pitch']} | {note['start']:.2f}s - {note['end']:.2f}s"
         )
 
     notes_by_time = group_notes_by_time(notes)
-    print("\nNotes regroupées par fenêtre temporelle :")
+    print("\nNotes grouped by time window:")
     for i, group in enumerate(notes_by_time):
-        print(f"Fenêtre {i + 1} (temps {group['time']:.2f}s) :")
+        print(f"Window {i + 1} (time {group['time']:.2f}s):")
         for note in group["notes"]:
             print(note)
 
     chords_by_time = detect_chords_by_time(notes_by_time)
     merged_chords = merge_chords(chords_by_time)
-    print("\nAccords détectés :")
+    print("\nDetected chords:")
     for i, chord in enumerate(merged_chords):
         print(
-            f"Accord {i + 1} ({chord['chord']}) : {chord['start']:.2f}s - {chord['end']:.2f}s"
+            f"Chord {i + 1} ({chord['chord']}): {chord['start']:.2f}s - {chord['end']:.2f}s"
         )

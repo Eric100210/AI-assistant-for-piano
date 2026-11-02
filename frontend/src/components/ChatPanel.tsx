@@ -34,8 +34,8 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
       className={styles.chatPanel}
       step="3"
       icon={<Book width={19} height={19} />}
-      title="Discussion"
-      subtitle="À propos de ta progression"
+      title="Chat"
+      subtitle="About your progression"
       action={<span className={styles.ragBadge}>local</span>}
     >
       <div className={styles.chat}>
@@ -51,7 +51,7 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
                 {message.role === "assistant" ? (
                   <Sparkles width={15} height={15} />
                 ) : (
-                  "Moi"
+                  "Me"
                 )}
               </span>
               <div className={styles.bubble}>
@@ -86,8 +86,8 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
           <textarea
             className={styles.input}
             rows={1}
-            placeholder="Pose une question…"
-            aria-label="Ta question"
+            placeholder="Ask a question…"
+            aria-label="Your question"
             value={value}
             onChange={(event) => setValue(event.target.value)}
             onKeyDown={(event) => {
@@ -101,13 +101,13 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
             type="submit"
             className={styles.send}
             disabled={isThinking || value.trim().length === 0}
-            aria-label="Envoyer"
+            aria-label="Send"
           >
             <Send width={17} height={17} />
           </button>
         </form>
         <p className={styles.note}>
-          Réponses locales
+          Local responses
         </p>
       </div>
     </Panel>

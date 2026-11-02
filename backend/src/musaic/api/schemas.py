@@ -1,8 +1,8 @@
-"""Schémas Pydantic de l'API.
+"""Pydantic schemas for the API.
 
-⚠️ Ce fichier est LE CONTRAT DE DONNÉES partagé avec le front : il doit rester
-le miroir exact de ``frontend/src/types.ts``. Si tu modifies un champ ici,
-pense à faire l'équivalent côté TypeScript.
+⚠️ This file is THE DATA CONTRACT shared with the frontend: it must stay an
+exact mirror of ``frontend/src/types.ts``. If you change a field here, remember
+to make the equivalent change on the TypeScript side.
 """
 
 from typing import Literal
@@ -11,33 +11,33 @@ from pydantic import BaseModel, Field
 
 
 class ChordEvent(BaseModel):
-    """Un accord exprimé à la fois en degré et en nom."""
+    """A chord expressed both as a degree and as a chord name."""
 
     degree: str
     chord: str
 
 
 class Suggestion(BaseModel):
-    """Suggestion du moteur musical pour la suite de la progression."""
+    """Suggestion from the music engine for the continuation of the progression."""
 
     candidates: list[ChordEvent]
     rationale: str
 
 
 class Analysis(BaseModel):
-    """Résultat complet d'une analyse audio (réponse de ``POST /api/analyze``)."""
+    """Full result of an audio analysis (``POST /api/analyze`` response)."""
 
     fileName: str
     durationLabel: str
     keyRoot: str
-    keyMode: Literal["majeur", "mineur"]
+    keyMode: Literal["major", "minor"]
     confidence: float
     progression: list[ChordEvent]
     suggestion: Suggestion
 
 
 class ChatMessage(BaseModel):
-    """Un message de la conversation avec l'assistant théorique."""
+    """A message in the conversation with the theory assistant."""
 
     id: str
     role: Literal["user", "assistant"]
@@ -45,13 +45,13 @@ class ChatMessage(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    """Corps de la requête ``POST /api/chat``."""
+    """Request body for ``POST /api/chat``."""
 
     query: str
     history: list[ChatMessage] = Field(default_factory=list)
 
 
 class ChatResponse(BaseModel):
-    """Réponse de ``POST /api/chat``."""
+    """Response from ``POST /api/chat``."""
 
     response: str

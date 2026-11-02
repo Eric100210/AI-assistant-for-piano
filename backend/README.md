@@ -1,42 +1,42 @@
-# MusAIc — Back-end
+# MusAIc — Backend
 
-Cœur Python de **MusAIc** : analyse audio, moteur musical et RAG, exposés à
-l'interface web via une API FastAPI.
+The Python core of **MusAIc**: audio analysis, music engine and RAG, exposed to
+the web interface through a FastAPI API.
 
 ## Stack
 
-- **Python ≥ 3.10**, packaging `setuptools` (layout `src/`)
-- **FastAPI** + **uvicorn** pour la couche HTTP
-- **basic-pitch** / **pychord** pour l'analyse audio et la détection d'accords
-- **LangChain** + **Chroma** + **Ollama** pour le RAG
+- **Python ≥ 3.10**, `setuptools` packaging (`src/` layout)
+- **FastAPI** + **uvicorn** for the HTTP layer
+- **basic-pitch** / **pychord** for audio analysis and chord detection
+- **LangChain** + **Chroma** + **Ollama** for the RAG
 
-## Démarrer
+## Getting started
 
-Depuis la racine du dépôt :
+From the repository root:
 
 ```bash
 make install            # pip install -e "backend[api]"
 make api                # musaic-api -> http://localhost:8000
 ```
 
-Ou sans Makefile :
+Without the Makefile:
 
 ```bash
 pip install -e "backend[api]"
 musaic-api
 ```
 
-Documentation interactive de l'API : <http://localhost:8000/docs>.
+Interactive API documentation: <http://localhost:8000/docs>.
 
-## Commandes utiles
+## Useful commands
 
 ```bash
 make test               # tests (pytest)
-make ingest             # reconstruit la base Chroma
-make progressions       # régénère backend/src/musaic/engine/progressions.json
+make ingest             # rebuild the Chroma store
+make progressions       # regenerate backend/src/musaic/engine/progressions.json
 ```
 
-Équivalents directs :
+Direct equivalents:
 
 ```bash
 cd backend
@@ -49,32 +49,32 @@ python scripts/build_progressions.py
 
 ```text
 backend/
-├── pyproject.toml          # packaging + dépendances + config pytest
-├── src/musaic/             # package Python importable
-│   ├── config.py           # source unique des chemins, modèles et paramètres
-│   ├── pipeline.py         # audio -> suggestion d'accords
-│   ├── cli.py              # point d'entrée `musaic`
-│   ├── api/                # application FastAPI (routers, schémas, services)
-│   ├── audio/              # transcription + détection d'accords
-│   ├── engine/             # tonalité, degrés, suggestions
+├── pyproject.toml          # packaging + dependencies + pytest config
+├── src/musaic/             # importable Python package
+│   ├── config.py           # single source of truth for paths, models and parameters
+│   ├── pipeline.py         # audio -> chord suggestion
+│   ├── cli.py              # `musaic` entry point
+│   ├── api/                # FastAPI app (routers, schemas, services)
+│   ├── audio/              # transcription + chord detection
+│   ├── engine/             # key, degrees, suggestions
 │   └── rag/                # ingestion, retrieval, chat
-├── tests/                  # tests pytest
-├── scripts/                # scripts de maintenance
-├── data/                   # base de connaissances + audios de test
-└── db/                     # base Chroma persistée (générée, non versionnée)
+├── tests/                  # pytest test suites
+├── scripts/                # maintenance scripts
+├── data/                   # knowledge base + test audio
+└── db/                     # persisted Chroma store (generated, not versioned)
 ```
 
-`config.py` résout les chemins depuis `backend/` : `data/` et `db/` sont donc
-toujours trouvés, quel que soit le répertoire courant. La variable
-d'environnement `MUSAIC_ROOT` permet de surcharger cette racine.
+`config.py` resolves paths from `backend/`, so `data/` and `db/` are always found
+regardless of the current working directory. The `MUSAIC_ROOT` environment
+variable can override this root.
 
-## Modèles Ollama requis
+## Required Ollama models
 
 ```bash
 ollama pull llama3.2:3b       # LLM
 ollama pull nomic-embed-text  # embeddings
 ```
 
-`POST /api/chat` a besoin qu'Ollama tourne et que la base Chroma soit construite
-(`make ingest`). Sans cela, l'analyse audio fonctionne mais l'assistant répond
-par un message de repli.
+`POST /api/chat` requires Ollama to be running and the Chroma store to be built
+(`make ingest`). Without them, audio analysis still works, but the assistant
+replies with a fallback message.

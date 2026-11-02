@@ -32,18 +32,18 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
     <Panel
       step="2"
       icon={<Activity width={19} height={19} />}
-      title="Analyse"
+      title="Analysis"
       subtitle={`${analysis.fileName} · ${analysis.durationLabel}`}
       action={
         <span className={styles.confidenceBadge}>
-          {confidencePct}% de certitude
+          {confidencePct}% confidence
         </span>
       }
     >
       <div className={styles.stack}>
         {/* ---------------------------- Suggestion ---------------------------- */}
         <div className={styles.block}>
-          <span className={styles.blockLabel}>Prochain accord suggéré</span>
+          <span className={styles.blockLabel}>Suggested next chord</span>
           <div className={styles.suggestion}>
             <div className={styles.suggestionHead}>
               <span className={styles.suggestionIcon}>
@@ -57,13 +57,13 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
               ) : (
                 <div className={styles.primaryCandidate}>
                   <span className={styles.primaryChord}>
-                    Aucune suggestion évidente
+                    No obvious suggestion
                   </span>
                 </div>
               )}
               {alternatives.length > 0 ? (
                 <div className={styles.alternatives}>
-                  <span className={styles.altLabel}>ou</span>
+                  <span className={styles.altLabel}>or</span>
                   {alternatives.map((alt) => (
                     <span key={alt.degree} className={styles.altChip}>
                       <b>{alt.degree}</b>
@@ -79,7 +79,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
 
         {/* --------------------------- Progression ---------------------------- */}
         <div className={styles.block}>
-          <span className={styles.blockLabel}>Progression détectée</span>
+          <span className={styles.blockLabel}>Detected progression</span>
           <div className={styles.progression}>
             {progression.map((event, index) => (
               <ChordChip key={`${event.degree}-${index}`} event={event} index={index} />
@@ -94,7 +94,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
         <div className={styles.keyCard}>
           <div className={styles.keyGlow} />
           <div className={styles.keyInfo}>
-            <span className={styles.keyLabel}>Tonalité détectée</span>
+            <span className={styles.keyLabel}>Detected key</span>
             <div className={styles.keyValue}>
               <span className={styles.keyRoot}>{keyRoot}</span>
               <span className={styles.keyMode}>{keyMode}</span>
@@ -102,7 +102,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
           </div>
           <div className={styles.confidence}>
             <span className={styles.confidenceValue}>{confidencePct}%</span>
-            <span className={styles.confidenceLabel}>de certitude</span>
+            <span className={styles.confidenceLabel}>confidence</span>
             <div className={styles.confidenceBar}>
               <span
                 className={styles.confidenceFill}
@@ -125,7 +125,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
             ) : (
               <Copy width={15} height={15} />
             )}
-            {copied ? "Copié" : "Copier la progression"}
+            {copied ? "Copied" : "Copy progression"}
           </button>
         </div>
       </div>
@@ -138,8 +138,8 @@ function formatProgression(analysis: Analysis): string {
   const degrees = analysis.progression.map((event) => event.degree).join(" – ");
   const chords = analysis.progression.map((event) => event.chord).join(" – ");
   return (
-    `J'ai joué une progression ${degrees} (accords : ${chords}) ` +
-    `en tonalité de ${analysis.keyRoot} ${analysis.keyMode}.`
+    `I played a progression ${degrees} (chords: ${chords}) ` +
+    `in the key of ${analysis.keyRoot} ${analysis.keyMode}.`
   );
 }
 

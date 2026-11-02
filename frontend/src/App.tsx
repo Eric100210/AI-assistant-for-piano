@@ -19,7 +19,7 @@ function welcomeMessage(analysis: Analysis): ChatMessage {
   return {
     id: nextMessageId(),
     role: "assistant",
-    content: `J'ai analysé « ${analysis.fileName} » : tonalité ${analysis.keyRoot} ${analysis.keyMode}. Dis-moi ce que tu veux savoir sur cette progression ou sur la suite.`,
+    content: `I analyzed “${analysis.fileName}”: the key is ${analysis.keyRoot} ${analysis.keyMode}. Ask me anything about this progression or what could come next.`,
   };
 }
 
@@ -58,7 +58,7 @@ export default function App() {
         workspaceRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
       );
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "L'analyse a échoué.");
+      setError(cause instanceof Error ? cause.message : "Analysis failed.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -83,7 +83,7 @@ export default function App() {
         {
           id: nextMessageId(),
           role: "assistant",
-          content: "L'assistant est momentanément indisponible.",
+          content: "The assistant is temporarily unavailable.",
         },
       ]);
     } finally {
@@ -106,18 +106,18 @@ export default function App() {
       <main className={styles.main}>
         <section className={styles.hero}>
           <h1 className={styles.title}>
-            MusAIc : votre assistant pour improviser au piano
+            MusAIc: your piano improvisation assistant
           </h1>
           <p className={styles.subtitle}>
-            Un extrait au piano suffit. MusAIc repère la tonalité et les accords, propose
-            la suite la plus naturelle et en discute avec toi.
+            A short piano clip is enough. MusAIc detects the key and chords, suggests the
+            most natural continuation, and discusses it with you.
           </p>
 
           <ul className={styles.features}>
-            <li className={styles.feature}>Tonalité</li>
-            <li className={styles.feature}>Accords</li>
-            <li className={styles.feature}>Suite suggérée</li>
-            <li className={styles.feature}>Échange direct</li>
+            <li className={styles.feature}>Key</li>
+            <li className={styles.feature}>Chords</li>
+            <li className={styles.feature}>Next chords</li>
+            <li className={styles.feature}>Direct chat</li>
           </ul>
         </section>
 

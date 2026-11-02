@@ -3,20 +3,20 @@ import type { ReactNode } from "react";
 import styles from "./Panel.module.css";
 
 interface PanelProps {
-  /** Numéro d'étape affiché à côté du titre (ex. "1"). */
+  /** Step number displayed next to the title (e.g. "1"). */
   step?: string;
   title: string;
   subtitle?: string;
-  /** Icône affichée dans une pastille à gauche du titre. */
+  /** Icon displayed in a pill to the left of the title. */
   icon?: ReactNode;
-  /** Contenu optionnel aligné à droite de l'en-tête (badge, bouton…). */
+  /** Optional content aligned to the right of the header (badge, button…). */
   action?: ReactNode;
-  /** Contenu principal. */
+  /** Main content. */
   children: ReactNode;
   className?: string;
 }
 
-/** Carte de section réutilisable, socle visuel de l'application. */
+/** Reusable section card that forms the visual foundation of the app. */
 export function Panel({
   step,
   title,

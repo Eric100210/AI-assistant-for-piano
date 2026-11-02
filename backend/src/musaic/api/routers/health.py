@@ -1,11 +1,11 @@
-"""Route de santé : vérifie que l'API répond."""
+"""Health route: checks that the API is responding."""
 
 from fastapi import APIRouter
 
-router = APIRouter(tags=["système"])
+router = APIRouter(tags=["system"])
 
 
 @router.get("/health")
 def health() -> dict[str, str]:
-    """Renvoie ``{"status": "ok"}`` si le serveur fonctionne."""
+    """Return ``{"status": "ok"}`` when the server is running."""
     return {"status": "ok"}

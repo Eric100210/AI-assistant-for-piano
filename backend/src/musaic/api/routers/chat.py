@@ -1,4 +1,4 @@
-"""Route de conversation avec l'assistant théorique (RAG)."""
+"""Chat route for the theory assistant (RAG)."""
 
 from fastapi import APIRouter
 
@@ -10,10 +10,10 @@ router = APIRouter(tags=["chat"])
 
 @router.post("/chat", response_model=ChatResponse)
 def chat(payload: ChatRequest) -> ChatResponse:
-    """Répond à une question sur la progression (RAG sur les cours de théorie).
+    """Answer a question about the progression (RAG over the theory courses).
 
-    L'API est sans état : le front renvoie l'historique de la conversation
-    dans ``payload.history`` à chaque requête.
+    The API is stateless: the frontend sends the conversation history in
+    ``payload.history`` with every request.
     """
     history = build_history_messages(payload.history)
     response = answer_question(payload.query, history)

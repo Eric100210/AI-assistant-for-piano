@@ -13,9 +13,9 @@ from musaic.rag.retrieval import (
 )
 
 TEST_QUERY = """
-J’ai joué une progression I - VIm - IV : 
-On me conseille de jouer maintenant un accord parmi les suivants : V - I. 
-Explique l’effet créé par ces progressions possibles et propose des variantes pertinentes avec le style de musique qui leur est souvent associé.
+I played a I - VIm - IV progression:
+I'm advised to play one of the following chords next: V - I.
+Explain the effect of these possible progressions and suggest relevant variations, along with the music styles they are often associated with.
 """
 
 
@@ -34,13 +34,13 @@ class LLMChat:
     def start_chat(self, initial_query=None):
         if not initial_query:
             print(
-                "Bienvenue dans l'assistant musical MusAIc ! Posez vos questions sur les progressions musicales que vous jouez."
+                "Welcome to the MusAIc music assistant! Ask questions about the chord progressions you play."
             )
         while True:
             if not initial_query:
-                user_input = input("Votre question: ")
+                user_input = input("Your question: ")
                 if user_input.lower() in ["exit", "quit", "q"]:
-                    print("À bientôt !")
+                    print("Goodbye!")
                     break
             else:
                 user_input = initial_query

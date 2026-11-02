@@ -22,7 +22,7 @@ export interface Analysis {
   /** Tonique détectée, ex. "C", "F#". */
   keyRoot: string;
   /** Mode détecté. */
-  keyMode: "majeur" | "mineur";
+  keyMode: "major" | "minor";
   /** Indice de confiance de la détection (0 → 1). */
   confidence: number;
   /** Progression d'accords détectée, dans l'ordre chronologique. */

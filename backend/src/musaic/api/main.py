@@ -1,14 +1,15 @@
-"""Application FastAPI de MusAIc.
+"""MusAIc FastAPI application.
 
-Assemble l'application : création de l'app, CORS, inclusion des routers.
+Assembles the application: app creation, CORS, router registration.
 
-Lancement en développement :
+Development:
     uvicorn musaic.api.main:app --reload --port 8000
 
-    # ou, si installé avec l'extra [api] depuis la racine :  pip install -e "backend[api]"
+    # or, if installed with the [api] extra from the repository root:
+    # pip install -e "backend[api]"
     musaic-api
 
-Documentation interactive (générée automatiquement) : http://localhost:8000/docs
+Interactive documentation (generated automatically): http://localhost:8000/docs
 """
 
 import logging
@@ -21,8 +22,8 @@ from musaic.api.routers import analyze, chat, health
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Origines autorisées à appeler l'API depuis un navigateur.
-# Ici : le serveur de développement Vite (le front React).
+# Origins allowed to call the API from a browser.
+# Here: the Vite development server (the React frontend).
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
@@ -30,12 +31,12 @@ ALLOWED_ORIGINS = [
 
 
 def create_app() -> FastAPI:
-    """Construit et configure l'application FastAPI."""
+    """Build and configure the FastAPI application."""
     app = FastAPI(
         title="MusAIc API",
         version="0.1.0",
         description=(
-            "Analyse audio et suggestions d'accords pour l'improvisation au piano."
+            "Audio analysis and chord suggestions for piano improvisation."
         ),
     )
 
@@ -47,7 +48,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # Tout est préfixé par /api : le front appelle /api/analyze, /api/chat…
+    # Everything is prefixed with /api: the frontend calls /api/analyze, /api/chat…
     app.include_router(health.router, prefix="/api")
     app.include_router(analyze.router, prefix="/api")
     app.include_router(chat.router, prefix="/api")
@@ -59,7 +60,7 @@ app = create_app()
 
 
 def run() -> None:
-    """Point d'entrée de la commande ``musaic-api`` (raccourci pour uvicorn)."""
+    """Entry point for the ``musaic-api`` command (uvicorn shortcut)."""
     import uvicorn
 
     uvicorn.run("musaic.api.main:app", host="127.0.0.1", port=8000, reload=True)

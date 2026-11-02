@@ -33,21 +33,21 @@ logger = logging.getLogger(__name__)
 # =============================================================================
 
 
-def parse_key(key: str) -> tuple[str, Literal["majeur", "mineur"]]:
-    """Découpe la tonalité renvoyée par le moteur en ``(racine, mode)``.
+def parse_key(key: str) -> tuple[str, Literal["major", "minor"]]:
+    """Split the key returned by the engine into ``(root, mode)``.
 
-    Le moteur renvoie par exemple ``"C"`` (majeur) ou ``"Am"`` (mineur) : le
-    mode mineur est signalé par un ``"m"`` final.
+    The engine returns e.g. ``"C"`` (major) or ``"Am"`` (minor): minor mode is
+    indicated by a trailing ``"m"``.
 
-    Exemples attendus :
-        "C"  -> ("C",  "majeur")
-        "F#" -> ("F#", "majeur")
-        "Am" -> ("A",  "mineur")
-        "Cm" -> ("C",  "mineur")
+    Expected examples:
+        "C"  -> ("C",  "major")
+        "F#" -> ("F#", "major")
+        "Am" -> ("A",  "minor")
+        "Cm" -> ("C",  "minor")
     """
     if key.endswith("m"):
-        return key[:-1], "mineur"
-    return key, "majeur"
+        return key[:-1], "minor"
+    return key, "major"
 
 
 def build_progression(events: list[tuple[str, str]]) -> list[ChordEvent]:
@@ -91,7 +91,7 @@ def analyze_audio(
     mais conserve aussi les **noms d'accords** détectés (que le pipeline
     historique jette), dont le front a besoin.
     """
-    logger.info("Analyse audio de %s", audio_path)
+    logger.info("Analyzing audio file %s", audio_path)
 
     midi_notes = transcribe_audio(str(audio_path))  # list[dict]
     pitches = [note["pitch"] for note in midi_notes]  # list[int]
@@ -112,9 +112,11 @@ def analyze_audio(
         for degree, chord in zip(next_degrees, next_chords)
     ]
     if candidates:
-        rationale = "Suggestion issue du moteur musical déterministe. Demandez à l'assistant plus de précisions."
+        rationale = (
+            "Suggestion from the AI music engine. Ask the assistant for more details."
+        )
     else:
-        rationale = "Mais vous pouvez demander à l'assistant MusAIc de vous aider sur cette progression."
+        rationale = "You can ask the MusAIc assistant for help with this progression."
 
     # plutôt passer le score de corrélation de detect_key_from_notes(), potentiellement aussi un indicateur qui vient du suggest_next_chord amélioré
     confidence = estimate_confidence(key, degrees)

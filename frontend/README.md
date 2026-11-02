@@ -1,98 +1,92 @@
-# MusAIc — Front-end
+# MusAIc — Frontend
 
-Interface web de **MusAIc**, l'assistant d'improvisation et de composition au piano.
+Web interface for **MusAIc**, the assistant for piano improvisation and composition.
 
-> **État actuel : connecté au back-end FastAPI.** Le parcours complet est
-> fonctionnel (upload → analyse → chat). Les appels réseau vivent dans
-> `src/api/client.ts` et passent par `/api`, proxyfié par Vite vers
-> `http://localhost:8000`.
+> **Status: connected to the FastAPI backend.** The full flow is functional (upload → analysis → chat). Network calls live in `src/api/client.ts` and go through `/api`, proxied by Vite to `http://localhost:8000`.
 
 ## Stack
 
 - **React 18** + **TypeScript**
 - **Vite** (dev server + build)
-- **CSS Modules** pour le style (aucune librairie UI, tout est fait main)
-- Aucune dépendance d'exécution au-delà de React
+- **CSS Modules** for styling (no UI library, built from scratch)
+- No runtime dependencies beyond React
 
-## Démarrer
+## Getting started
 
-Le front a besoin de l'API MusAIc (voir le README racine et `backend/README.md`).
-Dans deux terminaux, depuis la racine du dépôt :
+The frontend needs the MusAIc API (see the root `README.md` and `backend/README.md`).
+In two terminals from the repository root:
 
 ```bash
-# 1) back-end
+# 1) backend
 make install
 make api                   # http://localhost:8000
 
-# 2) front-end
+# 2) frontend
 make install-frontend
 make web                   # http://localhost:5173
 ```
 
-Sans Makefile :
+Without the Makefile:
 
 ```bash
 pip install -e "backend[api]" && musaic-api
 cd frontend && npm install && npm run dev
 ```
 
-Autres commandes :
+Other commands:
 
 ```bash
-npm run build      # build de production dans dist/
-npm run preview    # prévisualiser le build
-npm run typecheck  # vérification des types uniquement
+npm run build      # production build in dist/
+npm run preview    # preview the build
+npm run typecheck  # type checking only
 ```
 
-> `POST /api/chat` a besoin qu'Ollama tourne (`llama3.2:3b`, `nomic-embed-text`)
-> et que la base Chroma soit construite (`make ingest`). Sans ça, l'analyse
-> audio fonctionne mais l'assistant répond par un message de repli.
+> `POST /api/chat` requires Ollama to be running (`llama3.2:3b`, `nomic-embed-text`)
+> and the Chroma store to be built (`make ingest`). Without them, audio analysis
+> still works, but the assistant replies with a fallback message.
 
-## Parcours utilisateur
+## User flow
 
-1. **Au départ** : seuls le hero et la zone d'import sont affichés.
-2. **Au dépôt d'un fichier** : un panneau « Analyse en cours » apparaît, puis les
-   panneaux **Analyse** (tonalité, accords, suggestion) et **Assistant MusAIc**
-   (chat) se révèlent.
-3. **Chat** : posez une question (Entrée pour envoyer). Les réponses viennent du
-   RAG local via `POST /api/chat`.
+1. **Start**: only the hero and the upload area are shown.
+2. **File upload**: an "Analyzing" panel appears, then the **Analysis** (key, chords, suggestion) and **MusAIc Assistant** (chat) panels are revealed.
+3. **Chat**: ask a question (press Enter to send). Responses come from the local RAG via `POST /api/chat`.
 
 ## Structure
 
-```
+```text
 frontend/
 ├── index.html
 ├── vite.config.ts            # build + proxy `/api` -> localhost:8000
 ├── src/
-│   ├── main.tsx              # point d'entrée React
-│   ├── App.tsx               # état global + composition de la page
-│   ├── types.ts              # types du domaine (miroir de backend/src/musaic/api/schemas.py)
-│   ├── api/client.ts         # appels `fetch` à l'API FastAPI
+│   ├── main.tsx              # React entry point
+│   ├── App.tsx               # global state + page composition
+│   ├── types.ts              # domain types (mirror of backend/src/musaic/api/schemas.py)
+│   ├── api/client.ts         # `fetch` calls to the FastAPI API
 │   ├── styles/globals.css    # design tokens + reset
 │   └── components/
-│       ├── AppHeader.tsx        # en-tête / marque
-│       ├── Panel.tsx            # carte de section réutilisable
-│       ├── UploadPanel.tsx      # étape 1 — import audio (drag & drop)
-│       ├── AnalyzingPanel.tsx   # état de chargement
-│       ├── AnalysisPanel.tsx    # étape 2 — tonalité, accords, suggestion
-│       ├── ChatPanel.tsx        # étape 3 — conversation RAG
-│       └── Icons.tsx            # icônes SVG
+│       ├── AppHeader.tsx        # header / brand
+│       ├── Panel.tsx            # reusable section card
+│       ├── UploadPanel.tsx      # step 1 — audio upload (drag & drop)
+│       ├── AnalyzingPanel.tsx   # loading state
+│       ├── AnalysisPanel.tsx    # step 2 — key, chords, suggestion
+│       ├── ChatPanel.tsx        # step 3 — RAG conversation
+│       └── Icons.tsx            # SVG icons
 ```
 
-## Contrat d'API
+## API contract
 
-Le front consomme deux endpoints, servis par `backend/src/musaic/api/` :
+The frontend consumes two endpoints served by `backend/src/musaic/api/`:
 
-| Fonction (`src/api/client.ts`) | Endpoint | Corps / réponse |
+| Function (`src/api/client.ts`) | Endpoint | Body / response |
 | --- | --- | --- |
 | `analyzeAudio(file)` | `POST /api/analyze` | multipart `file` → `Analysis` |
 | `sendMessage(query, history)` | `POST /api/chat` | `{ query, history }` → `{ response }` |
 
-Les types de `src/types.ts` décrivent exactement ces réponses (ils sont le miroir
-des schémas Pydantic de `backend/src/musaic/api/schemas.py`).
+The types in `src/types.ts` describe these responses exactly (they are the mirror
+of the Pydantic schemas in `backend/src/musaic/api/schemas.py`).
 
 ## Design
 
-Thème sombre « studio » : fond profond, halos violet/cyan, typographie
-`Space Grotesk` + `Inter`. Les couleurs et rayons sont centralisés dans les
-design tokens de `src/styles/globals.css` (`:root { --… }`).
+Dark "studio" theme: deep background, violet/cyan glows, typography with
+`Space Grotesk` + `Inter`. Colors and radii are centralized in the design
+tokens of `src/styles/globals.css` (`:root { --… }`).
