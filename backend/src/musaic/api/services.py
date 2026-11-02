@@ -112,9 +112,9 @@ def analyze_audio(
         for degree, chord in zip(next_degrees, next_chords)
     ]
     if candidates:
-        rationale = "Suggestion issue du moteur musical déterministe."
+        rationale = "Suggestion issue du moteur musical déterministe. Demandez à l'assistant plus de précisions."
     else:
-        rationale = "Vous pouvez demander à l'assistant MusAIc de vous aider sur cette progression."
+        rationale = "Mais vous pouvez demander à l'assistant MusAIc de vous aider sur cette progression."
 
     # plutôt passer le score de corrélation de detect_key_from_notes(), potentiellement aussi un indicateur qui vient du suggest_next_chord amélioré
     confidence = estimate_confidence(key, degrees)

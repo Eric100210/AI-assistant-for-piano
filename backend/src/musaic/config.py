@@ -4,20 +4,20 @@ Models, RAG parameters and paths are defined once here and imported
 everywhere else. All paths are absolute, so they work regardless of the
 current working directory.
 
-``PROJECT_ROOT`` is the repository root (where ``data/`` and ``db/`` live).
-It can be overridden with the ``MUSAIC_ROOT``
-environment variable when the package is not used from a checkout.
+``BACKEND_ROOT`` is the backend root (``backend/``, where ``data/`` and
+``db/`` live). It can be overridden with the ``MUSAIC_ROOT`` environment
+variable when the package is not used from a checkout.
 """
 
 import os
 from pathlib import Path
 
-# Package directory (.../src/musaic) and repository root (.../)
+# Package directory (.../backend/src/musaic) and backend root (.../backend)
 PACKAGE_ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = Path(os.getenv("MUSAIC_ROOT", PACKAGE_ROOT.parents[1])).resolve()
+BACKEND_ROOT = Path(os.getenv("MUSAIC_ROOT", PACKAGE_ROOT.parents[1])).resolve()
 
 # --- Knowledge base directories ---
-RAG_KNOWLEDGE_DIR = PROJECT_ROOT / "data" / "rag_knowledge"
+RAG_KNOWLEDGE_DIR = BACKEND_ROOT / "data" / "rag_knowledge"
 PROGRESSIONS_DIR = RAG_KNOWLEDGE_DIR / "progressions"
 THEORY_DIR = RAG_KNOWLEDGE_DIR / "theory"
 
@@ -25,11 +25,11 @@ THEORY_DIR = RAG_KNOWLEDGE_DIR / "theory"
 PROGRESSIONS_JSON = PACKAGE_ROOT / "engine" / "progressions.json"
 
 # Persisted vector store (generated artifact, not versioned)
-DB_DIR = PROJECT_ROOT / "db"
+DB_DIR = BACKEND_ROOT / "db"
 PERSIST_DIRECTORY = DB_DIR / "chroma_db"
 
 # Test data
-TEST_AUDIO_DIR = PROJECT_ROOT / "data" / "test_audio"
+TEST_AUDIO_DIR = BACKEND_ROOT / "data" / "test_audio"
 TEST_AUDIO_PATH = TEST_AUDIO_DIR / "test_audio.mp3"
 TEST_AUDIO_LONGER_PATH = TEST_AUDIO_DIR / "test_audio_longer.mp3"
 

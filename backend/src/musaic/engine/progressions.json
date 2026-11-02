@@ -593,7 +593,7 @@
       "tonalite": "mineure",
       "degres": [
         "i",
-        "iii",
+        "III",
         "iv",
         "V"
       ],
@@ -780,7 +780,7 @@
       "degres": [
         "i",
         "ii°",
-        "iii",
+        "III",
         "V"
       ],
       "relief": "tension_croissante",
@@ -873,7 +873,7 @@
       "degres": [
         "i",
         "VI",
-        "iii",
+        "III",
         "V"
       ],
       "relief": "fort",
@@ -934,7 +934,7 @@
       "tonalite": "mineure",
       "degres": [
         "i",
-        "iii",
+        "III",
         "VII",
         "iv"
       ],
@@ -966,7 +966,7 @@
       "degres": [
         "i",
         "V",
-        "iii",
+        "III",
         "iv"
       ],
       "relief": "moyen",
@@ -1027,7 +1027,7 @@
       "tonalite": "mineure",
       "degres": [
         "i",
-        "iii",
+        "III",
         "VI",
         "iv"
       ],
@@ -1059,8 +1059,8 @@
       "degres": [
         "i",
         "i",
-        "iii",
-        "iii"
+        "III",
+        "III"
       ],
       "relief": "faible",
       "styles": [
@@ -1122,7 +1122,7 @@
         "i",
         "VI",
         "i",
-        "iii"
+        "III"
       ],
       "relief": "faible",
       "styles": [
@@ -1170,7 +1170,7 @@
       "tags": [
         "progression majeure",
         "tension maintenue",
-        "degre VI",
+        "degre vi",
         "dominante repetee"
       ]
     }

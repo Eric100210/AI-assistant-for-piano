@@ -16,17 +16,24 @@ Interface web de **MusAIc**, l'assistant d'improvisation et de composition au pi
 
 ## Démarrer
 
-Le front a besoin de l'API MusAIc (voir le README racine). Dans deux terminaux :
+Le front a besoin de l'API MusAIc (voir le README racine et `backend/README.md`).
+Dans deux terminaux, depuis la racine du dépôt :
 
 ```bash
-# 1) back-end, à la racine du dépôt
-pip install -e ".[api]"
-musaic-api                 # http://localhost:8000
+# 1) back-end
+make install
+make api                   # http://localhost:8000
 
 # 2) front-end
-cd frontend
-npm install
-npm run dev                # http://localhost:5173
+make install-frontend
+make web                   # http://localhost:5173
+```
+
+Sans Makefile :
+
+```bash
+pip install -e "backend[api]" && musaic-api
+cd frontend && npm install && npm run dev
 ```
 
 Autres commandes :
@@ -38,8 +45,8 @@ npm run typecheck  # vérification des types uniquement
 ```
 
 > `POST /api/chat` a besoin qu'Ollama tourne (`llama3.2:3b`, `nomic-embed-text`)
-> et que la base Chroma soit construite (`python -m musaic.rag.ingestion`). Sans
-> ça, l'analyse audio fonctionne mais l'assistant répond par un message de repli.
+> et que la base Chroma soit construite (`make ingest`). Sans ça, l'analyse
+> audio fonctionne mais l'assistant répond par un message de repli.
 
 ## Parcours utilisateur
 
@@ -59,7 +66,7 @@ frontend/
 ├── src/
 │   ├── main.tsx              # point d'entrée React
 │   ├── App.tsx               # état global + composition de la page
-│   ├── types.ts              # types du domaine (miroir de src/musaic/api/schemas.py)
+│   ├── types.ts              # types du domaine (miroir de backend/src/musaic/api/schemas.py)
 │   ├── api/client.ts         # appels `fetch` à l'API FastAPI
 │   ├── styles/globals.css    # design tokens + reset
 │   └── components/
@@ -74,7 +81,7 @@ frontend/
 
 ## Contrat d'API
 
-Le front consomme deux endpoints, servis par `src/musaic/api/` :
+Le front consomme deux endpoints, servis par `backend/src/musaic/api/` :
 
 | Fonction (`src/api/client.ts`) | Endpoint | Corps / réponse |
 | --- | --- | --- |
@@ -82,7 +89,7 @@ Le front consomme deux endpoints, servis par `src/musaic/api/` :
 | `sendMessage(query, history)` | `POST /api/chat` | `{ query, history }` → `{ response }` |
 
 Les types de `src/types.ts` décrivent exactement ces réponses (ils sont le miroir
-des schémas Pydantic de `src/musaic/api/schemas.py`).
+des schémas Pydantic de `backend/src/musaic/api/schemas.py`).
 
 ## Design
 

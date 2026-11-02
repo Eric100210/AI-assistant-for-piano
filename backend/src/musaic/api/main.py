@@ -5,7 +5,7 @@ Assemble l'application : création de l'app, CORS, inclusion des routers.
 Lancement en développement :
     uvicorn musaic.api.main:app --reload --port 8000
 
-    # ou, si installé avec l'extra [api] :  pip install -e ".[api]"
+    # ou, si installé avec l'extra [api] depuis la racine :  pip install -e "backend[api]"
     musaic-api
 
 Documentation interactive (générée automatiquement) : http://localhost:8000/docs

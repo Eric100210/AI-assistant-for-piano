@@ -2,7 +2,7 @@
 // Types du domaine MusAIc
 // -----------------------------------------------------------------------------
 // Ces types décrivent les données renvoyées par le back-end FastAPI. Ils sont
-// le miroir de `src/musaic/api/schemas.py` : si tu changes l'un, change l'autre.
+// le miroir de `backend/src/musaic/api/schemas.py` : si tu changes l'un, change l'autre.
 // =============================================================================
 
 /** Un accord détecté, exprimé à la fois en degré et en nom d'accord. */

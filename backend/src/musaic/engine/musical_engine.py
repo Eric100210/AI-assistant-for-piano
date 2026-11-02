@@ -314,7 +314,7 @@ def suggest_next_chord(key, chords):
     )
 
     # for now, suggestion when perfect match, otherwise an empty list
-    # TODO (toi) : implémenter un système de suggestion plus souple (ex. distance
+    # TODO : implémenter un système de suggestion plus souple (ex. distance
     # de Levenshtein) et capable de proposer une vraie **suite** de plusieurs
     # accords. L'interface renvoie déjà une liste : elle est prête pour ça.
     reference_prog, reference_prog_cut = load_reference_progressions()

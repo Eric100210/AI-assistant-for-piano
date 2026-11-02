@@ -34,21 +34,26 @@ MIDI : Musical Instrument Digital Interface. It is structured data containing th
 
 ```
 AI-assistant-for-piano/
-├── pyproject.toml              # dependencies and packaging
-├── src/musaic/                 # installable package
-│   ├── config.py               # single source of truth (paths, models, params)
-│   ├── pipeline.py             # audio -> chord suggestion orchestration
-│   ├── cli.py                  # command-line entry point
-│   ├── api/                    # FastAPI app (HTTP layer, used by the front)
-│   ├── audio/                  # transcription + chord detection
-│   ├── engine/                 # key detection, degrees, chord suggestion
-│   └── rag/                    # ingestion, retrieval, chat
+├── backend/
+│   ├── pyproject.toml          # dependencies and packaging
+│   ├── src/musaic/             # installable package
+│   │   ├── config.py           # single source of truth (paths, models, params)
+│   │   ├── pipeline.py         # audio -> chord suggestion orchestration
+│   │   ├── cli.py              # command-line entry point
+│   │   ├── api/                # FastAPI app (HTTP layer, used by the front)
+│   │   ├── audio/              # transcription + chord detection
+│   │   ├── engine/             # key detection, degrees, chord suggestion
+│   │   └── rag/                # ingestion, retrieval, chat
+│   ├── tests/                  # pytest suites
+│   ├── scripts/                # one-shot maintenance scripts
+│   ├── data/
+│   │   ├── rag_knowledge/      # markdown knowledge base (progressions, theory)
+│   │   └── test_audio/         # sample audio
+│   └── db/                     # persisted Chroma vector store (generated)
 ├── frontend/                   # React + Vite web interface
-├── scripts/                    # one-shot maintenance scripts
-├── data/
-│   ├── rag_knowledge/          # markdown knowledge base (progressions, theory)
-│   └── test_audio/             # sample audio
-└── db/                         # persisted Chroma vector store (generated)
+├── Makefile                    # common development commands
+├── .gitignore
+└── README.md
 ```
 
 ## Getting started
@@ -57,29 +62,39 @@ Requires [Ollama](https://ollama.com) running locally with the `llama3.2:3b` (LL
 and `nomic-embed-text` (embeddings) models pulled.
 
 ```bash
-pip install -e .          # install the package in editable mode
+pip install -e "backend[api]"            # or: make install
 
 # analyse an audio file and get chord suggestions (defaults to the test audio)
-musaic                    # or: python -m musaic
+musaic                                   # or: python -m musaic
 musaic path/to/audio.mp3
 ```
 
 Knowledge-base maintenance:
 
 ```bash
-python scripts/build_progressions.py     # regenerate src/musaic/engine/progressions.json
-python -m musaic.rag.ingestion           # rebuild the Chroma vector store
+make progressions                        # regenerate backend/src/musaic/engine/progressions.json
+make ingest                              # rebuild the Chroma vector store
+```
+
+Or directly:
+
+```bash
+cd backend
+python scripts/build_progressions.py
+python -m musaic.rag.ingestion
 ```
 
 ## API (FastAPI)
 
-The HTTP layer that powers the web front lives in `src/musaic/api/`.
+The HTTP layer that powers the web front lives in `backend/src/musaic/api/`.
 
 ```bash
-pip install -e ".[api]"                  # installs fastapi, uvicorn, python-multipart
+pip install -e "backend[api]"            # installs fastapi, uvicorn, python-multipart
 uvicorn musaic.api.main:app --reload --port 8000
 # or, once installed:
 musaic-api
+# or:
+make api
 ```
 
 Then open <http://localhost:8000/docs> for the interactive API documentation.
@@ -92,27 +107,26 @@ Then open <http://localhost:8000/docs> for the interactive API documentation.
 
 ### Run the app locally 
 
-In terminal 1: (launch fastAPI server with uvicorn)
+In terminal 1: (launch FastAPI server with uvicorn)
 ```bash
-musaic-api
+make api           # or: musaic-api
 ```
 
 In terminal 2:
 ```bash
-cd frontend
-npm install
-npm run dev        # http://localhost:5173
+make web           # or: cd frontend && npm install && npm run dev
+# http://localhost:5173
 ```
 
 The dev server proxies `/api` to `http://localhost:8000` (see
 `frontend/vite.config.ts`), so start the API first. `POST /api/chat` also needs
-Ollama running and the Chroma store built (`python -m musaic.rag.ingestion`).
+Ollama running and the Chroma store built (`make ingest`).
 
 ## To do
 
 > Some business logic is intentionally left as `TODO` (marked in the code) so it
 > can be filled in progressively — e.g. the confidence score in
-> `src/musaic/api/services.py` and the richer chord-**sequence** suggestion in
-> `src/musaic/engine/musical_engine.py`.
+> `backend/src/musaic/api/services.py` and the richer chord-**sequence** suggestion in
+> `backend/src/musaic/engine/musical_engine.py`.
 
 It is also necessary to improve the RAG and the assistant, because for now it hallucinates a lot and does not always retrieve the most relevant documents. It will greatly improve the whole application.

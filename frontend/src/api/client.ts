@@ -3,7 +3,7 @@ import type { Analysis, ChatMessage } from "../types";
 // =============================================================================
 // Client API
 // -----------------------------------------------------------------------------
-// Appels réels au back-end FastAPI (`src/musaic/api`).
+// Appels réels au back-end FastAPI (`backend/src/musaic/api`).
 //
 // En développement, le serveur Vite proxyfie `/api` vers http://localhost:8000
 // (voir `vite.config.ts`). Il faut donc lancer l'API en parallèle du front :
@@ -12,7 +12,7 @@ import type { Analysis, ChatMessage } from "../types";
 //     npm run dev       # dans frontend/
 //
 // ⚠️ `POST /api/chat` a besoin qu'Ollama tourne et que la base Chroma soit
-// construite (`python -m musaic.rag.ingestion`) ; sinon l'assistant répondra
+// construite (`make ingest`) ; sinon l'assistant répondra
 // par le message d'erreur de repli.
 // =============================================================================
 
