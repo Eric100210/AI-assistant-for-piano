@@ -72,7 +72,7 @@ def estimate_confidence(key: str, degrees: list[str]) -> float:
     Pour l'instant : valeur neutre, pour ne pas bloquer l'endpoint.
     """
     # -------------------------------------------------------------------------
-    # TODO (toi, plus tard) — améliore cette estimation.
+    # TODO
     #
     # Piste : ``detect_key_from_notes`` (dans musaic/engine/musical_engine.py)
     # calcule déjà un score de corrélation, mais ne le renvoie pas. Tu pourras
