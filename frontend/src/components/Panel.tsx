@@ -25,7 +25,7 @@ export function Panel({
   action,
   children,
   className,
-}: PanelProps) {
+}: PanelProps): JSX.Element {
   return (
     <section className={[styles.panel, className].filter(Boolean).join(" ")}>
       <header className={styles.header}>

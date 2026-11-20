@@ -3,6 +3,8 @@
 import json
 import os
 import re
+from collections.abc import Iterable
+
 
 import yaml
 from langchain_chroma import Chroma
@@ -26,7 +28,7 @@ CHUNK_SECTIONS = {
 }
 
 
-def load_documents_from_directory(directory_path):
+def load_documents_from_directory(directory_path: str) -> list[Document]:
     if not os.path.exists(directory_path):
         raise FileNotFoundError(f"The directory '{directory_path}' does not exist.")
     loader = DirectoryLoader(directory_path, glob="**/*.md", loader_cls=TextLoader)
@@ -36,7 +38,7 @@ def load_documents_from_directory(directory_path):
     return documents
 
 
-def split_document_in_two_chunks(document):
+def split_document_in_two_chunks(document: Document) -> list[Document]:
     content = document.page_content
 
     # 1. Separate the YAML front matter from the Markdown content
@@ -91,7 +93,7 @@ def split_document_in_two_chunks(document):
             f"Type de contenu : {chunk_type}\n\n" + "\n\n".join(selected_sections)
         )
 
-        chunk_metadata = {}
+        chunk_metadata: dict[str, object] = {}
         for key, value in metadata.items():
             if isinstance(value, (list, dict)):
                 chunk_metadata[key] = json.dumps(value, ensure_ascii=False)
@@ -118,7 +120,9 @@ def split_document_in_two_chunks(document):
     return chunks
 
 
-def create_chunks_of_fixed_size(documents, chunk_size=CHUNK_SIZE, chunk_overlap=0):
+def create_chunks_of_fixed_size(
+    documents: Iterable[Document], chunk_size: int = CHUNK_SIZE, chunk_overlap: int = 0
+) -> list[Document]:
     """Not used : replaced by a fixed split in two chunks"""
     text_splitter = CharacterTextSplitter(
         chunk_size=chunk_size, chunk_overlap=chunk_overlap
@@ -129,7 +133,7 @@ def create_chunks_of_fixed_size(documents, chunk_size=CHUNK_SIZE, chunk_overlap=
     return chunks
 
 
-def create_chunks(documents):
+def create_chunks(documents: Iterable[Document]) -> list[Document]:
     all_chunks = []
     for document in documents:
         chunks = split_document_in_two_chunks(document)
@@ -137,7 +141,7 @@ def create_chunks(documents):
     return all_chunks
 
 
-def create_embeddings(chunks):
+def create_embeddings(chunks: list[Document]) -> Chroma:
     vector_store = Chroma.from_documents(
         chunks,
         get_embedding_model(),
@@ -147,7 +151,7 @@ def create_embeddings(chunks):
     return vector_store
 
 
-def main():
+def main() -> Chroma:
     documents = load_documents_from_directory(str(RAG_KNOWLEDGE_DIR))
     chunks = create_chunks(documents)
     for chunk in chunks:

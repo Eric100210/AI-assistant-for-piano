@@ -1,5 +1,7 @@
 import json
+from collections.abc import Iterable, Mapping, Sequence
 from functools import lru_cache
+from typing import TypedDict, cast, overload
 
 import numpy as np
 
@@ -83,21 +85,29 @@ MINOR_PROFILE = np.array(
 )
 
 
+class ProgressionMetadata(TypedDict, total=False):
+    degres: list[str]
+
+
+class ReferenceProgression(TypedDict):
+    metadata: ProgressionMetadata
+
+
 @lru_cache(maxsize=1)
-def load_reference_progressions():
+def load_reference_progressions() -> tuple[list[list[str]], list[list[str]]]:
     """Load the reference progressions once (lazy: importing this module stays side-effect free)."""
     with open(PROGRESSIONS_JSON) as f:
-        content = json.load(f)
+        content: list[ReferenceProgression] = json.load(f)
 
     reference_prog = [record["metadata"].get("degres", []) for record in content]
     reference_prog_cut = [prog[:3] for prog in reference_prog]
     return reference_prog, reference_prog_cut
 
 
-def detect_key_from_notes(pitches):
+def detect_key_from_notes(pitches: Iterable[int]) -> str | None:
     """
     Krumhansl-Schmuckler algorithm to determine the key and the mode
-    Returns the key (C) with the mode, and the correlation score
+    Return the key with its mode (e.g. C or Am), or None if undetermined.
     """
 
     pitch_classes = [note % 12 for note in pitches]
@@ -131,13 +141,21 @@ def detect_key_from_notes(pitches):
             best_mode = "minor"
 
     if best_mode == "minor":
-        best_key += "m"
+        best_key = cast(str, best_key) + "m"
 
     return best_key
 
 
-def enharmonic_to_sharp(note):
-    conversion = {
+@overload
+def enharmonic_to_sharp(note: str) -> str: ...
+
+
+@overload
+def enharmonic_to_sharp(note: str | None) -> str | None: ...
+
+
+def enharmonic_to_sharp(note: str | None) -> str | None:
+    conversion: dict[str | None, str] = {
         "Db": "C#",
         "Eb": "D#",
         "Gb": "F#",
@@ -148,7 +166,7 @@ def enharmonic_to_sharp(note):
     return conversion.get(note, note)
 
 
-def split_chord(chord):
+def split_chord(chord: object) -> tuple[str, str]:
     """
     Separate the root note from the chord specification.
     Examples :
@@ -169,7 +187,9 @@ def split_chord(chord):
     return root, specification
 
 
-def chords_to_degree_events(key, chords):
+def chords_to_degree_events(
+    key: str | None, chords: Iterable[Mapping[str, object]]
+) -> list[tuple[str, str]]:
     """Associe chaque accord reconnu à son degré : ``[(degree, chord), ...]``.
 
     Les accords non reconnus sont **ignorés**. On renvoie donc chaque degré collé
@@ -223,12 +243,14 @@ def chords_to_degree_events(key, chords):
     return events
 
 
-def chords_to_degrees(key, chords):
+def chords_to_degrees(
+    key: str | None, chords: Iterable[Mapping[str, object]]
+) -> list[str]:
     """Degrés seuls (sans les accords). Voir ``chords_to_degree_events``."""
     return [degree for degree, _ in chords_to_degree_events(key, chords)]
 
 
-def degrees_to_chords(key, degrees):
+def degrees_to_chords(key: str | None, degrees: Sequence[str]) -> list[str]:
     """Inverse de ``chords_to_degrees`` : transforme des degrés en noms d'accords.
 
     Un degré est un degré chromatique éventuellement suivi de spécifications
@@ -274,7 +296,7 @@ def degrees_to_chords(key, degrees):
     return chords
 
 
-def progression_simplification(progression):
+def progression_simplification(progression: list[str]) -> list[str]:
     simplified_progression = progression.copy()
 
     # removing extra specifications
@@ -298,7 +320,9 @@ def progression_simplification(progression):
     return simplified
 
 
-def suggest_next_chord(key, chords):
+def suggest_next_chord(
+    key: str | None, chords: Iterable[Mapping[str, object]]
+) -> tuple[list[str], list[str]]:
     # chord_progression is the full progression of chords played so far
     # hoping that the full progression will help identify the key to convert in degrees (to change)
     degree_progression = chords_to_degrees(key, chords)

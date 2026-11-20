@@ -2,7 +2,7 @@ import { LogoMark } from "./Icons";
 import styles from "./AppHeader.module.css";
 
 /** En-tête fixe : marque, badge de statut et modèle utilisé. */
-export function AppHeader() {
+export function AppHeader(): JSX.Element {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>

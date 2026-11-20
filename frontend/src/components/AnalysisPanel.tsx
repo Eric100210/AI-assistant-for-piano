@@ -10,7 +10,7 @@ interface AnalysisPanelProps {
 }
 
 /** Étape 2 — restitution de l'analyse : suggestion, accords, tonalité. */
-export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
+export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
   const { keyRoot, keyMode, confidence, progression, suggestion } = analysis;
   const confidencePct = Math.round(confidence * 100);
   const [primary, ...alternatives] = suggestion.candidates;
@@ -23,7 +23,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps) {
     return () => window.clearTimeout(id);
   }, [copied]);
 
-  async function copyProgression() {
+  async function copyProgression(): Promise<void> {
     await copyText(formatProgression(analysis));
     setCopied(true);
   }
@@ -159,7 +159,7 @@ async function copyText(text: string): Promise<void> {
   }
 }
 
-function ChordChip({ event, index }: { event: ChordEvent; index: number }) {
+function ChordChip({ event, index }: { event: ChordEvent; index: number }): JSX.Element {
   return (
     <>
       {index > 0 ? (

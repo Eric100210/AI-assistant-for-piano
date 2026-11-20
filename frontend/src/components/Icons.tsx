@@ -15,7 +15,7 @@ const base: IconProps = {
   "aria-hidden": true,
 };
 
-export function LogoMark(props: IconProps) {
+export function LogoMark(props: IconProps): JSX.Element {
   return (
     <svg width={28} height={28} viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
       <defs>
@@ -32,7 +32,7 @@ export function LogoMark(props: IconProps) {
   );
 }
 
-export function UploadCloud(props: IconProps) {
+export function UploadCloud(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M12 13v8" />
@@ -42,7 +42,7 @@ export function UploadCloud(props: IconProps) {
   );
 }
 
-export function Sparkles(props: IconProps) {
+export function Sparkles(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
@@ -51,7 +51,7 @@ export function Sparkles(props: IconProps) {
   );
 }
 
-export function Send(props: IconProps) {
+export function Send(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M22 2 11 13" />
@@ -60,7 +60,7 @@ export function Send(props: IconProps) {
   );
 }
 
-export function Activity(props: IconProps) {
+export function Activity(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M3 12h3l2.5-7 4 18 3-11h3l2-3h1" />
@@ -68,7 +68,7 @@ export function Activity(props: IconProps) {
   );
 }
 
-export function Wand(props: IconProps) {
+export function Wand(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="m3 21 9-9" />
@@ -77,7 +77,7 @@ export function Wand(props: IconProps) {
   );
 }
 
-export function Book(props: IconProps) {
+export function Book(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -86,7 +86,7 @@ export function Book(props: IconProps) {
   );
 }
 
-export function Check(props: IconProps) {
+export function Check(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="m20 6-11 11-5-5" />
@@ -94,7 +94,7 @@ export function Check(props: IconProps) {
   );
 }
 
-export function Info(props: IconProps) {
+export function Info(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <circle cx="12" cy="12" r="9" />
@@ -103,7 +103,7 @@ export function Info(props: IconProps) {
   );
 }
 
-export function ArrowRight(props: IconProps) {
+export function ArrowRight(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M5 12h14M13 6l6 6-6 6" />
@@ -111,7 +111,7 @@ export function ArrowRight(props: IconProps) {
   );
 }
 
-export function Copy(props: IconProps) {
+export function Copy(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
@@ -120,7 +120,7 @@ export function Copy(props: IconProps) {
   );
 }
 
-export function Music(props: IconProps) {
+export function Music(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M9 18V5l12-2v13" />
@@ -130,7 +130,7 @@ export function Music(props: IconProps) {
   );
 }
 
-export function Chat(props: IconProps) {
+export function Chat(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />

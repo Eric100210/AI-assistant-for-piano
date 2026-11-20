@@ -79,7 +79,7 @@ class TestEngine:
             (A_MINOR_I_IV_V_I, "Am"),
         ],
     )
-    def test_detect_key_from_notes(self, notes, expected_key):
+    def test_detect_key_from_notes(self, notes: list[int], expected_key: str) -> None:
         assert detect_key_from_notes(notes) == expected_key
 
     @pytest.mark.parametrize(
@@ -92,22 +92,22 @@ class TestEngine:
             ("Bb7", ("Bb", "7")),
         ],
     )
-    def test_split_chord(self, chord, expected):
+    def test_split_chord(self, chord: str, expected: tuple[str, str]) -> None:
         assert split_chord(chord) == expected
 
-    def test_chords_to_degrees(self):
+    def test_chords_to_degrees(self) -> None:
         major_chords = [{"chord": chord} for chord in ["C", "Am", "F", "G"]]
         assert chords_to_degrees("C", major_chords) == ["I", "vi", "IV", "V"]
 
         minor_chords = [{"chord": chord} for chord in ["Am", "C", "F", "G"]]
         assert chords_to_degrees("Am", minor_chords) == ["i", "III", "VI", "VII"]
 
-    def test_chords_to_degree_events_alignment(self):
+    def test_chords_to_degree_events_alignment(self) -> None:
         # chaque degré reste collé à SON accord, même si un accord est ignoré
         chords = [{"chord": "C"}, {"chord": "Xyz"}, {"chord": "F"}]
         assert chords_to_degree_events("C", chords) == [("I", "C"), ("IV", "F")]
 
-    def test_chords_to_degree_events_accepts_chord_objects(self):
+    def test_chords_to_degree_events_accepts_chord_objects(self) -> None:
         # detect_chords renvoie des objets pychord.Chord : le moteur doit les
         # ramener à des chaînes (sinon l'API échoue à sérialiser).
         from pychord import Chord
@@ -115,40 +115,40 @@ class TestEngine:
         chords = [{"chord": Chord("Cm")}, {"chord": Chord("F")}]
         assert chords_to_degree_events("C", chords) == [("Im", "Cm"), ("IV", "F")]
 
-    def test_degrees_to_chords(self):
+    def test_degrees_to_chords(self) -> None:
         degrees = ["I", "vi", "IV", "V"]
         assert degrees_to_chords("C", degrees) == ["C", "Am", "F", "G"]
 
         degrees = ["i", "III", "VI", "VII"]
         assert degrees_to_chords("Am", degrees) == ["Am", "C", "F", "G"]
 
-    def test_degrees_to_chords_round_trip(self):
+    def test_degrees_to_chords_round_trip(self) -> None:
         # accord -> degré -> accord doit redonner la progression de départ
         chords = [{"chord": chord} for chord in ["C", "Am", "F", "G"]]
         degrees = chords_to_degrees("C", chords)
         assert degrees_to_chords("C", degrees) == ["C", "Am", "F", "G"]
 
-    def test_degrees_to_chords_with_specifications(self):
+    def test_degrees_to_chords_with_specifications(self) -> None:
         # les spécifications explicites sont conservées, dans le bon ordre
         assert degrees_to_chords("C", ["Imaj7", "V7", "vi"]) == ["Cmaj7", "G7", "Am"]
         # les degrés "naturels" reprennent leur qualité, majeur comme mineur
         assert degrees_to_chords("C", ["ii", "vii°"]) == ["Dm", "Bdim"]
         assert degrees_to_chords("Am", ["i", "v"]) == ["Am", "Em"]
 
-    def test_suggest_next_chord_returns_a_list(self):
+    def test_suggest_next_chord_returns_a_list(self) -> None:
         chords = [{"chord": chord} for chord in ["C", "Am", "F"]]
         degrees, next_degrees = suggest_next_chord("C", chords)
         assert degrees == ["I", "vi", "IV"]
         # renvoyé sous forme de liste, déjà prêt à contenir une suite d'accords
         assert next_degrees == ["V"]
 
-    def test_suggest_next_chord_without_match(self):
+    def test_suggest_next_chord_without_match(self) -> None:
         # moins de 3 degrés : impossible de matcher les progressions de référence
         chords = [{"chord": chord} for chord in ["C", "F"]]
         _, next_degrees = suggest_next_chord("C", chords)
         assert next_degrees == []
 
-    def test_progression_simplification(self):
+    def test_progression_simplification(self) -> None:
         # specifications removed and consecutive duplicates collapsed
         assert progression_simplification(["Imaj7", "V7", "V7", "vi"]) == [
             "I",

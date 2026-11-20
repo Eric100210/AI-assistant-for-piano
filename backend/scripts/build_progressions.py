@@ -1,12 +1,19 @@
 import json
 import re
+from pathlib import Path
+from typing import TypedDict
 
 import yaml
 
 from musaic.config import PROGRESSIONS_DIR, PROGRESSIONS_JSON
 
 
-def load_progression(file_path):
+class ProgressionFile(TypedDict):
+    filename: str
+    metadata: dict[str, object]
+
+
+def load_progression(file_path: Path) -> ProgressionFile:
     content = file_path.read_text(encoding="utf-8")
     match = re.match(r"\A---\s*\n(.*?)\n---\s*\n?(.*)\Z", content, re.DOTALL)
     if not match:
@@ -24,7 +31,7 @@ def load_progression(file_path):
     }
 
 
-def get_all_progressions(directory=PROGRESSIONS_DIR):
+def get_all_progressions(directory: Path = PROGRESSIONS_DIR) -> list[ProgressionFile]:
     if not directory.exists():
         raise FileNotFoundError(f"Le dossier '{directory}' est introuvable.")
 
@@ -35,7 +42,7 @@ def get_all_progressions(directory=PROGRESSIONS_DIR):
     return [load_progression(file_path) for file_path in files]
 
 
-def main(output_file=PROGRESSIONS_JSON):
+def main(output_file: Path = PROGRESSIONS_JSON) -> None:
     progressions = get_all_progressions()
     output_file.write_text(
         json.dumps(progressions, ensure_ascii=False, indent=2) + "\n",

@@ -6,7 +6,7 @@ C'est le seul module qui connaît à la fois ``musaic`` et l'API.
 
 import logging
 from pathlib import Path
-from typing import Literal
+from typing import Literal, cast
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 
@@ -66,7 +66,7 @@ def build_progression(events: list[tuple[str, str]]) -> list[ChordEvent]:
     return [ChordEvent(degree=degree, chord=chord) for degree, chord in events]
 
 
-def estimate_confidence(key: str, degrees: list[str]) -> float:
+def estimate_confidence(key: str | None, degrees: list[str]) -> float:
     """Indice de confiance (0 → 1) de l'analyse.
 
     Pour l'instant : valeur neutre, pour ne pas bloquer l'endpoint.
@@ -103,7 +103,7 @@ def analyze_audio(
     # vraie progression en degrés + suite de degrés suggérée par le moteur
     degrees, next_degrees = suggest_next_chord(key, chords)
 
-    key_root, key_mode = parse_key(key)
+    key_root, key_mode = parse_key(cast(str, key))
 
     # le moteur raisonne en degrés : on les retransforme en vrais noms d'accords
     next_chords = degrees_to_chords(key, next_degrees)

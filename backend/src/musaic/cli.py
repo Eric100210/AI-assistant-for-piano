@@ -1,13 +1,16 @@
 """Command-line entry point (``musaic`` or ``python -m musaic``)."""
 
 import argparse
+from collections.abc import Sequence
 
 from musaic.config import TEST_AUDIO_LONGER_PATH
 from musaic.pipeline import suggest_next_chord_from_audio
 from musaic.rag.chat import LLMChat
 
 
-def asking_rag(key, progression_degrees, next_degrees):
+def asking_rag(
+    key: str | None, progression_degrees: Sequence[str], next_degrees: Sequence[str]
+) -> None:
     if next_degrees:
         query = (
             f"I played a progression {', '.join(progression_degrees)} in the key of {key}. "
@@ -25,7 +28,7 @@ def asking_rag(key, progression_degrees, next_degrees):
     chat.start_chat(initial_query=query)
 
 
-def main(argv=None):
+def main(argv: Sequence[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="musaic",
         description="Analyze an audio file and suggest the next chord in a progression.",

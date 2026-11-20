@@ -14,7 +14,7 @@ interface ChatPanelProps {
 }
 
 /** Étape 3 — conversation avec l'assistant musical (RAG). */
-export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
+export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps): JSX.Element {
   const [value, setValue] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +22,7 @@ export function ChatPanel({ messages, onSend, isThinking }: ChatPanelProps) {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, isThinking]);
 
-  function submit() {
+  function submit(): void {
     const query = value.trim();
     if (!query || isThinking) return;
     onSend(query);

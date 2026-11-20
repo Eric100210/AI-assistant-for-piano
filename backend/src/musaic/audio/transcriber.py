@@ -1,11 +1,21 @@
+from pathlib import Path
+from typing import TypedDict
+
 from basic_pitch.inference import predict
 
 from musaic.config import TEST_AUDIO_PATH
 
 
-def transcribe_audio(audio_path):
+class MidiNote(TypedDict):
+    pitch: int
+    start: float
+    end: float
+    velocity: int
+
+
+def transcribe_audio(audio_path: str | Path) -> list[MidiNote]:
     _, midi_data, _ = predict(audio_path)
-    notes = []
+    notes: list[MidiNote] = []
     for instrument in midi_data.instruments:
         for note in instrument.notes:
             notes.append(

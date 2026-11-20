@@ -41,19 +41,19 @@ export function UploadPanel({
   selectedFileName,
   isAnalyzing,
   onReset,
-}: UploadPanelProps) {
+}: UploadPanelProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  function openPicker() {
+  function openPicker(): void {
     if (!isAnalyzing) inputRef.current?.click();
   }
 
-  function accept(file: File | null | undefined) {
+  function accept(file: File | null | undefined): void {
     if (file && !isAnalyzing) onFileSelected(file);
   }
 
-  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
+  function handleDrop(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
     setIsDragging(false);
     accept(event.dataTransfer.files?.[0]);

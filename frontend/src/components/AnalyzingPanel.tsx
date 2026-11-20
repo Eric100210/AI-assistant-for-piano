@@ -3,7 +3,7 @@ import { Panel } from "./Panel";
 import styles from "./AnalyzingPanel.module.css";
 
 /** Panneau de chargement affiché pendant l'analyse du fichier audio. */
-export function AnalyzingPanel() {
+export function AnalyzingPanel(): JSX.Element {
   return (
     <Panel
       step="2"

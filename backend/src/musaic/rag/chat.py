@@ -3,7 +3,7 @@
 The interactive loop is kept here for convenience; ``musaic.cli`` drives it.
 """
 
-from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 
 from musaic.rag.llm import get_llm
 from musaic.rag.retrieval import (
@@ -20,10 +20,10 @@ Explain the effect of these possible progressions and suggest relevant variation
 
 
 class LLMChat:
-    def __init__(self):
-        self.chat_history = []
+    def __init__(self) -> None:
+        self.chat_history: list[BaseMessage] = []
 
-    def ask_question(self, query):
+    def ask_question(self, query: str) -> str:
         if self.chat_history:
             # Ask AI to make the question standalone
             standalone_query = make_standalone_query(query, self.chat_history)
@@ -31,7 +31,7 @@ class LLMChat:
             standalone_query = query
         return standalone_query
 
-    def start_chat(self, initial_query=None):
+    def start_chat(self, initial_query: str | None = None) -> None:
         if not initial_query:
             print(
                 "Welcome to the MusAIc music assistant! Ask questions about the chord progressions you play."

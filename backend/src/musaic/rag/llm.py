@@ -8,6 +8,6 @@ from musaic.config import LLM_MODEL, OLLAMA_BASE_URL
 
 
 @lru_cache(maxsize=1)
-def get_llm():
+def get_llm() -> OllamaLLM:
     """Return the shared LLM instance, created on first use."""
     return OllamaLLM(model=LLM_MODEL, base_url=OLLAMA_BASE_URL)

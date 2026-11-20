@@ -33,7 +33,7 @@ function welcomeMessage(analysis: Analysis): ChatMessage {
  * Les appels réseau passent par `src/api/client.ts` (API FastAPI, proxyfée par
  * le serveur de dev Vite sur `/api`).
  */
-export default function App() {
+export default function App(): JSX.Element {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
 
-  async function handleFileSelected(file: File) {
+  async function handleFileSelected(file: File): Promise<void> {
     setError(null);
     setSelectedFileName(file.name);
     setAnalysis(null);
@@ -64,7 +64,7 @@ export default function App() {
     }
   }
 
-  async function handleSend(query: string) {
+  async function handleSend(query: string): Promise<void> {
     setMessages((previous) => [
       ...previous,
       { id: nextMessageId(), role: "user", content: query },
@@ -91,7 +91,7 @@ export default function App() {
     }
   }
 
-  function handleReset() {
+  function handleReset(): void {
     setAnalysis(null);
     setMessages([]);
     setSelectedFileName(null);

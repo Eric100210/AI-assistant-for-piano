@@ -7,14 +7,14 @@ pures de ``musaic.api.services``.
 from musaic.api.services import build_progression, parse_key
 
 
-def test_parse_key():
+def test_parse_key() -> None:
     assert parse_key("C") == ("C", "major")
     assert parse_key("F#") == ("F#", "major")
     assert parse_key("Am") == ("A", "minor")
     assert parse_key("Cm") == ("C", "minor")
 
 
-def test_build_progression_converts_engine_events():
+def test_build_progression_converts_engine_events() -> None:
     events = [("I", "C"), ("vi", "Am"), ("IV", "F")]
     progression = build_progression(events)
     assert [(event.degree, event.chord) for event in progression] == [
@@ -24,5 +24,5 @@ def test_build_progression_converts_engine_events():
     ]
 
 
-def test_build_progression_with_empty_events():
+def test_build_progression_with_empty_events() -> None:
     assert build_progression([]) == []

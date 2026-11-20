@@ -15,20 +15,20 @@ from musaic.api.main import app  # noqa: E402
 client = TestClient(app)
 
 
-def test_health():
+def test_health() -> None:
     response = client.get("/api/health")
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
 
 
-def test_chat_validates_request_body():
+def test_chat_validates_request_body() -> None:
     # Un corps sans "query" doit être rejeté par Pydantic (422) avant
     # même d'atteindre la logique RAG (donc sans besoin d'Ollama).
     response = client.post("/api/chat", json={})
     assert response.status_code == 422
 
 
-def test_analyze_rejects_unknown_format():
+def test_analyze_rejects_unknown_format() -> None:
     response = client.post(
         "/api/analyze",
         files={"file": ("notes.txt", b"not music", "text/plain")},
