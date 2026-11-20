@@ -1,5 +1,5 @@
 import json
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Iterable, Iterator, Mapping, Sequence
 from functools import lru_cache
 from typing import TypedDict, cast, overload
 
@@ -116,6 +116,9 @@ def detect_key_from_notes(pitches: Iterable[int]) -> str | None:
     for pitch_class in pitch_classes:
         note_profile[pitch_class] += 1
 
+    if not np.any(note_profile != note_profile[0]):
+        return None
+
     best_key = None
     best_mode = None
     best_score = -np.inf
@@ -187,15 +190,10 @@ def split_chord(chord: object) -> tuple[str, str]:
     return root, specification
 
 
-def chords_to_degree_events(
-    key: str | None, chords: Iterable[Mapping[str, object]]
-) -> list[tuple[str, str]]:
-    """Associe chaque accord reconnu à son degré : ``[(degree, chord), ...]``.
-
-    Les accords non reconnus sont **ignorés**. On renvoie donc chaque degré collé
-    à SON accord d'origine : indispensable pour afficher une progression
-    « degré + accord » sans risque de décalage.
-    """
+def chord_degrees(
+    key: str, chords: Iterable[Mapping[str, object]]
+) -> Iterator[str | None]:
+    """Yield one Roman numeral per input chord, preserving its position."""
     key = enharmonic_to_sharp(key)
     key_root, key_spec = split_chord(key)
     key_index = SEMIS.index(key_root)
@@ -207,8 +205,6 @@ def chords_to_degree_events(
         chromatic_degrees = CHROMATIC_DEGREES_MAJOR
         natural_specifications = NATURAL_SPECIFICATIONS_MAJOR
 
-    events = []
-
     for chord_info in chords:
         # ``detect_chords`` renvoie des objets ``pychord.Chord`` : on fige le nom
         # en chaîne pour que tout le reste (et l'API) manipule du texte.
@@ -219,7 +215,7 @@ def chords_to_degree_events(
         try:
             chord_index = SEMIS.index(root)
         except ValueError:
-            print(f"Unknown chord : {chord}")
+            yield None
             continue
 
         interval = (chord_index - key_index) % 12
@@ -238,9 +234,20 @@ def chords_to_degree_events(
             if specification:
                 degree += specification
 
-        events.append((degree, chord))
+        yield degree
 
-    return events
+
+def chords_to_degree_events(
+    key: str | None, chords: Iterable[Mapping[str, object]]
+) -> list[tuple[str, str]]:
+    if key is None:
+        return []
+    chord_list = list(chords)
+    return [
+        (degree, str(chord["chord"]))
+        for chord, degree in zip(chord_list, chord_degrees(key, chord_list))
+        if degree is not None
+    ]
 
 
 def chords_to_degrees(
@@ -278,6 +285,10 @@ def degrees_to_chords(key: str | None, degrees: Sequence[str]) -> list[str]:
 
     chords = []
     for degree in degrees:
+        # The reference progressions use a major dominant in minor keys.
+        if key_spec == "m" and degree == "V":
+            chords.append(SEMIS[(key_index + 7) % 12])
+            continue
         base = next((d for d in degrees_by_length if degree.startswith(d)), None)
         if base is None:
             print(f"Unknown degree : {degree}")
@@ -312,9 +323,9 @@ def progression_simplification(progression: list[str]) -> list[str]:
         simplified_progression[i] = chord
 
     # removing consecutive identical chords
-    simplified = [simplified_progression[0]]
-    for chord in simplified_progression[1:]:
-        if chord != simplified[-1]:
+    simplified: list[str] = []
+    for chord in simplified_progression:
+        if not simplified or chord != simplified[-1]:
             simplified.append(chord)
 
     return simplified
@@ -323,19 +334,16 @@ def progression_simplification(progression: list[str]) -> list[str]:
 def suggest_next_chord(
     key: str | None, chords: Iterable[Mapping[str, object]]
 ) -> tuple[list[str], list[str]]:
-    # chord_progression is the full progression of chords played so far
-    # hoping that the full progression will help identify the key to convert in degrees (to change)
     degree_progression = chords_to_degrees(key, chords)
-    print(f"Degree progression: {degree_progression}")
+    return degree_progression, suggest_next_degrees(degree_progression)
 
+
+def suggest_next_degrees(degree_progression: list[str]) -> list[str]:
     simplified_progression = progression_simplification(degree_progression)
-    print(f"Simplified progression: {simplified_progression}")
+    if len(simplified_progression) < 3:
+        return []
 
-    last_three_degrees = (
-        simplified_progression[-3:]
-        if len(simplified_progression) >= 3
-        else simplified_progression
-    )
+    last_three_degrees = simplified_progression[-3:]
 
     # for now, suggestion when perfect match, otherwise an empty list
     # TODO : implémenter un système de suggestion plus souple (ex. distance
@@ -348,15 +356,5 @@ def suggest_next_chord(
         next_prog = reference_prog[index]
         # tout ce qui suit les 3 degrés reconnus (aujourd'hui un seul accord,
         # car les progressions de référence font 4 degrés, mais une liste déjà)
-        return degree_progression, next_prog[3:]
-    return degree_progression, []
-
-
-if __name__ == "__main__":
-    _, reference_prog_cut = load_reference_progressions()
-    print(reference_prog_cut)
-    test_progression = [{"chord": "C"}, {"chord": "G"}, {"chord": "F"}]
-    degree_progression, next_degrees = suggest_next_chord("C", test_progression)
-    print(
-        f"Next chord suggestion for {test_progression}: {next_degrees}, knowing {degree_progression}"
-    )
+        return next_prog[3:]
+    return []

@@ -17,7 +17,7 @@ import type { Analysis, ChatMessage } from "../types";
 // =============================================================================
 
 /** Préfixe de l'API (le dev server Vite proxyfie `/api` vers FastAPI). */
-export const API_BASE = "/api";
+const API_BASE = "/api";
 
 /** Récupère un message d'erreur lisible depuis une réponse non-OK (FastAPI). */
 async function errorMessage(res: Response): Promise<string> {
@@ -52,13 +52,16 @@ export async function analyzeAudio(file: File): Promise<Analysis> {
 export async function sendMessage(
   query: string,
   history: ChatMessage[],
+  analysis: Analysis,
+  signal: AbortSignal,
 ): Promise<string> {
   let res: Response;
   try {
     res = await fetch(`${API_BASE}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query, history }),
+      body: JSON.stringify({ query, history, analysis }),
+      signal,
     });
   } catch {
     throw new Error(

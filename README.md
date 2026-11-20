@@ -103,7 +103,7 @@ Then open <http://localhost:8000/docs> for the interactive API documentation.
 | --- | --- |
 | `GET  /api/health`  | health check |
 | `POST /api/analyze` | upload an audio file → `Analysis` (key, chords, suggestion) |
-| `POST /api/chat`    | ask a theory question (RAG), stateless: the frontend sends the history |
+| `POST /api/chat`    | ask a theory question (RAG), stateless: the frontend sends the history and recording analysis |
 
 ### Run the app locally
 
@@ -126,9 +126,7 @@ Ollama running and the Chroma store built (`make ingest`).
 
 ## To do
 
-> Some business logic is intentionally left as `TODO` (marked in the code) so it
-> can be filled in progressively — e.g. the confidence score in
-> `backend/src/musaic/api/services.py` and the richer chord-**sequence** suggestion in
-> `backend/src/musaic/engine/musical_engine.py`.
+Validate a key-confidence score against labeled recordings and improve the engine's
+chord-sequence suggestions.
 
 It is also necessary to improve the RAG and the assistant, because for now it hallucinates a lot and does not always retrieve the most relevant documents. This will greatly improve the whole application.

@@ -1,28 +1,38 @@
-"""Tests de la couche de service (adaptation cœur -> schémas d'API).
+"""Tests for the adaptation from recording analysis to HTTP schemas."""
 
-Ils ne lancent pas l'application FastAPI : on teste directement les fonctions
-pures de ``musaic.api.services``.
-"""
+from pathlib import Path
 
-from musaic.api.services import build_progression, parse_key
+import pytest
+
+from musaic.api import services
+from musaic.pipeline import ChordSuggestion, DetectedChord, RecordingAnalysis
 
 
 def test_parse_key() -> None:
-    assert parse_key("C") == ("C", "major")
-    assert parse_key("F#") == ("F#", "major")
-    assert parse_key("Am") == ("A", "minor")
-    assert parse_key("Cm") == ("C", "minor")
+    assert services.parse_key("C") == ("C", "major")
+    assert services.parse_key("F#") == ("F#", "major")
+    assert services.parse_key("Am") == ("A", "minor")
+    assert services.parse_key("Cm") == ("C", "minor")
 
 
-def test_build_progression_converts_engine_events() -> None:
-    events = [("I", "C"), ("vi", "Am"), ("IV", "F")]
-    progression = build_progression(events)
-    assert [(event.degree, event.chord) for event in progression] == [
-        ("I", "C"),
-        ("vi", "Am"),
-        ("IV", "F"),
-    ]
+def test_analyze_audio_preserves_chord_timing(monkeypatch: pytest.MonkeyPatch) -> None:
+    def analyze_recording(path: Path) -> RecordingAnalysis:
+        assert path == Path("recording.wav")
+        return RecordingAnalysis(
+            key="Am",
+            progression=[DetectedChord("Am", "i", 0.2, 1.7)],
+            suggestions=[ChordSuggestion("E", "V")],
+        )
 
+    monkeypatch.setattr(services, "analyze_recording", analyze_recording)
 
-def test_build_progression_with_empty_events() -> None:
-    assert build_progression([]) == []
+    analysis = services.analyze_audio(Path("recording.wav"), "recording.wav")
+
+    assert (analysis.keyRoot, analysis.keyMode) == ("A", "minor")
+    assert analysis.progression[0].model_dump() == {
+        "degree": "i",
+        "chord": "Am",
+        "start": 0.2,
+        "end": 1.7,
+    }
+    assert analysis.suggestion.candidates[0].chord == "E"

@@ -4,28 +4,27 @@ import argparse
 from collections.abc import Sequence
 
 from musaic.config import TEST_AUDIO_LONGER_PATH
-from musaic.pipeline import suggest_next_chord_from_audio
+from musaic.pipeline import RecordingAnalysis, analyze_recording
 from musaic.rag.chat import LLMChat
 
 
-def asking_rag(
-    key: str | None, progression_degrees: Sequence[str], next_degrees: Sequence[str]
-) -> None:
-    if next_degrees:
-        query = (
-            f"I played a progression {', '.join(progression_degrees)} in the key of {key}. "
-            f"Looking at the progression as a whole, I'm advised to continue with one of the following chords: {', '.join(next_degrees)}. "
-            "Explain the effect of each possible continuation and suggest relevant variations, taking the actual progression and its specifics into account."
+def asking_rag(result: RecordingAnalysis) -> None:
+    progression = ", ".join(
+        f"{event.chord} ({event.degree})" if event.degree else event.chord
+        for event in result.progression
+    )
+    key = result.key or "undetermined"
+    query = f"I played {progression}. The estimated key is {key}. "
+    if result.suggestions:
+        candidates = ", ".join(f"{event.chord} ({event.degree})" for event in result.suggestions)
+        query += (
+            f"The music engine suggests {candidates}. "
+            "Explain the effect of each continuation and suggest relevant variations."
         )
     else:
-        query = (
-            f"I played a progression {', '.join(progression_degrees)} in the key of {key}. "
-            "Based on your knowledge and the relevant documents, suggest chords that could follow this progression. "
-            "Briefly explain the effect of each possibility and suggest relevant variations."
-        )
+        query += "Suggest suitable continuations and briefly explain the effect of each."
 
-    chat = LLMChat()
-    chat.start_chat(initial_query=query)
+    LLMChat().start_chat(initial_query=query)
 
 
 def main(argv: Sequence[str] | None = None) -> None:
@@ -41,9 +40,12 @@ def main(argv: Sequence[str] | None = None) -> None:
     )
     args = parser.parse_args(argv)
 
-    key, progression_degrees, next_degrees = suggest_next_chord_from_audio(args.audio)
-    print("Progression degrees:", progression_degrees)
-    asking_rag(key, progression_degrees, next_degrees)
+    result = analyze_recording(args.audio)
+    if not result.progression:
+        print("No chords were detected in this recording.")
+        return
+    print("Detected chords:", ", ".join(event.chord for event in result.progression))
+    asking_rag(result)
 
 
 if __name__ == "__main__":

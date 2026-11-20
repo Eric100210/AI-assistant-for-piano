@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import type { Analysis, ChordEvent } from "../types";
+import type { Analysis, DetectedChord } from "../types";
 import { Activity, ArrowRight, Check, Copy, Sparkles } from "./Icons";
 import { Panel } from "./Panel";
 import styles from "./AnalysisPanel.module.css";
@@ -11,8 +11,7 @@ interface AnalysisPanelProps {
 
 /** Étape 2 — restitution de l'analyse : suggestion, accords, tonalité. */
 export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
-  const { keyRoot, keyMode, confidence, progression, suggestion } = analysis;
-  const confidencePct = Math.round(confidence * 100);
+  const { keyRoot, keyMode, progression, suggestion } = analysis;
   const [primary, ...alternatives] = suggestion.candidates;
   const [copied, setCopied] = useState(false);
 
@@ -33,12 +32,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
       step="2"
       icon={<Activity width={19} height={19} />}
       title="Analysis"
-      subtitle={`${analysis.fileName} · ${analysis.durationLabel}`}
-      action={
-        <span className={styles.confidenceBadge}>
-          {confidencePct}% confidence
-        </span>
-      }
+      subtitle={analysis.fileName}
     >
       <div className={styles.stack}>
         {/* ---------------------------- Suggestion ---------------------------- */}
@@ -84,9 +78,7 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
             {progression.map((event, index) => (
               <ChordChip key={`${event.degree}-${index}`} event={event} index={index} />
             ))}
-            <span className={styles.ellipsis} aria-hidden>
-              ···
-            </span>
+            {progression.length === 0 ? <span>No chords detected</span> : null}
           </div>
         </div>
 
@@ -96,18 +88,8 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
           <div className={styles.keyInfo}>
             <span className={styles.keyLabel}>Detected key</span>
             <div className={styles.keyValue}>
-              <span className={styles.keyRoot}>{keyRoot}</span>
+              <span className={styles.keyRoot}>{keyRoot ?? "Undetermined"}</span>
               <span className={styles.keyMode}>{keyMode}</span>
-            </div>
-          </div>
-          <div className={styles.confidence}>
-            <span className={styles.confidenceValue}>{confidencePct}%</span>
-            <span className={styles.confidenceLabel}>confidence</span>
-            <div className={styles.confidenceBar}>
-              <span
-                className={styles.confidenceFill}
-                style={{ width: `${confidencePct}%` }}
-              />
             </div>
           </div>
         </div>
@@ -135,12 +117,11 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
 
 /** Met en forme la progression pour le presse-papiers (lisible par l'assistant). */
 function formatProgression(analysis: Analysis): string {
-  const degrees = analysis.progression.map((event) => event.degree).join(" – ");
-  const chords = analysis.progression.map((event) => event.chord).join(" – ");
-  return (
-    `I played a progression ${degrees} (chords: ${chords}) ` +
-    `in the key of ${analysis.keyRoot} ${analysis.keyMode}.`
-  );
+  const progression = analysis.progression
+    .map(({ chord, degree }) => degree ? `${chord} (${degree})` : chord)
+    .join(" – ");
+  const key = analysis.keyRoot ? ` in ${analysis.keyRoot} ${analysis.keyMode}` : "";
+  return `I played ${progression}${key}.`;
 }
 
 /** Copie un texte dans le presse-papiers, avec un repli pour les contextes non sécurisés. */
@@ -159,7 +140,7 @@ async function copyText(text: string): Promise<void> {
   }
 }
 
-function ChordChip({ event, index }: { event: ChordEvent; index: number }): JSX.Element {
+function ChordChip({ event, index }: { event: DetectedChord; index: number }): JSX.Element {
   return (
     <>
       {index > 0 ? (
@@ -167,8 +148,11 @@ function ChordChip({ event, index }: { event: ChordEvent; index: number }): JSX.
           <ArrowRight width={14} height={14} />
         </span>
       ) : null}
-      <span className={styles.chordChip}>
-        <span className={styles.chordDegree}>{event.degree}</span>
+      <span
+        className={styles.chordChip}
+        title={`${event.start.toFixed(1)}–${event.end.toFixed(1)} s`}
+      >
+        {event.degree ? <span className={styles.chordDegree}>{event.degree}</span> : null}
         <span className={styles.chordName}>{event.chord}</span>
       </span>
     </>

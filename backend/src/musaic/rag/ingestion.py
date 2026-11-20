@@ -5,14 +5,12 @@ import os
 import re
 from collections.abc import Iterable
 
-
 import yaml
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_core.documents import Document
-from langchain_text_splitters import CharacterTextSplitter
 
-from musaic.config import CHUNK_SIZE, PERSIST_DIRECTORY, RAG_KNOWLEDGE_DIR
+from musaic.config import PERSIST_DIRECTORY, RAG_KNOWLEDGE_DIR
 from musaic.rag.embeddings import get_embedding_model
 
 CHUNK_SECTIONS = {
@@ -38,7 +36,7 @@ def load_documents_from_directory(directory_path: str) -> list[Document]:
     return documents
 
 
-def split_document_in_two_chunks(document: Document) -> list[Document]:
+def split_document(document: Document) -> list[Document]:
     content = document.page_content
 
     # 1. Separate the YAML front matter from the Markdown content
@@ -48,6 +46,18 @@ def split_document_in_two_chunks(document: Document) -> list[Document]:
 
     metadata = yaml.safe_load(match.group(1)) or {}
     markdown = content[match.end() :]
+
+    if metadata.get("type") != "progression":
+        return [
+            Document(
+                page_content=markdown.strip(),
+                metadata={
+                    **document.metadata,
+                    "chunk_id": metadata["id"],
+                    "chunk_type": "theory",
+                },
+            )
+        ]
 
     # 2. Get the main title (first line starting with #)
     title_match = re.search(r"^# .+$", markdown, re.MULTILINE)
@@ -84,7 +94,6 @@ def split_document_in_two_chunks(document: Document) -> list[Document]:
             continue
 
         chunk_id = f"{progression_id}::{chunk_type}"
-        related_type = "interpretation" if chunk_type == "structure" else "structure"
 
         page_content = (
             f"{title}\n\n"
@@ -104,7 +113,6 @@ def split_document_in_two_chunks(document: Document) -> list[Document]:
             {
                 "chunk_id": chunk_id,
                 "chunk_type": chunk_type,
-                "related_to": f"{progression_id}::{related_type}",
             }
         )
 
@@ -120,23 +128,10 @@ def split_document_in_two_chunks(document: Document) -> list[Document]:
     return chunks
 
 
-def create_chunks_of_fixed_size(
-    documents: Iterable[Document], chunk_size: int = CHUNK_SIZE, chunk_overlap: int = 0
-) -> list[Document]:
-    """Not used : replaced by a fixed split in two chunks"""
-    text_splitter = CharacterTextSplitter(
-        chunk_size=chunk_size, chunk_overlap=chunk_overlap
-    )
-    chunks = text_splitter.split_documents(documents)
-    if chunks is None or len(chunks) == 0:
-        raise ValueError("No chunks were created from the documents.")
-    return chunks
-
-
 def create_chunks(documents: Iterable[Document]) -> list[Document]:
     all_chunks = []
     for document in documents:
-        chunks = split_document_in_two_chunks(document)
+        chunks = split_document(document)
         all_chunks.extend(chunks)
     return all_chunks
 
@@ -157,7 +152,6 @@ def main() -> Chroma:
     for chunk in chunks:
         print(f"Chunk ID: {chunk.metadata.get('chunk_id')}")
         print(f"Chunk Type: {chunk.metadata.get('chunk_type')}")
-        print(f"Related To: {chunk.metadata.get('related_to')}")
         print(f"Content:\n{chunk.page_content[:200]}...\n")
         print("-" * 80)
 

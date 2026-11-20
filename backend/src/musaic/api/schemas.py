@@ -17,6 +17,15 @@ class ChordEvent(BaseModel):
     chord: str
 
 
+class DetectedChord(BaseModel):
+    """A detected chord and its interval in seconds."""
+
+    chord: str
+    degree: str | None
+    start: float
+    end: float
+
+
 class Suggestion(BaseModel):
     """Suggestion from the music engine for the continuation of the progression."""
 
@@ -28,11 +37,9 @@ class Analysis(BaseModel):
     """Full result of an audio analysis (``POST /api/analyze`` response)."""
 
     fileName: str
-    durationLabel: str
-    keyRoot: str
-    keyMode: Literal["major", "minor"]
-    confidence: float
-    progression: list[ChordEvent]
+    keyRoot: str | None
+    keyMode: Literal["major", "minor"] | None
+    progression: list[DetectedChord]
     suggestion: Suggestion
 
 
@@ -49,6 +56,7 @@ class ChatRequest(BaseModel):
 
     query: str
     history: list[ChatMessage] = Field(default_factory=list)
+    analysis: Analysis | None = None
 
 
 class ChatResponse(BaseModel):

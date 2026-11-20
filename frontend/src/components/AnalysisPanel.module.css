@@ -60,42 +60,6 @@
   color: var(--text-muted);
 }
 
-.confidence {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
-  min-width: 100px;
-}
-
-.confidenceValue {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.confidenceLabel {
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-.confidenceBar {
-  width: 100px;
-  height: 4px;
-  margin-top: 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-.confidenceFill {
-  display: block;
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(201, 176, 138, 0.9), rgba(163, 139, 106, 0.8));
-}
-
 /* ------------------------------- Blocs ---------------------------------- */
 .block {
   display: flex;
@@ -144,13 +108,6 @@
   display: grid;
   place-items: center;
   color: var(--text-dim);
-}
-
-.ellipsis {
-  color: var(--text-dim);
-  letter-spacing: 2px;
-  padding: 0 2px 6px;
-  align-self: flex-end;
 }
 
 /* ---------------------------- Suggestion -------------------------------- */

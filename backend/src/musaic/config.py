@@ -19,7 +19,6 @@ BACKEND_ROOT = Path(os.getenv("MUSAIC_ROOT", PACKAGE_ROOT.parents[1])).resolve()
 # --- Knowledge base directories ---
 RAG_KNOWLEDGE_DIR = BACKEND_ROOT / "data" / "rag_knowledge"
 PROGRESSIONS_DIR = RAG_KNOWLEDGE_DIR / "progressions"
-THEORY_DIR = RAG_KNOWLEDGE_DIR / "theory"
 
 # Generated musical-engine data (shipped as package data)
 PROGRESSIONS_JSON = PACKAGE_ROOT / "engine" / "progressions.json"
@@ -30,7 +29,6 @@ PERSIST_DIRECTORY = DB_DIR / "chroma_db"
 
 # Test data
 TEST_AUDIO_DIR = BACKEND_ROOT / "data" / "test_audio"
-TEST_AUDIO_PATH = TEST_AUDIO_DIR / "test_audio.mp3"
 TEST_AUDIO_LONGER_PATH = TEST_AUDIO_DIR / "test_audio_longer.mp3"
 
 # --- Models ---
@@ -40,7 +38,6 @@ EMBEDDING_MODEL = "nomic-embed-text"
 
 # --- RAG parameters ---
 NB_RESULTS_RAG = 4
-CHUNK_SIZE = 1000
 
 # --- Music constants ---
 SEMIS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]

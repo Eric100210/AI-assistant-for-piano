@@ -16,10 +16,13 @@ function nextMessageId(): string {
 }
 
 function welcomeMessage(analysis: Analysis): ChatMessage {
+  const content = analysis.progression.length === 0
+    ? "I found no chords in this recording. You can still ask me a music theory question."
+    : "Ask me about the detected progression or what you could play next.";
   return {
     id: nextMessageId(),
     role: "assistant",
-    content: `I analyzed “${analysis.fileName}”: the key is ${analysis.keyRoot} ${analysis.keyMode}. Ask me anything about this progression or what could come next.`,
+    content,
   };
 }
 
@@ -40,13 +43,14 @@ export default function App(): JSX.Element {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isThinking, setIsThinking] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const pendingChat = useRef<AbortController | null>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
 
   async function handleFileSelected(file: File): Promise<void> {
+    clearChat();
     setError(null);
     setSelectedFileName(file.name);
     setAnalysis(null);
-    setMessages([]);
     setIsAnalyzing(true);
 
     try {
@@ -65,6 +69,9 @@ export default function App(): JSX.Element {
   }
 
   async function handleSend(query: string): Promise<void> {
+    if (!analysis || pendingChat.current) return;
+    const request = new AbortController();
+    pendingChat.current = request;
     setMessages((previous) => [
       ...previous,
       { id: nextMessageId(), role: "user", content: query },
@@ -72,12 +79,14 @@ export default function App(): JSX.Element {
     setIsThinking(true);
 
     try {
-      const reply = await sendMessage(query, messages);
+      const reply = await sendMessage(query, messages.slice(1), analysis, request.signal);
+      if (request.signal.aborted) return;
       setMessages((previous) => [
         ...previous,
         { id: nextMessageId(), role: "assistant", content: reply },
       ]);
     } catch {
+      if (request.signal.aborted) return;
       setMessages((previous) => [
         ...previous,
         {
@@ -87,13 +96,23 @@ export default function App(): JSX.Element {
         },
       ]);
     } finally {
-      setIsThinking(false);
+      if (pendingChat.current === request) {
+        pendingChat.current = null;
+        setIsThinking(false);
+      }
     }
   }
 
-  function handleReset(): void {
-    setAnalysis(null);
+  function clearChat(): void {
+    pendingChat.current?.abort();
+    pendingChat.current = null;
     setMessages([]);
+    setIsThinking(false);
+  }
+
+  function handleReset(): void {
+    clearChat();
+    setAnalysis(null);
     setSelectedFileName(null);
     setError(null);
     setIsAnalyzing(false);

@@ -94,15 +94,6 @@ export function Check(props: IconProps): JSX.Element {
   );
 }
 
-export function Info(props: IconProps): JSX.Element {
-  return (
-    <svg {...base} {...props}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 16v-4M12 8h.01" />
-    </svg>
-  );
-}
-
 export function ArrowRight(props: IconProps): JSX.Element {
   return (
     <svg {...base} {...props}>

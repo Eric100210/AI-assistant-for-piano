@@ -63,12 +63,10 @@ def generate_response(query: str, documents: Sequence[Document]) -> str:
     return get_llm().invoke(messages)
 
 
-if __name__ == "__main__":
-    test_query = (
-        "I played a I - VIm - IV progression. I'm advised to play one of "
-        "V - I next. Explain the effect of these possible progressions and "
-        "suggest relevant variations."
-    )
-    relevant_docs = retrieve_documents(test_query)
-    response = generate_response(test_query, relevant_docs)
-    print(f"Response: {response}")
+def answer_question(
+    query: str, history: Sequence[BaseMessage], *, context: str | None = None
+) -> str:
+    standalone_query = make_standalone_query(query, history) if history else query
+    request = f"{standalone_query}\n\nRecording analysis:\n{context}" if context else standalone_query
+    documents = retrieve_documents(request)
+    return generate_response(request, documents)

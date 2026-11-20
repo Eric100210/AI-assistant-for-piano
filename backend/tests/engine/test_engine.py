@@ -157,3 +157,13 @@ class TestEngine:
         ]
         # inversions removed
         assert progression_simplification(["C/G", "F"]) == ["C", "F"]
+
+    def test_suggest_next_chord_without_detected_chords(self) -> None:
+        assert suggest_next_chord("C", []) == ([], [])
+        assert detect_key_from_notes([]) is None
+
+    def test_major_dominant_suggestion_in_minor(self) -> None:
+        chords = [{"chord": chord} for chord in ["Am", "F", "Dm"]]
+        _, next_degrees = suggest_next_chord("Am", chords)
+        assert next_degrees == ["V"]
+        assert degrees_to_chords("Am", next_degrees) == ["E"]

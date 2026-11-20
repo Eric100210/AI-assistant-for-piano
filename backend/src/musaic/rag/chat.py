@@ -5,31 +5,12 @@ The interactive loop is kept here for convenience; ``musaic.cli`` drives it.
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 
-from musaic.rag.llm import get_llm
-from musaic.rag.retrieval import (
-    generate_response,
-    retrieve_documents,
-    make_standalone_query,
-)
-
-TEST_QUERY = """
-I played a I - VIm - IV progression:
-I'm advised to play one of the following chords next: V - I.
-Explain the effect of these possible progressions and suggest relevant variations, along with the music styles they are often associated with.
-"""
+from musaic.rag.retrieval import answer_question
 
 
 class LLMChat:
     def __init__(self) -> None:
         self.chat_history: list[BaseMessage] = []
-
-    def ask_question(self, query: str) -> str:
-        if self.chat_history:
-            # Ask AI to make the question standalone
-            standalone_query = make_standalone_query(query, self.chat_history)
-        else:
-            standalone_query = query
-        return standalone_query
 
     def start_chat(self, initial_query: str | None = None) -> None:
         if not initial_query:
@@ -45,13 +26,7 @@ class LLMChat:
             else:
                 user_input = initial_query
 
-            query = self.ask_question(
-                user_input
-            )  # reformulate the question to be standalone
-
-            # Generate response using the retrieval pipeline
-            documents = retrieve_documents(query)
-            response = generate_response(query, documents)
+            response = answer_question(user_input, self.chat_history)
 
             # Remember the conversation in chat_history
             self.chat_history.append(HumanMessage(content=user_input))
@@ -59,9 +34,3 @@ class LLMChat:
             initial_query = None
 
             print(f"MusAIc: {response}")
-
-
-if __name__ == "__main__":
-    chat = LLMChat()
-    print(chat.chat_history)
-    chat.start_chat(initial_query=TEST_QUERY)

@@ -13,20 +13,23 @@ export interface ChordEvent {
   chord: string;
 }
 
+export interface DetectedChord {
+  chord: string;
+  degree: string | null;
+  start: number;
+  end: number;
+}
+
 /** Résultat complet d'une analyse audio. */
 export interface Analysis {
   /** Nom du fichier analysé. */
   fileName: string;
-  /** Durée formatée, ex. "0:42". */
-  durationLabel: string;
   /** Tonique détectée, ex. "C", "F#". */
-  keyRoot: string;
+  keyRoot: string | null;
   /** Mode détecté. */
-  keyMode: "major" | "minor";
-  /** Indice de confiance de la détection (0 → 1). */
-  confidence: number;
+  keyMode: "major" | "minor" | null;
   /** Progression d'accords détectée, dans l'ordre chronologique. */
-  progression: ChordEvent[];
+  progression: DetectedChord[];
   /** Suggestion du moteur musical pour la suite. */
   suggestion: {
     /** Accords proposés pour la suite de la progression, dans l'ordre. */

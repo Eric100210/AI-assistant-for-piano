@@ -80,7 +80,7 @@ The frontend consumes two endpoints served by `backend/src/musaic/api/`:
 | Function (`src/api/client.ts`) | Endpoint | Body / response |
 | --- | --- | --- |
 | `analyzeAudio(file)` | `POST /api/analyze` | multipart `file` → `Analysis` |
-| `sendMessage(query, history)` | `POST /api/chat` | `{ query, history }` → `{ response }` |
+| `sendMessage(query, history, analysis, signal)` | `POST /api/chat` | `{ query, history, analysis }` → `{ response }` |
 
 The types in `src/types.ts` describe these responses exactly (they are the mirror
 of the Pydantic schemas in `backend/src/musaic/api/schemas.py`).
