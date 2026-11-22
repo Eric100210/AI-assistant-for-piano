@@ -86,11 +86,16 @@ MINOR_PROFILE = np.array(
 )
 
 
+ProgressionMode = Literal["major", "minor"]
+MatchKind = Literal["exact", "similar", "short", "gap"]
+
+
 class ProgressionMetadata(TypedDict, total=False):
     degres: list[str]
+    tonalite: Literal["majeure", "mineure"]
 
 
-class ReferenceProgression(TypedDict):
+class ProgressionRecord(TypedDict):
     metadata: ProgressionMetadata
 
 
@@ -102,18 +107,32 @@ class KeyEstimate:
 
 
 @dataclass(frozen=True)
+class ReferenceProgression:
+    degrees: tuple[str, ...]
+    mode: ProgressionMode
+
+
+@dataclass(frozen=True)
 class RankedContinuation:
     degree: str
     reference_matches: int
     example: tuple[str, ...]
+    match_kind: MatchKind
 
 
 @lru_cache(maxsize=1)
-def load_reference_progressions() -> tuple[tuple[str, ...], ...]:
+def load_reference_progressions() -> tuple[ReferenceProgression, ...]:
     """Load the reference progressions once."""
     with open(PROGRESSIONS_JSON, encoding="utf-8") as source:
-        content: list[ReferenceProgression] = json.load(source)
-    return tuple(tuple(record["metadata"].get("degres", ())) for record in content)
+        content: list[ProgressionRecord] = json.load(source)
+    return tuple(
+        ReferenceProgression(
+            tuple(metadata["degres"]),
+            "minor" if metadata["tonalite"] == "mineure" else "major",
+        )
+        for record in content
+        if (metadata := record["metadata"]).get("degres") and "tonalite" in metadata
+    )
 
 
 def estimate_key(pitches: Iterable[int]) -> KeyEstimate:
@@ -334,29 +353,69 @@ def suggest_next_chord(
     key: str | None, chords: Iterable[Mapping[str, object]]
 ) -> tuple[list[str], list[str]]:
     degree_progression = chords_to_degrees(key, chords)
-    return degree_progression, suggest_next_degrees(degree_progression)
+    mode: ProgressionMode | None = ("minor" if key.endswith("m") else "major") if key else None
+    return degree_progression, [
+        match.degree for match in rank_next_degrees(degree_progression, mode=mode)
+    ]
 
 
 def suggest_next_degrees(degree_progression: list[str]) -> list[str]:
     return [match.degree for match in rank_next_degrees(degree_progression)]
 
 
-def rank_next_degrees(progression: Sequence[str]) -> list[RankedContinuation]:
-    """Rank the next degree by the number of matching reference entries."""
-    observed = progression_simplification(progression, collapse_repeats=False)
-    prefixes = {tuple(observed[-3:]), tuple(progression_simplification(observed)[-3:])}
-    matches: dict[str, list[tuple[str, ...]]] = {}
-    for reference in load_reference_progressions():
-        if len(reference) < 4:
-            continue
-        prefix = progression_simplification(reference[:3], collapse_repeats=False)
-        if tuple(prefix) in prefixes:
-            matches.setdefault(reference[3], []).append(reference)
+def reference_distance(observed: tuple[str, ...], prefix: tuple[str, ...]) -> int | None:
+    # Anchor on the current harmony and prefer retaining the most recent approach.
+    if len(observed) < 2 or observed[-1] != prefix[-1]:
+        return None
+    if len(observed) == 2:
+        return 3 if observed == prefix[-2:] else None
+    differences = (observed[0] != prefix[0], observed[1] != prefix[1])
+    if all(differences):
+        return None
+    return int(differences[0]) + 2 * int(differences[1])
 
-    return sorted(
-        (
-            RankedContinuation(degree, len(examples), min(examples))
-            for degree, examples in matches.items()
-        ),
-        key=lambda match: (-match.reference_matches, match.degree),
-    )
+
+def rank_next_degrees(
+    progression: Sequence[str],
+    *,
+    mode: ProgressionMode | None = None,
+    earlier_degrees: Sequence[str] = (),
+) -> list[RankedContinuation]:
+    """Rank the confirmed ending, using degrees across a gap only as secondary evidence."""
+    observed = progression_simplification(progression, collapse_repeats=False)
+    earlier = set(progression_simplification(earlier_degrees))
+    if not observed or (len(observed) < 2 and not earlier):
+        return []
+    contexts = {tuple(observed[-3:]), tuple(progression_simplification(observed)[-3:])}
+
+    best_distance: int | None = None
+    matches: dict[str, list[tuple[int, tuple[str, ...]]]] = {}
+    for reference in load_reference_progressions():
+        if len(reference.degrees) < 4 or (mode is not None and mode != reference.mode):
+            continue
+        prefix = tuple(progression_simplification(reference.degrees[:3], collapse_repeats=False))
+        distances = [reference_distance(context, prefix) for context in contexts]
+        distance = min((value for value in distances if value is not None), default=None)
+        if distance is None:
+            if not earlier or observed[-1] != prefix[-1]:
+                continue
+            distance = 4  # Same current chord, without a reliable match for its approach.
+        if best_distance is not None and distance > best_distance:
+            continue
+        if best_distance is None or distance < best_distance:
+            matches.clear()
+            best_distance = distance
+        support = len(earlier.intersection(prefix[:-1])) if distance else 0
+        matches.setdefault(reference.degrees[3], []).append((support, reference.degrees))
+
+    kinds: dict[int, MatchKind] = {0: "exact", 1: "similar", 2: "similar", 3: "short", 4: "gap"}
+    if best_distance is None:
+        return []
+    ranked = []
+    for degree, examples in matches.items():
+        support, example = min(examples, key=lambda entry: (-entry[0], entry[1]))
+        ranked.append(
+            (support, RankedContinuation(degree, len(examples), example, kinds[best_distance]))
+        )
+    ranked.sort(key=lambda entry: (-entry[0], -entry[1].reference_matches, entry[1].degree))
+    return [match for _, match in ranked]

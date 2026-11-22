@@ -25,7 +25,7 @@ In practice, the audio analysis identifies the chords being played, a music engi
 
 Then: 
 
-1. We simplify the progression by removing specifications and suggest the next degree with a deterministic engine (by comparing it with a dataset). A conversation with the RAG is used in a second phase to explain the theory or suggest variations.
+1. The engine compares the latest confirmed degrees with same-mode reference progressions. It prefers exact matches, then nearby examples that keep the current chord and differ by one earlier degree. For a two-chord ending, it can match a reference with that same ending. If an unclear passage interrupts the progression, earlier confirmed chords can help rank analogies without counting the passage as an exact match. The chat can explain the suggestion or offer variations.
 2. We should be able to pass the simplified progression and the real one to the RAG, which directly suggests the next chord and variations based on the full real progression (not implemented yet, we inevitably go through the musical engine for now). This second option can also be used when the deterministic music engine does not find a relevant chord to suggest: the RAG must then propose one.
 
 MIDI stands for Musical Instrument Digital Interface. It is structured data containing the note and the velocity at which it was played.

@@ -41,12 +41,21 @@ def analyze_audio(audio_path: Path, file_name: str) -> Analysis:
             degree=event.degree,
             referenceMatches=event.reference_matches,
             example=event.example,
+            matchKind=event.match_kind,
         )
         for event in result.suggestions
     ]
 
     if candidates:
-        rationale = "Ranked by the number of matching progressions in the reference library."
+        rationale = {
+            "exact": "Exact match for the last three harmonic degrees.",
+            "similar": "Suggested by analogy with the closest reference progressions.",
+            "short": "Based on a reference with the same final two harmonic degrees.",
+            "gap": (
+                "Suggested by analogy with references that end on the same chord. "
+                "Earlier confirmed chords help rank them across the unclear passage."
+            ),
+        }[candidates[0].matchKind]
         if result.key_status == "tentative":
             rationale += " These suggestions use the tentative key."
     elif not result.progression:
@@ -54,7 +63,7 @@ def analyze_audio(audio_path: Path, file_name: str) -> Analysis:
     elif result.progression[-1].chord is None:
         rationale = "The ending is harmonically unclear, so no continuation was inferred."
     else:
-        rationale = "The music engine found no continuation for this progression."
+        rationale = "No sufficiently similar reference progression was found."
 
     return Analysis(
         fileName=file_name,

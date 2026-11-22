@@ -143,8 +143,7 @@ class TestEngine:
         assert next_degrees == ["V"]
 
     def test_suggest_next_chord_without_match(self) -> None:
-        # moins de 3 degrés : impossible de matcher les progressions de référence
-        chords = [{"chord": chord} for chord in ["C", "F"]]
+        chords = [{"chord": "C"}]
         _, next_degrees = suggest_next_chord("C", chords)
         assert next_degrees == []
 
@@ -184,9 +183,9 @@ class TestEngine:
         from musaic.engine import musical_engine
 
         references = (
-            ("I", "V", "vi", "IV"),
-            ("I", "V", "vi", "V"),
-            ("I", "V", "vi", "V"),
+            musical_engine.ReferenceProgression(("I", "V", "vi", "IV"), "major"),
+            musical_engine.ReferenceProgression(("I", "V", "vi", "V"), "major"),
+            musical_engine.ReferenceProgression(("I", "V", "vi", "V"), "major"),
         )
         monkeypatch.setattr(musical_engine, "load_reference_progressions", lambda: references)
         assert musical_engine.suggest_next_degrees(["I", "V", "vi"]) == ["V", "IV"]
@@ -199,3 +198,46 @@ class TestEngine:
         assert estimate_key(C_MAJOR_I_VI_IV_V).status == "estimated"
         estimate = estimate_key([60, 62, 64, 65, 67, 69, 71])
         assert (estimate.key, estimate.status, estimate.alternative) == ("C", "tentative", "Am")
+
+    def test_similar_progression_preserves_the_recent_approach(self) -> None:
+        from musaic.engine.musical_engine import rank_next_degrees
+
+        matches = rank_next_degrees(["iii", "vi", "IV"], mode="major")
+        assert [(match.degree, match.reference_matches, match.match_kind) for match in matches] == [
+            ("V", 2, "similar")
+        ]
+        assert matches[0].example == ("I", "vi", "IV", "V")
+
+    def test_exact_match_wins_over_more_frequent_neighbours(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from musaic.engine import musical_engine
+
+        exact = musical_engine.ReferenceProgression(("I", "V", "vi", "IV"), "major")
+        neighbour = musical_engine.ReferenceProgression(("IV", "V", "vi", "V"), "major")
+        other_mode = musical_engine.ReferenceProgression(("I", "V", "vi", "V"), "minor")
+        monkeypatch.setattr(
+            musical_engine,
+            "load_reference_progressions",
+            lambda: (neighbour, neighbour, exact, other_mode),
+        )
+        matches = musical_engine.rank_next_degrees(["I", "V", "vi"], mode="major")
+        assert [(match.degree, match.match_kind) for match in matches] == [("IV", "exact")]
+
+    def test_short_context_and_rejecting_weak_matches(self) -> None:
+        from musaic.engine.musical_engine import rank_next_degrees
+
+        matches = rank_next_degrees(["I", "IV"], mode="major")
+        assert [(match.degree, match.match_kind) for match in matches] == [("V", "short")]
+        assert rank_next_degrees(["I", "IV"], mode="minor") == []
+        assert rank_next_degrees(["bII", "bIII", "IV"], mode="major") == []
+        assert rank_next_degrees(["I", "V", "#IV"], mode="major") == []
+
+    def test_earlier_degrees_do_not_override_a_match_after_the_gap(self) -> None:
+        from musaic.engine.musical_engine import rank_next_degrees
+
+        matches = rank_next_degrees(["vi", "IV"], mode="major", earlier_degrees=["ii", "I"])
+        assert [(match.degree, match.match_kind) for match in matches] == [("V", "short")]
+
+        assert rank_next_degrees([], mode="minor", earlier_degrees=["i", "iv", "i"]) == []
+        assert rank_next_degrees(["III", "i"], mode="minor") == []

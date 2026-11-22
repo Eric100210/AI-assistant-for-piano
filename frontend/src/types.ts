@@ -13,6 +13,7 @@ export interface ChordEvent {
   chord: string;
   referenceMatches: number;
   example: string[];
+  matchKind: "exact" | "similar" | "short" | "gap";
 }
 
 export interface DetectedChord {

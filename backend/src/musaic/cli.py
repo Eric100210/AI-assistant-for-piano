@@ -19,6 +19,8 @@ def asking_rag(result: RecordingAnalysis) -> None:
         query += "The key estimate is tentative. "
     if result.suggestions:
         candidates = ", ".join(f"{event.chord} ({event.degree})" for event in result.suggestions)
+        if result.suggestions[0].match_kind != "exact":
+            query += "These suggestions come from similar reference progressions. "
         query += (
             f"The music engine suggests {candidates}. "
             "Explain the effect of each continuation and suggest relevant variations."

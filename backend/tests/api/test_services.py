@@ -21,7 +21,7 @@ def test_analyze_audio_preserves_chord_timing(monkeypatch: pytest.MonkeyPatch) -
         return RecordingAnalysis(
             key="Am",
             progression=[DetectedChord("Am", "i", 0.2, 1.7)],
-            suggestions=[ChordSuggestion("E", "V")],
+            suggestions=[ChordSuggestion("E", "V", 2, ("i", "VI", "iv", "V"), "similar")],
         )
 
     monkeypatch.setattr(services, "analyze_recording", analyze_recording)
@@ -36,3 +36,5 @@ def test_analyze_audio_preserves_chord_timing(monkeypatch: pytest.MonkeyPatch) -
         "end": 1.7,
     }
     assert analysis.suggestion.candidates[0].chord == "E"
+    assert analysis.suggestion.candidates[0].matchKind == "similar"
+    assert "analogy" in analysis.suggestion.rationale

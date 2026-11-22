@@ -7,6 +7,8 @@ from typing import Literal
 from musaic.audio.chord_detector import detect_chords
 from musaic.audio.transcriber import transcribe_audio
 from musaic.engine.musical_engine import (
+    MatchKind,
+    ProgressionMode,
     chord_degrees,
     degrees_to_chords,
     estimate_key,
@@ -28,6 +30,7 @@ class ChordSuggestion:
     degree: str
     reference_matches: int = 0
     example: tuple[str, ...] = ()
+    match_kind: MatchKind = "exact"
 
 
 @dataclass(frozen=True)
@@ -58,17 +61,20 @@ def analyze_recording(audio_path: str | Path) -> RecordingAnalysis:
 
     suggestions = []
     if key is not None:
-        # Only match the confirmed suffix. An unresolved span could hide a chord change.
-        known_degrees: list[str] = []
-        for event in reversed(progression):
-            if event.degree is None:
-                break
-            known_degrees.append(event.degree)
-        known_degrees.reverse()
-        for match in rank_next_degrees(known_degrees):
+        boundary = next(
+            (index for index in range(len(progression) - 1, -1, -1)
+             if progression[index].degree is None),
+            -1,
+        )
+        ending = [event.degree for event in progression[boundary + 1:] if event.degree is not None]
+        earlier = [event.degree for event in progression[:max(0, boundary)] if event.degree is not None]
+        mode: ProgressionMode = "minor" if key.endswith("m") else "major"
+        for match in rank_next_degrees(ending, mode=mode, earlier_degrees=earlier):
             for chord in degrees_to_chords(key, [match.degree]):
                 suggestions.append(
-                    ChordSuggestion(chord, match.degree, match.reference_matches, match.example)
+                    ChordSuggestion(
+                        chord, match.degree, match.reference_matches, match.example, match.match_kind
+                    )
                 )
 
     return RecordingAnalysis(

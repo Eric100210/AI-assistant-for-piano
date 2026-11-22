@@ -89,3 +89,29 @@ def test_brief_sounding_gap_bridges_same_chord() -> None:
         + voicing((64, 67), 0.6, 1.0)
     )
     assert detect_chords(notes) == [{"chord": "C", "start": 0.0, "end": 1.0}]
+
+
+def test_suggestions_reuse_confirmed_chords_before_unclear_harmony(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from musaic import pipeline
+    from musaic.audio.chord_detector import ChordSegment
+    from musaic.engine.musical_engine import KeyEstimate
+
+    chords = ["Cm", "G#", "Csus2", "G#", None, "A#", "Gm"]
+    segments: list[ChordSegment] = [
+        {"chord": chord, "start": float(index), "end": float(index + 1)}
+        for index, chord in enumerate(chords)
+    ]
+    monkeypatch.setattr(pipeline, "transcribe_audio", lambda _: [])
+    monkeypatch.setattr(pipeline, "detect_chords", lambda _: segments)
+    monkeypatch.setattr(pipeline, "estimate_key", lambda _: KeyEstimate("Gm", "estimated"))
+
+    result = pipeline.analyze_recording("recording.wav")
+
+    assert [event.chord for event in result.progression] == chords
+    assert [(event.chord, event.match_kind) for event in result.suggestions] == [
+        ("D", "gap"),
+        ("A#", "gap"),
+    ]
+    assert result.suggestions[0].example == ("i", "iv", "i", "V")

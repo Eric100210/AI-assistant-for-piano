@@ -85,6 +85,9 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
                   <li key={candidate.degree} className={styles.candidate}>
                     <span><b>{candidate.chord}</b> · {candidate.degree}</span>
                     <span className={styles.candidateEvidence}>
+                      {candidate.matchKind === "similar" ? "Similar match · " : ""}
+                      {candidate.matchKind === "short" ? "Two-degree match · " : ""}
+                      {candidate.matchKind === "gap" ? "Analogy across unclear harmony · " : ""}
                       {candidate.referenceMatches} {candidate.referenceMatches === 1 ? "reference" : "references"}
                       {candidate.example.length > 0 ? ` · ${candidate.example.join(" – ")}` : ""}
                     </span>

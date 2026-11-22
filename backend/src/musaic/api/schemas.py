@@ -17,6 +17,7 @@ class ChordEvent(BaseModel):
     chord: str
     referenceMatches: int = 0
     example: tuple[str, ...] = ()
+    matchKind: Literal["exact", "similar", "short", "gap"] = "exact"
 
 
 class DetectedChord(BaseModel):
