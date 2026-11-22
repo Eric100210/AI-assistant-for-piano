@@ -9,10 +9,10 @@ from musaic.pipeline import ChordSuggestion, DetectedChord, RecordingAnalysis
 
 
 def test_parse_key() -> None:
-    assert services.parse_key("C") == ("C", "major")
-    assert services.parse_key("F#") == ("F#", "major")
-    assert services.parse_key("Am") == ("A", "minor")
-    assert services.parse_key("Cm") == ("C", "minor")
+    assert services._parse_key("C") == ("C", "major")
+    assert services._parse_key("F#") == ("F#", "major")
+    assert services._parse_key("Am") == ("A", "minor")
+    assert services._parse_key("Cm") == ("C", "minor")
 
 
 def test_analyze_audio_preserves_chord_timing(monkeypatch: pytest.MonkeyPatch) -> None:

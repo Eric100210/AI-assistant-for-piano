@@ -167,3 +167,35 @@ class TestEngine:
         _, next_degrees = suggest_next_chord("Am", chords)
         assert next_degrees == ["V"]
         assert degrees_to_chords("Am", next_degrees) == ["E"]
+
+    def test_ranks_all_reference_continuations(self) -> None:
+        from musaic.engine.musical_engine import rank_next_degrees
+
+        matches = rank_next_degrees(["I", "V", "vi"])
+        assert [(match.degree, match.reference_matches) for match in matches] == [
+            ("IV", 1),
+            ("V", 1),
+        ]
+        assert matches[0].example == ("I", "V", "vi", "IV")
+        assert rank_next_degrees(["I", "vi", "IV"])[0].reference_matches == 2
+        assert [match.degree for match in rank_next_degrees(["i", "i", "VI"])] == ["V", "VI"]
+
+    def test_reference_count_precedes_tie_break(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        from musaic.engine import musical_engine
+
+        references = (
+            ("I", "V", "vi", "IV"),
+            ("I", "V", "vi", "V"),
+            ("I", "V", "vi", "V"),
+        )
+        monkeypatch.setattr(musical_engine, "load_reference_progressions", lambda: references)
+        assert musical_engine.suggest_next_degrees(["I", "V", "vi"]) == ["V", "IV"]
+
+    def test_key_estimate_surfaces_ambiguity(self) -> None:
+        from musaic.engine.musical_engine import estimate_key
+
+        assert estimate_key([]).status == "undetermined"
+        assert estimate_key([60]).status == "tentative"
+        assert estimate_key(C_MAJOR_I_VI_IV_V).status == "estimated"
+        estimate = estimate_key([60, 62, 64, 65, 67, 69, 71])
+        assert (estimate.key, estimate.status, estimate.alternative) == ("C", "tentative", "Am")

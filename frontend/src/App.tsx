@@ -37,7 +37,8 @@ function welcomeMessage(analysis: Analysis): ChatMessage {
  * le serveur de dev Vite sur `/api`).
  */
 export default function App(): JSX.Element {
-  const [analysis, setAnalysis] = useState<Analysis | null>(null);
+  const [recording, setRecording] = useState<{ analysis: Analysis; file: File } | null>(null);
+  const analysis = recording?.analysis;
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -50,12 +51,12 @@ export default function App(): JSX.Element {
     clearChat();
     setError(null);
     setSelectedFileName(file.name);
-    setAnalysis(null);
+    setRecording(null);
     setIsAnalyzing(true);
 
     try {
       const result = await analyzeAudio(file);
-      setAnalysis(result);
+      setRecording({ analysis: result, file });
       setMessages([welcomeMessage(result)]);
       // Amène l'utilisateur vers les résultats une fois le DOM mis à jour.
       requestAnimationFrame(() =>
@@ -112,7 +113,7 @@ export default function App(): JSX.Element {
 
   function handleReset(): void {
     clearChat();
-    setAnalysis(null);
+    setRecording(null);
     setSelectedFileName(null);
     setError(null);
     setIsAnalyzing(false);
@@ -151,9 +152,9 @@ export default function App(): JSX.Element {
 
         {isAnalyzing ? <AnalyzingPanel /> : null}
 
-        {analysis ? (
+        {recording ? (
           <div ref={workspaceRef} className={styles.workspace}>
-            <AnalysisPanel analysis={analysis} />
+            <AnalysisPanel analysis={recording.analysis} file={recording.file} />
             <ChatPanel messages={messages} onSend={handleSend} isThinking={isThinking} />
           </div>
         ) : null}

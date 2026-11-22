@@ -10,11 +10,14 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "langchain-chroma>=0.2.0",
+    "filelock>=3.0",
     "langchain-community>=0.3.0",
     "langchain-core>=0.3.0",
     "langchain-ollama>=0.2.0",
     "PyYAML>=6.0",
     "basic-pitch>=0.4.0",
+    "audioread>=2.1.9",
+    "soundfile>=0.12.1",
     "pretty-midi>=0.2.0",
     "numpy",
     "pychord",

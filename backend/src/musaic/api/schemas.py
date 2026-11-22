@@ -15,6 +15,8 @@ class ChordEvent(BaseModel):
 
     degree: str
     chord: str
+    referenceMatches: int = 0
+    example: tuple[str, ...] = ()
 
 
 class DetectedChord(BaseModel):
@@ -39,6 +41,8 @@ class Analysis(BaseModel):
     fileName: str
     keyRoot: str | None
     keyMode: Literal["major", "minor"] | None
+    keyStatus: Literal["estimated", "tentative", "undetermined"] = "undetermined"
+    alternativeKey: str | None = None
     progression: list[DetectedChord]
     suggestion: Suggestion
 

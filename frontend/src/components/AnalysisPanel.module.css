@@ -92,6 +92,28 @@
   background: transparent;
 }
 
+.chordChip:not(:disabled) {
+  cursor: pointer;
+}
+
+.chordChip:not(:disabled):hover,
+.chordChip:focus-visible,
+.chordChip[aria-current="true"] {
+  border-color: currentColor;
+  color: var(--text);
+  background: rgba(185, 160, 141, 0.14);
+}
+
+.chordTime {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.player {
+  width: 100%;
+}
+
 .chordDegree {
   font-family: var(--font-display);
   font-size: 18px;
@@ -125,68 +147,22 @@
   gap: 14px;
 }
 
-.suggestionIcon {
+.candidates {
   display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  border-radius: 10px;
+  gap: 10px;
+  margin: 0;
+  padding-inline-start: 1.3rem;
+}
+
+.candidate {
+  padding-inline-start: 3px;
+}
+
+.candidateEvidence {
+  display: block;
+  margin-top: 2px;
   color: var(--text-muted);
-  background: transparent;
-  border: 1px solid var(--border);
-}
-
-.primaryCandidate {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 9px;
-}
-
-.primaryDegree {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1;
-  color: var(--text);
-}
-
-.primaryChord {
-  font-size: 15px;
-  color: var(--text-muted);
-}
-
-.alternatives {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-}
-
-.altLabel {
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-.altChip {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 5px 11px;
-  border-radius: 9px;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
   font-size: 13px;
-}
-
-.altChip b {
-  font-family: var(--font-display);
-  font-weight: 600;
-}
-
-.altChip span {
-  color: var(--text-dim);
-  font-size: 12px;
 }
 
 .rationale {

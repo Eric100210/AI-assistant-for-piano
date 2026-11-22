@@ -1,7 +1,8 @@
 import json
 from collections.abc import Iterable, Iterator, Mapping, Sequence
+from dataclasses import dataclass
 from functools import lru_cache
-from typing import TypedDict, cast, overload
+from typing import Literal, TypedDict, overload
 
 import numpy as np
 
@@ -93,60 +94,51 @@ class ReferenceProgression(TypedDict):
     metadata: ProgressionMetadata
 
 
-@lru_cache(maxsize=1)
-def load_reference_progressions() -> tuple[list[list[str]], list[list[str]]]:
-    """Load the reference progressions once (lazy: importing this module stays side-effect free)."""
-    with open(PROGRESSIONS_JSON) as f:
-        content: list[ReferenceProgression] = json.load(f)
+@dataclass(frozen=True)
+class KeyEstimate:
+    key: str | None
+    status: Literal["estimated", "tentative", "undetermined"]
+    alternative: str | None = None
 
-    reference_prog = [record["metadata"].get("degres", []) for record in content]
-    reference_prog_cut = [prog[:3] for prog in reference_prog]
-    return reference_prog, reference_prog_cut
+
+@dataclass(frozen=True)
+class RankedContinuation:
+    degree: str
+    reference_matches: int
+    example: tuple[str, ...]
+
+
+@lru_cache(maxsize=1)
+def load_reference_progressions() -> tuple[tuple[str, ...], ...]:
+    """Load the reference progressions once."""
+    with open(PROGRESSIONS_JSON, encoding="utf-8") as source:
+        content: list[ReferenceProgression] = json.load(source)
+    return tuple(tuple(record["metadata"].get("degres", ())) for record in content)
+
+
+def estimate_key(pitches: Iterable[int]) -> KeyEstimate:
+    """Compare pitch classes with the 24 Krumhansl-Kessler profiles."""
+    note_profile = np.bincount([note % 12 for note in pitches], minlength=12)
+    if not np.any(note_profile != note_profile[0]):
+        return KeyEstimate(None, "undetermined")
+
+    scores = [
+        (float(np.corrcoef(note_profile, np.roll(profile, index))[0, 1]), key + suffix)
+        for index, key in enumerate(SEMIS)
+        for profile, suffix in ((MAJOR_PROFILE, ""), (MINOR_PROFILE, "m"))
+    ]
+    scores.sort(key=lambda entry: entry[0], reverse=True)
+    (score, key), (second_score, alternative) = scores[:2]
+
+    # Heuristics for sparse evidence and close fits. These scores are not probabilities.
+    close = score - second_score < 0.06
+    if np.count_nonzero(note_profile) < 4 or score < 0.60 or close:
+        return KeyEstimate(key, "tentative", alternative if close else None)
+    return KeyEstimate(key, "estimated")
 
 
 def detect_key_from_notes(pitches: Iterable[int]) -> str | None:
-    """
-    Krumhansl-Schmuckler algorithm to determine the key and the mode
-    Return the key with its mode (e.g. C or Am), or None if undetermined.
-    """
-
-    pitch_classes = [note % 12 for note in pitches]
-    note_profile = np.zeros(12)
-
-    for pitch_class in pitch_classes:
-        note_profile[pitch_class] += 1
-
-    if not np.any(note_profile != note_profile[0]):
-        return None
-
-    best_key = None
-    best_mode = None
-    best_score = -np.inf
-
-    for i, key in enumerate(SEMIS):
-        # Rotate the reference profiles so that they correspond
-        # to the current tonic
-        major_profile = np.roll(MAJOR_PROFILE, i)
-        minor_profile = np.roll(MINOR_PROFILE, i)
-
-        # Compare the played notes with the reference profiles
-        major_score = np.corrcoef(note_profile, major_profile)[0, 1]
-        minor_score = np.corrcoef(note_profile, minor_profile)[0, 1]
-
-        if major_score > best_score:
-            best_score = major_score
-            best_key = key
-            best_mode = "major"
-
-        if minor_score > best_score:
-            best_score = minor_score
-            best_key = key
-            best_mode = "minor"
-
-    if best_mode == "minor":
-        best_key = cast(str, best_key) + "m"
-
-    return best_key
+    return estimate_key(pitches).key
 
 
 @overload
@@ -221,6 +213,9 @@ def chord_degrees(
         interval = (chord_index - key_index) % 12
 
         degree = chromatic_degrees[interval]
+        if key_spec == "m" and interval == 7 and specification in {"", "7"}:
+            yield "V" + specification
+            continue
 
         # Adding specification if it differs from the natural one of the key
         # (e.g., "Am" in the key of C major is VI, but "Gm" would be Vm)
@@ -286,8 +281,8 @@ def degrees_to_chords(key: str | None, degrees: Sequence[str]) -> list[str]:
     chords = []
     for degree in degrees:
         # The reference progressions use a major dominant in minor keys.
-        if key_spec == "m" and degree == "V":
-            chords.append(SEMIS[(key_index + 7) % 12])
+        if key_spec == "m" and degree in {"V", "V7"}:
+            chords.append(SEMIS[(key_index + 7) % 12] + degree[1:])
             continue
         base = next((d for d in degrees_by_length if degree.startswith(d)), None)
         if base is None:
@@ -307,8 +302,10 @@ def degrees_to_chords(key: str | None, degrees: Sequence[str]) -> list[str]:
     return chords
 
 
-def progression_simplification(progression: list[str]) -> list[str]:
-    simplified_progression = progression.copy()
+def progression_simplification(
+    progression: Sequence[str], *, collapse_repeats: bool = True
+) -> list[str]:
+    simplified_progression = list(progression)
 
     # removing extra specifications
     for i, chord in enumerate(simplified_progression):
@@ -321,6 +318,9 @@ def progression_simplification(progression: list[str]) -> list[str]:
                     chord = chord.split("/")[0]
                     break
         simplified_progression[i] = chord
+
+    if not collapse_repeats:
+        return simplified_progression
 
     # removing consecutive identical chords
     simplified: list[str] = []
@@ -339,22 +339,25 @@ def suggest_next_chord(
 
 
 def suggest_next_degrees(degree_progression: list[str]) -> list[str]:
-    simplified_progression = progression_simplification(degree_progression)
-    if len(simplified_progression) < 3:
-        return []
+    return [match.degree for match in rank_next_degrees(degree_progression)]
 
-    last_three_degrees = simplified_progression[-3:]
 
-    # for now, suggestion when perfect match, otherwise an empty list
-    # TODO : implémenter un système de suggestion plus souple (ex. distance
-    # de Levenshtein) et capable de proposer une vraie suite de plusieurs
-    # accords. L'interface renvoie déjà une liste : elle est prête pour ça.
-    reference_prog, reference_prog_cut = load_reference_progressions()
+def rank_next_degrees(progression: Sequence[str]) -> list[RankedContinuation]:
+    """Rank the next degree by the number of matching reference entries."""
+    observed = progression_simplification(progression, collapse_repeats=False)
+    prefixes = {tuple(observed[-3:]), tuple(progression_simplification(observed)[-3:])}
+    matches: dict[str, list[tuple[str, ...]]] = {}
+    for reference in load_reference_progressions():
+        if len(reference) < 4:
+            continue
+        prefix = progression_simplification(reference[:3], collapse_repeats=False)
+        if tuple(prefix) in prefixes:
+            matches.setdefault(reference[3], []).append(reference)
 
-    if last_three_degrees in reference_prog_cut:
-        index = reference_prog_cut.index(last_three_degrees)
-        next_prog = reference_prog[index]
-        # tout ce qui suit les 3 degrés reconnus (aujourd'hui un seul accord,
-        # car les progressions de référence font 4 degrés, mais une liste déjà)
-        return next_prog[3:]
-    return []
+    return sorted(
+        (
+            RankedContinuation(degree, len(examples), min(examples))
+            for degree, examples in matches.items()
+        ),
+        key=lambda match: (-match.reference_matches, match.degree),
+    )

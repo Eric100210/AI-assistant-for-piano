@@ -5,11 +5,17 @@ from typing import Literal
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 
-from musaic.api.schemas import Analysis, ChatMessage, ChordEvent, DetectedChord, Suggestion
+from musaic.api.schemas import (
+    Analysis,
+    ChatMessage,
+    ChordEvent,
+    DetectedChord,
+    Suggestion,
+)
 from musaic.pipeline import analyze_recording
 
 
-def parse_key(key: str) -> tuple[str, Literal["major", "minor"]]:
+def _parse_key(key: str) -> tuple[str, Literal["major", "minor"]]:
     """Split the key returned by the engine into ``(root, mode)``.
 
     The engine returns e.g. ``"C"`` (major) or ``"Am"`` (minor): minor mode is
@@ -28,13 +34,21 @@ def parse_key(key: str) -> tuple[str, Literal["major", "minor"]]:
 
 def analyze_audio(audio_path: Path, file_name: str) -> Analysis:
     result = analyze_recording(audio_path)
-    key_root, key_mode = parse_key(result.key) if result.key else (None, None)
+    key_root, key_mode = _parse_key(result.key) if result.key else (None, None)
     candidates = [
-        ChordEvent(chord=event.chord, degree=event.degree) for event in result.suggestions
+        ChordEvent(
+            chord=event.chord,
+            degree=event.degree,
+            referenceMatches=event.reference_matches,
+            example=event.example,
+        )
+        for event in result.suggestions
     ]
 
     if candidates:
-        rationale = "The music engine found a matching reference progression."
+        rationale = "Ranked by the number of matching progressions in the reference library."
+        if result.key_status == "tentative":
+            rationale += " These suggestions use the tentative key."
     elif not result.progression:
         rationale = "No chords were detected in this recording."
     else:
@@ -44,8 +58,12 @@ def analyze_audio(audio_path: Path, file_name: str) -> Analysis:
         fileName=file_name,
         keyRoot=key_root,
         keyMode=key_mode,
+        keyStatus=result.key_status,
+        alternativeKey=result.alternative_key,
         progression=[
-            DetectedChord(chord=event.chord, degree=event.degree, start=event.start, end=event.end)
+            DetectedChord(
+                chord=event.chord, degree=event.degree, start=event.start, end=event.end
+            )
             for event in result.progression
         ],
         suggestion=Suggestion(candidates=candidates, rationale=rationale),

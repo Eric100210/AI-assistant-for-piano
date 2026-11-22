@@ -6,6 +6,7 @@ import re
 from collections.abc import Iterable
 
 import yaml
+from filelock import FileLock
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_core.documents import Document
@@ -137,25 +138,32 @@ def create_chunks(documents: Iterable[Document]) -> list[Document]:
 
 
 def create_embeddings(chunks: list[Document]) -> Chroma:
-    vector_store = Chroma.from_documents(
-        chunks,
-        get_embedding_model(),
-        persist_directory=str(PERSIST_DIRECTORY),
-        collection_metadata={"hnsw:space": "cosine"},
-    )
+    ids = [str(chunk.metadata["chunk_id"]) for chunk in chunks]
+    if not ids or len(ids) != len(set(ids)):
+        raise ValueError("Ingestion requires non-empty, unique chunk IDs.")
+
+    # Serialize writers so a concurrent run cannot prune another run's chunks.
+    PERSIST_DIRECTORY.parent.mkdir(parents=True, exist_ok=True)
+    with FileLock(str(PERSIST_DIRECTORY.with_suffix(".lock"))):
+        vector_store = Chroma(
+            persist_directory=str(PERSIST_DIRECTORY),
+            embedding_function=get_embedding_model(),
+            collection_metadata={"hnsw:space": "cosine"},
+        )
+        previous_ids = set(vector_store.get(include=[])["ids"])
+        vector_store.add_documents(chunks, ids=ids)
+        stale_ids = sorted(previous_ids.difference(ids))
+        if stale_ids:
+            vector_store.delete(ids=stale_ids)
+
     return vector_store
 
 
 def main() -> Chroma:
     documents = load_documents_from_directory(str(RAG_KNOWLEDGE_DIR))
     chunks = create_chunks(documents)
-    for chunk in chunks:
-        print(f"Chunk ID: {chunk.metadata.get('chunk_id')}")
-        print(f"Chunk Type: {chunk.metadata.get('chunk_type')}")
-        print(f"Content:\n{chunk.page_content[:200]}...\n")
-        print("-" * 80)
-
     vector_store = create_embeddings(chunks)
+    print(f"Indexed {len(chunks)} chunks from {len(documents)} documents.")
     return vector_store
 
 

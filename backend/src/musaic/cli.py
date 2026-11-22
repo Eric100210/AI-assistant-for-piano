@@ -15,6 +15,8 @@ def asking_rag(result: RecordingAnalysis) -> None:
     )
     key = result.key or "undetermined"
     query = f"I played {progression}. The estimated key is {key}. "
+    if result.key_status == "tentative":
+        query += "The key estimate is tentative. "
     if result.suggestions:
         candidates = ", ".join(f"{event.chord} ({event.degree})" for event in result.suggestions)
         query += (
@@ -44,6 +46,9 @@ def main(argv: Sequence[str] | None = None) -> None:
     if not result.progression:
         print("No chords were detected in this recording.")
         return
+    if result.key_status == "tentative":
+        also_plausible = f" (also plausible: {result.alternative_key})" if result.alternative_key else ""
+        print(f"Tentative key: {result.key}{also_plausible}")
     print("Detected chords:", ", ".join(event.chord for event in result.progression))
     asking_rag(result)
 

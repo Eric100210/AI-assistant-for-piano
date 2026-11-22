@@ -11,6 +11,8 @@ export interface ChordEvent {
   degree: string;
   /** Nom de l'accord, ex. "C", "Am", "F". */
   chord: string;
+  referenceMatches: number;
+  example: string[];
 }
 
 export interface DetectedChord {
@@ -28,6 +30,8 @@ export interface Analysis {
   keyRoot: string | null;
   /** Mode détecté. */
   keyMode: "major" | "minor" | null;
+  keyStatus: "estimated" | "tentative" | "undetermined";
+  alternativeKey: string | null;
   /** Progression d'accords détectée, dans l'ordre chronologique. */
   progression: DetectedChord[];
   /** Suggestion du moteur musical pour la suite. */

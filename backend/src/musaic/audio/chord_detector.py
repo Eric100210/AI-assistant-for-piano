@@ -9,6 +9,8 @@ from musaic.audio.transcriber import MidiNote
 from musaic.config import SEMIS
 
 NOTE_THRESHOLD = 0.4  # threshold for considering a note as present in the window
+WINDOW_SECONDS = 0.4
+STEP_SECONDS = 0.1
 
 
 class NoteWindow(TypedDict):
@@ -30,7 +32,7 @@ class ChordSegment(TypedDict):
 def get_window_notes(
     notes: Iterable[MidiNote],
     t: float,
-    window_size: float = 0.4,
+    window_size: float = WINDOW_SECONDS,
     threshold: float = NOTE_THRESHOLD,
 ) -> list[str]:
     window_end = t + window_size
@@ -50,13 +52,13 @@ def get_window_notes(
 
 
 def group_notes_by_time(
-    notes: Sequence[MidiNote], frequency: float = 0.1
+    notes: Sequence[MidiNote], frequency: float = STEP_SECONDS
 ) -> list[NoteWindow]:
     grouped_notes: list[NoteWindow] = []
     end = max((note["end"] for note in notes), default=0.0)
     for window_start in np.arange(0, end, frequency):
         t = cast(float, window_start)
-        window_notes = get_window_notes(notes, t)
+        window_notes = get_window_notes(notes, t - WINDOW_SECONDS / 2)
         if window_notes:
             grouped_notes.append({"time": t, "notes": window_notes})
 
@@ -97,9 +99,9 @@ def merge_chords(chords: Iterable[ChordWindow]) -> list[ChordSegment]:
             and segments[-1]["chord"] == chord
             and isclose(segments[-1]["end"], time, abs_tol=1e-9)
         ):
-            segments[-1]["end"] = time + 0.1
+            segments[-1]["end"] = time + STEP_SECONDS
         else:
-            segments.append({"chord": chord, "start": time, "end": time + 0.1})
+            segments.append({"chord": chord, "start": time, "end": time + STEP_SECONDS})
 
     return segments
 

@@ -36,16 +36,68 @@ def test_analyze_rejects_unknown_format() -> None:
     assert response.status_code == 400
     assert "Unsupported audio format" in response.json()["detail"]
 
+
+def test_analyze_rejects_oversized_upload(monkeypatch: pytest.MonkeyPatch) -> None:
+    from musaic.api.routers import analyze
+
+    monkeypatch.setattr(analyze, "MAX_UPLOAD_BYTES", 8)
+
+    response = client.post(
+        "/api/analyze",
+        files={"file": ("recording.wav", b"123456789", "audio/wav")},
+    )
+
+    assert response.status_code == 413
+    assert "25 MB" in response.json()["detail"]
+
+
+def test_analyze_rejects_empty_upload() -> None:
+    response = client.post(
+        "/api/analyze",
+        files={"file": ("recording.wav", b"", "audio/wav")},
+    )
+
+    assert response.status_code == 422
+    assert "empty" in response.json()["detail"]
+
+
+def test_analyze_reports_decoder_failure(monkeypatch: pytest.MonkeyPatch) -> None:
+    from pathlib import Path
+
+    from audioread import NoBackendError
+
+    from musaic.audio import transcriber
+
+    temporary_paths: list[Path] = []
+
+    def predict(path: str | Path) -> None:
+        temporary_paths.append(Path(path))
+        raise NoBackendError()
+
+    monkeypatch.setattr(transcriber, "predict", predict)
+    response = client.post(
+        "/api/analyze",
+        files={"file": ("recording.wav", b"not audio", "audio/wav")},
+    )
+
+    assert response.status_code == 422
+    assert response.json()["detail"] == "Could not decode this audio file."
+    assert len(temporary_paths) == 1
+    assert not temporary_paths[0].parent.exists()
+
+
 def test_analyze_accepts_a_recording_without_notes(monkeypatch: pytest.MonkeyPatch) -> None:
     from pathlib import Path
 
     from musaic import pipeline
+    from musaic.api.routers import analyze
     from musaic.audio.transcriber import MidiNote
 
     def transcribe_audio(path: str | Path) -> list[MidiNote]:
         assert Path(path).read_bytes() == b"recording"
         return []
 
+    monkeypatch.setattr(analyze, "MAX_UPLOAD_BYTES", len(b"recording"))
     monkeypatch.setattr(pipeline, "transcribe_audio", transcribe_audio)
     response = client.post(
         "/api/analyze",

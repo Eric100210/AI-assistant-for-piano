@@ -73,7 +73,14 @@ Knowledge-base maintenance:
 
 ```bash
 make progressions                        # regenerate backend/src/musaic/engine/progressions.json
-make ingest                              # rebuild the Chroma vector store
+make ingest                              # update the Chroma index and prune removed chunks
+```
+
+After indexing with Ollama running, check the expected sources for the scale questions:
+
+```bash
+cd backend
+MUSAIC_TEST_OLLAMA=1 python -m pytest tests/rag -q
 ```
 
 Or directly:
@@ -126,7 +133,7 @@ Ollama running and the Chroma store built (`make ingest`).
 
 ## To do
 
-Validate a key-confidence score against labeled recordings and improve the engine's
+Validate the tentative-key heuristic against labeled recordings and improve the engine's
 chord-sequence suggestions.
 
 It is also necessary to improve the RAG and the assistant, because for now it hallucinates a lot and does not always retrieve the most relevant documents. This will greatly improve the whole application.

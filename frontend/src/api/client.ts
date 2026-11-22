@@ -18,6 +18,7 @@ import type { Analysis, ChatMessage } from "../types";
 
 /** Préfixe de l'API (le dev server Vite proxyfie `/api` vers FastAPI). */
 const API_BASE = "/api";
+const MAX_UPLOAD_BYTES = 25_000_000;
 
 /** Récupère un message d'erreur lisible depuis une réponse non-OK (FastAPI). */
 async function errorMessage(res: Response): Promise<string> {
@@ -32,6 +33,10 @@ async function errorMessage(res: Response): Promise<string> {
 
 /** Analyse un fichier audio et renvoie le résultat (tonalité, accords, suite). */
 export async function analyzeAudio(file: File): Promise<Analysis> {
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new Error("Audio files must be 25 MB or smaller.");
+  }
+
   const form = new FormData();
   form.append("file", file);
 

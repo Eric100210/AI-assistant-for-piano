@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { Analysis, DetectedChord } from "../types";
 import { Activity, ArrowRight, Check, Copy, Sparkles } from "./Icons";
@@ -7,12 +7,36 @@ import styles from "./AnalysisPanel.module.css";
 
 interface AnalysisPanelProps {
   analysis: Analysis;
+  file: File;
 }
 
 /** Étape 2 — restitution de l'analyse : suggestion, accords, tonalité. */
-export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
-  const { keyRoot, keyMode, progression, suggestion } = analysis;
-  const [primary, ...alternatives] = suggestion.candidates;
+export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Element {
+  const { keyRoot, keyMode, keyStatus, alternativeKey, progression, suggestion } = analysis;
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [audioUrl, setAudioUrl] = useState<string>();
+  const [duration, setDuration] = useState<number>();
+  const [currentTime, setCurrentTime] = useState(0);
+  const [playbackError, setPlaybackError] = useState<string>();
+
+  useEffect(() => {
+    const url = URL.createObjectURL(file);
+    setAudioUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  function playFrom(start: number): void {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = Math.min(start, audio.duration);
+    setCurrentTime(audio.currentTime);
+    setPlaybackError(undefined);
+    void audio.play().catch((error: unknown) => {
+      if (!(error instanceof DOMException && error.name === "AbortError")) {
+        setPlaybackError("Playback could not start. Try the audio controls.");
+      }
+    });
+  }
   const [copied, setCopied] = useState(false);
 
   // Retour visuel « Copié ! » pendant 2 s, annulé si le composant est démonté.
@@ -32,41 +56,31 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
       step="2"
       icon={<Activity width={19} height={19} />}
       title="Analysis"
-      subtitle={analysis.fileName}
+      subtitle={duration === undefined ? analysis.fileName : `${analysis.fileName} · ${formatTime(duration)}`}
     >
       <div className={styles.stack}>
         {/* ---------------------------- Suggestion ---------------------------- */}
         <div className={styles.block}>
           <span className={styles.blockLabel}>Suggested next chord</span>
           <div className={styles.suggestion}>
-            <div className={styles.suggestionHead}>
-              <span className={styles.suggestionIcon}>
-                <Sparkles width={16} height={16} />
-              </span>
-              {primary ? (
-                <div className={styles.primaryCandidate}>
-                  <span className={styles.primaryDegree}>{primary.degree}</span>
-                  <span className={styles.primaryChord}>{primary.chord}</span>
-                </div>
-              ) : (
-                <div className={styles.primaryCandidate}>
-                  <span className={styles.primaryChord}>
-                    No obvious suggestion
-                  </span>
-                </div>
-              )}
-              {alternatives.length > 0 ? (
-                <div className={styles.alternatives}>
-                  <span className={styles.altLabel}>or</span>
-                  {alternatives.map((alt) => (
-                    <span key={alt.degree} className={styles.altChip}>
-                      <b>{alt.degree}</b>
-                      <span>{alt.chord}</span>
+            {suggestion.candidates.length ? (
+              <ol className={styles.candidates}>
+                {suggestion.candidates.map((candidate) => (
+                  <li key={candidate.degree} className={styles.candidate}>
+                    <span><b>{candidate.chord}</b> · {candidate.degree}</span>
+                    <span className={styles.candidateEvidence}>
+                      {candidate.referenceMatches} {candidate.referenceMatches === 1 ? "reference" : "references"}
+                      {candidate.example.length > 0 ? ` · ${candidate.example.join(" – ")}` : ""}
                     </span>
-                  ))}
-                </div>
-              ) : null}
-            </div>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <div className={styles.suggestionHead}>
+                <Sparkles width={16} height={16} />
+                <span>No suggested chord</span>
+              </div>
+            )}
             <p className={styles.rationale}>{suggestion.rationale}</p>
           </div>
         </div>
@@ -74,9 +88,34 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
         {/* --------------------------- Progression ---------------------------- */}
         <div className={styles.block}>
           <span className={styles.blockLabel}>Detected progression</span>
+          <audio
+            ref={audioRef}
+            className={styles.player}
+            src={audioUrl}
+            controls
+            preload="metadata"
+            aria-label="Listen to your recording"
+            onDurationChange={(event) => {
+              const seconds = event.currentTarget.duration;
+              setDuration(Number.isFinite(seconds) ? seconds : undefined);
+            }}
+            onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+            onError={() => setPlaybackError("This audio format could not be played in your browser.")}
+          />
+          {playbackError ? <p role="status" className={styles.keyMode}>{playbackError}</p> : null}
+          {progression.length > 0 && duration !== undefined && (
+            <span className={styles.keyMode}>Select a chord to listen from its timestamp.</span>
+          )}
           <div className={styles.progression}>
             {progression.map((event, index) => (
-              <ChordChip key={`${event.degree}-${index}`} event={event} index={index} />
+              <ChordChip
+                key={`${event.start}-${index}`}
+                event={event}
+                index={index}
+                active={currentTime >= event.start && currentTime < event.end}
+                canPlay={duration !== undefined}
+                onPlay={playFrom}
+              />
             ))}
             {progression.length === 0 ? <span>No chords detected</span> : null}
           </div>
@@ -86,11 +125,16 @@ export function AnalysisPanel({ analysis }: AnalysisPanelProps): JSX.Element {
         <div className={styles.keyCard}>
           <div className={styles.keyGlow} />
           <div className={styles.keyInfo}>
-            <span className={styles.keyLabel}>Detected key</span>
+            <span className={styles.keyLabel}>{keyStatus === "tentative" ? "Tentative key" : "Estimated key"}</span>
             <div className={styles.keyValue}>
               <span className={styles.keyRoot}>{keyRoot ?? "Undetermined"}</span>
               <span className={styles.keyMode}>{keyMode}</span>
             </div>
+            {keyStatus === "tentative" && (
+              <span className={styles.keyMode}>
+                {alternativeKey ? `Also plausible: ${alternativeKey}` : "Limited tonal evidence"}
+              </span>
+            )}
           </div>
         </div>
 
@@ -140,7 +184,22 @@ async function copyText(text: string): Promise<void> {
   }
 }
 
-function ChordChip({ event, index }: { event: DetectedChord; index: number }): JSX.Element {
+function formatTime(seconds: number): string {
+  const tenths = Math.floor(seconds * 10 + 1e-6);
+  const minutes = Math.floor(tenths / 600);
+  const remainder = ((tenths % 600) / 10).toFixed(1).padStart(4, "0");
+  return `${minutes}:${remainder}`;
+}
+
+interface ChordChipProps {
+  event: DetectedChord;
+  index: number;
+  active: boolean;
+  canPlay: boolean;
+  onPlay: (start: number) => void;
+}
+
+function ChordChip({ event, index, active, canPlay, onPlay }: ChordChipProps): JSX.Element {
   return (
     <>
       {index > 0 ? (
@@ -148,13 +207,17 @@ function ChordChip({ event, index }: { event: DetectedChord; index: number }): J
           <ArrowRight width={14} height={14} />
         </span>
       ) : null}
-      <span
+      <button
+        type="button"
         className={styles.chordChip}
-        title={`${event.start.toFixed(1)}–${event.end.toFixed(1)} s`}
+        disabled={!canPlay}
+        aria-current={active || undefined}
+        onClick={() => onPlay(event.start)}
       >
         {event.degree ? <span className={styles.chordDegree}>{event.degree}</span> : null}
         <span className={styles.chordName}>{event.chord}</span>
-      </span>
+        <span className={styles.chordTime}>{formatTime(event.start)}–{formatTime(event.end)}</span>
+      </button>
     </>
   );
 }
