@@ -20,9 +20,9 @@ class ChordEvent(BaseModel):
 
 
 class DetectedChord(BaseModel):
-    """A detected chord and its interval in seconds."""
+    """A harmonic segment, with no chord label when the passage is unresolved."""
 
-    chord: str
+    chord: str | None
     degree: str | None
     start: float
     end: float

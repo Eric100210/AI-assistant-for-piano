@@ -198,8 +198,7 @@ def chord_degrees(
         natural_specifications = NATURAL_SPECIFICATIONS_MAJOR
 
     for chord_info in chords:
-        # ``detect_chords`` renvoie des objets ``pychord.Chord`` : on fige le nom
-        # en chaîne pour que tout le reste (et l'API) manipule du texte.
+        # Normalize both chord labels and chord objects supplied by callers.
         chord = str(chord_info["chord"])
         root, specification = split_chord(chord)
         root = enharmonic_to_sharp(root)

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { Analysis, DetectedChord } from "../types";
 import { Activity, ArrowRight, Check, Copy, Sparkles } from "./Icons";
@@ -16,7 +16,23 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioUrl, setAudioUrl] = useState<string>();
   const [duration, setDuration] = useState<number>();
-  const [currentTime, setCurrentTime] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const highlightAt = useCallback((time: number): void => {
+    setActiveIndex(progression.findIndex((event) => time >= event.start && time < event.end));
+  }, [progression]);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    let frame: number;
+    function highlightPlayback(): void {
+      if (!audioRef.current) return;
+      highlightAt(audioRef.current.currentTime);
+      frame = requestAnimationFrame(highlightPlayback);
+    }
+    frame = requestAnimationFrame(highlightPlayback);
+    return () => cancelAnimationFrame(frame);
+  }, [isPlaying, highlightAt]);
   const [playbackError, setPlaybackError] = useState<string>();
 
   useEffect(() => {
@@ -29,7 +45,7 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
     const audio = audioRef.current;
     if (!audio) return;
     audio.currentTime = Math.min(start, audio.duration);
-    setCurrentTime(audio.currentTime);
+    highlightAt(audio.currentTime);
     setPlaybackError(undefined);
     void audio.play().catch((error: unknown) => {
       if (!(error instanceof DOMException && error.name === "AbortError")) {
@@ -87,7 +103,7 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
 
         {/* --------------------------- Progression ---------------------------- */}
         <div className={styles.block}>
-          <span className={styles.blockLabel}>Detected progression</span>
+          <span className={styles.blockLabel}>Background harmony</span>
           <audio
             ref={audioRef}
             className={styles.player}
@@ -99,12 +115,18 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
               const seconds = event.currentTarget.duration;
               setDuration(Number.isFinite(seconds) ? seconds : undefined);
             }}
-            onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+            onTimeUpdate={(event) => highlightAt(event.currentTarget.currentTime)}
+            onSeeking={(event) => highlightAt(event.currentTarget.currentTime)}
+            onPlaying={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
             onError={() => setPlaybackError("This audio format could not be played in your browser.")}
           />
           {playbackError ? <p role="status" className={styles.keyMode}>{playbackError}</p> : null}
           {progression.length > 0 && duration !== undefined && (
-            <span className={styles.keyMode}>Select a chord to listen from its timestamp.</span>
+            <span className={styles.keyMode}>
+              Select a passage to start there. Passing notes remain audible during playback.
+            </span>
           )}
           <div className={styles.progression}>
             {progression.map((event, index) => (
@@ -112,13 +134,16 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
                 key={`${event.start}-${index}`}
                 event={event}
                 index={index}
-                active={currentTime >= event.start && currentTime < event.end}
+                active={index === activeIndex}
                 canPlay={duration !== undefined}
                 onPlay={playFrom}
               />
             ))}
             {progression.length === 0 ? <span>No chords detected</span> : null}
           </div>
+          {isPlaying && activeIndex === -1 && progression.length > 0 && (
+            <span className={styles.keyMode}>No sustained harmony identified here.</span>
+          )}
         </div>
 
         {/* ----------------------------- Tonalité ----------------------------- */}
@@ -144,7 +169,7 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
             type="button"
             className={`${styles.copyButton} ${copied ? styles.copied : ""}`}
             onClick={copyProgression}
-            disabled={progression.length === 0}
+            disabled={progression.every((event) => event.chord === null)}
           >
             {copied ? (
               <Check width={15} height={15} />
@@ -162,7 +187,7 @@ export function AnalysisPanel({ analysis, file }: AnalysisPanelProps): JSX.Eleme
 /** Met en forme la progression pour le presse-papiers (lisible par l'assistant). */
 function formatProgression(analysis: Analysis): string {
   const progression = analysis.progression
-    .map(({ chord, degree }) => degree ? `${chord} (${degree})` : chord)
+    .map(({ chord, degree }) => degree ? `${chord} (${degree})` : chord ?? "[unclear harmony]")
     .join(" – ");
   const key = analysis.keyRoot ? ` in ${analysis.keyRoot} ${analysis.keyMode}` : "";
   return `I played ${progression}${key}.`;
@@ -209,13 +234,13 @@ function ChordChip({ event, index, active, canPlay, onPlay }: ChordChipProps): J
       ) : null}
       <button
         type="button"
-        className={styles.chordChip}
+        className={event.chord === null ? `${styles.chordChip} ${styles.uncertainChip}` : styles.chordChip}
         disabled={!canPlay}
         aria-current={active || undefined}
         onClick={() => onPlay(event.start)}
       >
         {event.degree ? <span className={styles.chordDegree}>{event.degree}</span> : null}
-        <span className={styles.chordName}>{event.chord}</span>
+        <span className={styles.chordName}>{event.chord ?? "Unclear harmony"}</span>
         <span className={styles.chordTime}>{formatTime(event.start)}–{formatTime(event.end)}</span>
       </button>
     </>

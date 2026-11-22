@@ -16,7 +16,7 @@ export interface ChordEvent {
 }
 
 export interface DetectedChord {
-  chord: string;
+  chord: string | null;
   degree: string | null;
   start: number;
   end: number;

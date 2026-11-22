@@ -16,7 +16,7 @@ from musaic.engine.musical_engine import (
 
 @dataclass(frozen=True)
 class DetectedChord:
-    chord: str
+    chord: str | None
     degree: str | None
     start: float
     end: float
@@ -44,15 +44,27 @@ def analyze_recording(audio_path: str | Path) -> RecordingAnalysis:
     key_estimate = estimate_key(note["pitch"] for note in notes)
     key = key_estimate.key
     segments = detect_chords(notes)
-    degrees = chord_degrees(key, segments) if key else (None for _ in segments)
+    labeled = (segment for segment in segments if segment["chord"] is not None)
+    degrees = chord_degrees(key, labeled) if key else iter(())
     progression = [
-        DetectedChord(str(segment["chord"]), degree, segment["start"], segment["end"])
-        for segment, degree in zip(segments, degrees)
+        DetectedChord(
+            segment["chord"],
+            next(degrees, None) if segment["chord"] is not None else None,
+            segment["start"],
+            segment["end"],
+        )
+        for segment in segments
     ]
 
     suggestions = []
     if key is not None:
-        known_degrees = [event.degree for event in progression if event.degree is not None]
+        # Only match the confirmed suffix. An unresolved span could hide a chord change.
+        known_degrees: list[str] = []
+        for event in reversed(progression):
+            if event.degree is None:
+                break
+            known_degrees.append(event.degree)
+        known_degrees.reverse()
         for match in rank_next_degrees(known_degrees):
             for chord in degrees_to_chords(key, [match.degree]):
                 suggestions.append(

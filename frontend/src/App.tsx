@@ -16,8 +16,8 @@ function nextMessageId(): string {
 }
 
 function welcomeMessage(analysis: Analysis): ChatMessage {
-  const content = analysis.progression.length === 0
-    ? "I found no chords in this recording. You can still ask me a music theory question."
+  const content = analysis.progression.every((event) => event.chord === null)
+    ? "I found no clear chords in this recording. You can still ask me a music theory question."
     : "Ask me about the detected progression or what you could play next.";
   return {
     id: nextMessageId(),

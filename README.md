@@ -19,10 +19,9 @@ In practice, the audio analysis identifies the chords being played, a music engi
 - Download an `.mp3` file
 - Transcribe it to MIDI data with the Basic Pitch model
 - Detect the key and mode with the Krumhansl-Schmuckler key-finding algorithm
-- Extract notes over time with a sliding time window to identify important notes (notes potentially linked to chords)
-- Identify the precise chord at each time step with `pychord` (I tried a custom chord finder, but it was less efficient)
-- Merge consecutive chords to obtain the actual chord prediction
-- Convert the chords to degrees (conventional music notation)
+- Track background harmony using bass notes, sustained pitches and coordinated attacks
+- Keep the current harmony through brief passing notes and mark sustained ambiguous passages
+- Convert confirmed chords to scale degrees and suggest a continuation from the confirmed ending
 
 Then: 
 

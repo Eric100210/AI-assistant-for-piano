@@ -92,6 +92,10 @@
   background: transparent;
 }
 
+.uncertainChip {
+  border-style: dashed;
+}
+
 .chordChip:not(:disabled) {
   cursor: pointer;
 }

@@ -51,6 +51,8 @@ def analyze_audio(audio_path: Path, file_name: str) -> Analysis:
             rationale += " These suggestions use the tentative key."
     elif not result.progression:
         rationale = "No chords were detected in this recording."
+    elif result.progression[-1].chord is None:
+        rationale = "The ending is harmonically unclear, so no continuation was inferred."
     else:
         rationale = "The music engine found no continuation for this progression."
 
