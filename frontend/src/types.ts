@@ -14,6 +14,7 @@ export interface ChordEvent {
   referenceMatches: number;
   example: string[];
   matchKind: "exact" | "similar" | "short" | "gap";
+  referenceId: string | null;
 }
 
 export interface DetectedChord {

@@ -12,7 +12,7 @@ In practice, the audio analysis identifies the chords being played, a music engi
 ## First version of the RAG
 
 - Ingestion of my personal music theory courses (embeddings, vector database)
-- Conversational RAG with chat history (OllamaLLM model)
+- Conversational RAG with chat history (ChatOllama), engine reference sheets, and separate theory retrieval
 
 ## First version of the audio analysis pipeline
 

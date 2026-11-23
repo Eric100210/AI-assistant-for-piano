@@ -118,14 +118,17 @@ def test_chat_passes_analysis_into_rag(monkeypatch: pytest.MonkeyPatch) -> None:
     from langchain_core.messages import BaseMessage
 
     from musaic.api.routers import chat
+    from musaic.rag.retrieval import RecordingContext
 
     def answer_question(
-        query: str, history: Sequence[BaseMessage], *, context: str | None = None
+        query: str, history: Sequence[BaseMessage], *, context: RecordingContext | None = None
     ) -> str:
         assert query == "Why E?"
         assert not history
         assert context is not None
-        analysis = json.loads(context)
+        analysis = json.loads(context.summary)
+        assert context.key_mode == "minor"
+        assert context.reference_ids == ("prog_min__024",)
         assert analysis["progression"][0]["chord"] == "Am"
         assert analysis["suggestion"]["candidates"][0]["chord"] == "E"
         return "E is the major dominant in A minor."
@@ -141,7 +144,7 @@ def test_chat_passes_analysis_into_rag(monkeypatch: pytest.MonkeyPatch) -> None:
                 "keyMode": "minor",
                 "progression": [{"chord": "Am", "degree": "i", "start": 0, "end": 1}],
                 "suggestion": {
-                    "candidates": [{"chord": "E", "degree": "V"}],
+                    "candidates": [{"chord": "E", "degree": "V", "referenceId": "prog_min__024"}],
                     "rationale": "Matched a reference progression.",
                 },
             },

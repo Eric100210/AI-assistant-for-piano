@@ -3,6 +3,7 @@
 import json
 import os
 import re
+from unicodedata import normalize
 from collections.abc import Iterable
 
 import yaml
@@ -49,16 +50,25 @@ def split_document(document: Document) -> list[Document]:
     markdown = content[match.end() :]
 
     if metadata.get("type") != "progression":
-        return [
-            Document(
-                page_content=markdown.strip(),
-                metadata={
-                    **document.metadata,
-                    "chunk_id": metadata["id"],
-                    "chunk_type": "theory",
-                },
+        sections = re.split(r"(?m)(?=^# )", markdown.strip())
+        sections = [section.strip() for section in sections if section.strip()]
+        theory_chunks: list[Document] = []
+        for section in sections:
+            heading = normalize("NFKD", section.splitlines()[0]).encode("ascii", "ignore").decode()
+            slug = re.sub(r"[^a-z0-9]+", "-", heading.lower()).strip("-")
+            chunk_id = f"{metadata['id']}::{slug}" if len(sections) > 1 else metadata["id"]
+            theory_chunks.append(
+                Document(
+                    page_content=section,
+                    metadata={
+                        **document.metadata,
+                        "chunk_id": chunk_id,
+                        "chunk_type": "theory",
+                        "tonalite": metadata.get("tonalite", "generale"),
+                    },
+                )
             )
-        ]
+        return theory_chunks
 
     # 2. Get the main title (first line starting with #)
     title_match = re.search(r"^# .+$", markdown, re.MULTILINE)

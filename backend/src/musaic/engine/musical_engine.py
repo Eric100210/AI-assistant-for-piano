@@ -92,6 +92,7 @@ MatchKind = Literal["exact", "similar", "short", "gap"]
 
 class ProgressionMetadata(TypedDict, total=False):
     degres: list[str]
+    id: str
     tonalite: Literal["majeure", "mineure"]
 
 
@@ -110,6 +111,7 @@ class KeyEstimate:
 class ReferenceProgression:
     degrees: tuple[str, ...]
     mode: ProgressionMode
+    reference_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -118,6 +120,7 @@ class RankedContinuation:
     reference_matches: int
     example: tuple[str, ...]
     match_kind: MatchKind
+    reference_id: str | None = None
 
 
 @lru_cache(maxsize=1)
@@ -129,6 +132,7 @@ def load_reference_progressions() -> tuple[ReferenceProgression, ...]:
         ReferenceProgression(
             tuple(metadata["degres"]),
             "minor" if metadata["tonalite"] == "mineure" else "major",
+            metadata.get("id"),
         )
         for record in content
         if (metadata := record["metadata"]).get("degres") and "tonalite" in metadata
@@ -389,7 +393,7 @@ def rank_next_degrees(
     contexts = {tuple(observed[-3:]), tuple(progression_simplification(observed)[-3:])}
 
     best_distance: int | None = None
-    matches: dict[str, list[tuple[int, tuple[str, ...]]]] = {}
+    matches: dict[str, list[tuple[int, ReferenceProgression]]] = {}
     for reference in load_reference_progressions():
         if len(reference.degrees) < 4 or (mode is not None and mode != reference.mode):
             continue
@@ -406,16 +410,24 @@ def rank_next_degrees(
             matches.clear()
             best_distance = distance
         support = len(earlier.intersection(prefix[:-1])) if distance else 0
-        matches.setdefault(reference.degrees[3], []).append((support, reference.degrees))
+        matches.setdefault(reference.degrees[3], []).append((support, reference))
 
     kinds: dict[int, MatchKind] = {0: "exact", 1: "similar", 2: "similar", 3: "short", 4: "gap"}
     if best_distance is None:
         return []
     ranked = []
     for degree, examples in matches.items():
-        support, example = min(examples, key=lambda entry: (-entry[0], entry[1]))
+        support, reference = min(
+            examples, key=lambda entry: (-entry[0], entry[1].degrees, entry[1].reference_id or "")
+        )
         ranked.append(
-            (support, RankedContinuation(degree, len(examples), example, kinds[best_distance]))
+            (
+                support,
+                RankedContinuation(
+                    degree, len(examples), reference.degrees, kinds[best_distance],
+                    reference.reference_id,
+                ),
+            )
         )
     ranked.sort(key=lambda entry: (-entry[0], -entry[1].reference_matches, entry[1].degree))
     return [match for _, match in ranked]

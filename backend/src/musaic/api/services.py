@@ -42,6 +42,7 @@ def analyze_audio(audio_path: Path, file_name: str) -> Analysis:
             referenceMatches=event.reference_matches,
             example=event.example,
             matchKind=event.match_kind,
+            referenceId=event.reference_id,
         )
         for event in result.suggestions
     ]

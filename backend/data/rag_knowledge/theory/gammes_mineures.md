@@ -6,7 +6,7 @@ tonalite: mineure
 
 # Gamme mineure naturelle
 
-Dans la gamme majeure naturelle, les degrés sont répartis ainsi : 
+Dans la gamme mineure naturelle, les degrés sont répartis ainsi :
 Degré I | 1 ton | degré II | 1/2 ton | degré III | 1 ton | degré IV | 1 ton | degré V | 1/2 ton | degré VI | 1 ton | degré VII | 1 ton
 
 Les accords liés à chaque degré sont :
@@ -17,6 +17,8 @@ Degré IV : mineur
 Degré V : mineur
 Degré VI : majeur
 Degré VII : majeur
+
+En sol mineur naturel (sol, la, si♭, do, ré, mi♭, fa), le degré **v** est **Ré mineur (Dm)**, composé de ré, fa et la.
 
 # Gamme mineure harmonique
 
@@ -34,6 +36,7 @@ Degré V : majeur
 Degré VI : majeur
 Degré VII : mineur diminué
 
+En sol mineur harmonique (sol, la, si♭, do, ré, mi♭, fa♯), le degré **V** est **Ré majeur (D)**, composé de ré, fa♯ et la. Le fa♯ est la sensible et peut monter vers sol sur le retour à **Gm**. Compare au piano **Gm – D – Gm** avec **Gm – Dm – Gm** pour entendre l'effet du fa♯.
 
 # Gamme mineure mélodique
 

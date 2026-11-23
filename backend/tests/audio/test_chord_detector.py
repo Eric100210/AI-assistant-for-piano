@@ -115,3 +115,4 @@ def test_suggestions_reuse_confirmed_chords_before_unclear_harmony(
         ("A#", "gap"),
     ]
     assert result.suggestions[0].example == ("i", "iv", "i", "V")
+    assert result.suggestions[0].reference_id == "prog_min__024"

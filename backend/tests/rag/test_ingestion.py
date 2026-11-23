@@ -17,7 +17,9 @@ def test_scale_lessons_are_indexed() -> None:
 
     assert {chunk.metadata["chunk_id"] for chunk in chunks} == {
         "gamme_majeure",
-        "gamme_mineure",
+        "gamme_mineure::gamme-mineure-naturelle",
+        "gamme_mineure::gamme-mineure-harmonique",
+        "gamme_mineure::gamme-mineure-melodique",
     }
     assert all(chunk.page_content.startswith("#") for chunk in chunks)
 
@@ -49,7 +51,9 @@ def test_reingestion_replaces_stale_chunks(tmp_path: Path, monkeypatch: pytest.M
     ("query", "expected_source"),
     [
         ("Quels intervalles définissent la gamme majeure naturelle ?", "gamme_majeure"),
-        ("Quels intervalles composent la gamme mineure naturelle ?", "gamme_mineure"),
+        ("Quels intervalles composent la gamme mineure naturelle ?", "gamme_mineure::gamme-mineure-naturelle"),
+        ("Quelle note relève-t-on dans la gamme mineure harmonique ?", "gamme_mineure::gamme-mineure-harmonique"),
+        ("Gamme mineure mélodique ascendante : que deviennent les degrés VI et VII ?", "gamme_mineure::gamme-mineure-melodique"),
     ],
 )
 def test_retrieval_finds_expected_scale_lesson(query: str, expected_source: str) -> None:

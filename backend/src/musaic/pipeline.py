@@ -31,6 +31,7 @@ class ChordSuggestion:
     reference_matches: int = 0
     example: tuple[str, ...] = ()
     match_kind: MatchKind = "exact"
+    reference_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -73,7 +74,8 @@ def analyze_recording(audio_path: str | Path) -> RecordingAnalysis:
             for chord in degrees_to_chords(key, [match.degree]):
                 suggestions.append(
                     ChordSuggestion(
-                        chord, match.degree, match.reference_matches, match.example, match.match_kind
+                        chord, match.degree, match.reference_matches, match.example, match.match_kind,
+                        match.reference_id,
                     )
                 )
 
